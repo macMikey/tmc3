@@ -1,0 +1,374 @@
+Switch:
+  tmDisabled: basic	2	switch	
+  tmNormalColor: color	3	swatch
+  tmAutoHilite: basic	1	switch	
+  tmHiliteColor: color	4	swatch
+Toolbar:
+  tmAutoHilite: basic	2	switch	
+  tmLockImageIconColor: color	9	switch
+  tmDisabled: basic	4	switch
+  tmGlyphFont: icons	11	string
+  tmBaseColor: color	5	swatch
+  tmGlyphSize: icons	12	stepper	10,400
+  tmIconColor: color	6	swatch
+  tmIconType: icons	10	options	glyph,image,mixed
+  tmAutoPosition: basic	3	switch
+  tmText: basic	1	list
+  tmBaseOpacity: effects	13	stepper	0,100
+  tmHiliteIconColor: color	7	swatch
+  tmHiliteOpacity: color	8	stepper	0,255
+Template Table:
+  tmIndicatorInsets: dimensions	28	string
+  tmDelayTouches: basic	16	switch	
+  tmCellTemplate: basic	4	string	left
+  tmAutoHilite: basic	2	switch
+  tmLockDirection: basic	17	switch	
+  tmScrollingEnabled: basic	8	switch	
+  tmUnboundedHScroll: basic	19	switch	
+  tmCanScrollToTop: basic	15	switch	
+  tmListBehavior: basic	3	switch
+  tmDecelerationRate: miscellaneous	31	string
+  tmHiliteColor: color	23	swatch
+  tmAutoRemove: basic	7	switch
+  tmAutoCreate: basic	6	switch
+  tmCanCancelTouches: basic	14	switch	
+  tmText: basic	1	list
+  tmCanBounce: basic	13	switch	
+  tmUnboundedVScroll: basic	20	switch	
+  tmHiliteOpacity: effects	30	stepper	0,255
+  tmPagingEnabled: basic	18	switch		
+  tmHIndicator: basic	11	switch	
+  tmMargins: text	21	string
+  tmLocked: dimensions	24	switch
+  tmBaseColor: color	22	swatch
+  heading1: basic	5	heading	MOBILE SCROLLER PROPERTIES
+  tmCellGroupPadding: dimensions	25	stepper	0,200
+  tmControlMargins: dimensions	27	string	
+  tmContentRect: dimensions	26	string	
+  tmVisible: basic	9	switch	
+  tmVIndicator: basic	10	switch	
+  tmBaseOpacity: effects	29	stepper	0,100
+  tmIndicatorStyle: basic	12	options	default,white,black
+Button:
+  tmIconColor: color	10	swatch
+  tmStrokeWidth: dimensions	14	stepper	0,50
+  tmTextHiliteColor: color	9	swatch
+  tmTextFont: text	20	options	
+  tmAutoHilite: basic	1	switch	
+  tmStrokeColor: color	6	swatch
+  tmShowName: basic	3	switch
+  tmTextHeight: text	21	stepper	6,240
+  tmTextColor: color	8	swatch	
+  tmHiliteColor: color	7	swatch	
+  tmTextAlign: text	19	options	left,center,right
+  tmRoundRadius: dimensions	13	stepper	0,100
+  tmShowIcon: basic	2	switch	
+  tmTextSize: text	22	stepper	6,240
+  tmGlyphSize: icons	18	stepper	10,400
+  tmIconType: icons	16	options	glyph,image
+  tmMargins: dimensions	12	string	
+  tmGlyphFont: icons	17	string
+  tmLockImageIconColor: color	11	switch	
+  tmDisabled: basic	4	switch	
+  tmBaseColor: color	5	swatch		
+  tmBaseOpacity: effects	15	stepper	0,100
+  tmTextStyle: text	23	options	plain,bold,italic,underline
+Field:
+  tmTextStyle: text	7	options
+  tmTextSize: text	6	stepper	
+  tmLockText: basic	1	switch
+  tmTextFont: text	4	options	
+  tmTextColor: color	3	swatch	
+  tmText: basic	2	list
+  tmTextHeight: text	5	stepper	
+Progress Bar:
+  tmBaseColor: color	3	swatch	
+  tmStartValue: basic	1	string	
+  tmEndValue: basic	2	string
+  tmRoundRadius: dimensions	7	stepper	0,30
+  tmFillColor: color	4	swatch
+  tmBaseOpacity: effects	8	stepper	0,100
+  tmFillMargins: dimensions	6	string	
+  tmBaseSize: dimensions	5	string			
+Navbar:
+  tmShowRightButton: basic	15	switch
+  tmShowLeftBezel: basic	7	switch
+  tmRightHiliteColor: color	26	swatch
+  tmRightMargins: dimensions	33	string
+  tmRightButtonLabel: basic	10	string	left
+  tmShowRightIcon: basic	13	switch
+  tmGlyphSize: icons	30	stepper	10,400
+  tmLeftNavStyle: basic	4	switch
+  tmUseTransition: basic	16	options	left,right,none		
+  tmLeftMargins: dimensions	32	string
+  tmShowLeftLabel: basic	5	switch	
+  tmRightIconColor: color	24	swatch
+  heading1: basic	2	heading	LEFT BUTTON PROPERTIES
+  tmShowLeftButton: basic	8	switch
+  tmRightNavStyle: basic	11	switch
+  tmRightStrokeColor: color	25	swatch
+  tmLeftTextColor: color	19	swatch
+  tmShowRightBezel: basic	14	switch
+  tmShowLeftIcon: basic	6	switch	
+  tmIconType: icons	28	options	glyph,image,mixed
+  tmLeftHiliteColor: color	22	swatch
+  heading2: basic	9	heading	RIGHT BUTTON PROPERTIES
+  tmAutoPosition: basic	1	switch
+  tmLeftStrokeColor: color	21	swatch
+  tmBaseColor: color	17	swatch
+  tmLeftIconColor: color	20	swatch
+  tmTextColor: color	18	swatch
+  tmLockImageIconColor: color	27	switch
+  tmLeftButtonLabel: basic	3	string	left
+  tmBaseOpacity: effects	31	stepper	0,100
+  tmShowRightLabel: basic	12	switch	
+  tmGlyphFont: icons	29	string
+  tmRightTextColor: color	23	swatch
+Page Control:
+  tmFillColor: color	5	swatch		
+  tmIndicatorSpacing: dimensions	8	stepper	
+  tmIndicatorSize: dimensions	7	stepper	
+  tmPageCount: basic	3	stepper	
+  tmFilled: basic	1	switch	
+  tmStrokeWidth: basic	2	stepper	
+  tmStrokeColor: color	6	swatch	
+  tmOpacity: effects	10	stepper	
+  tmIndicatorMargins: dimensions	9	string	
+  tmProportionalSpacing: basic	4	switch	
+Mobile Player:
+  tmAutoCreate: basic	2	switch
+  tmEndTime: basic	12	string
+  tmShouldAutoplay: basic	8	switch	
+  tmVisible: basic	4	switch	
+  tmPreserveAspect: basic	7	switch	
+  tmShowController: basic	5	switch	
+  tmLooping: basic	10	switch	
+  tmFilename: basic	1	string	left
+  tmStartTime: basic	11	string
+  tmRect: dimensions	13	string	
+  tmUseApplicationAudioSession: miscellaneous	14	switch
+  tmAllowsAirPlay: basic	9	switch	
+  tmFullscreen: basic	6	switch	
+  tmAutoRemove: basic	3	switch
+Table:
+  tmAutoHilite: basic	1	switch	
+  tmRoundRadius: dimensions	12	stepper	
+  tmOrientation: basic	2	options	vertical,horizontal
+  tmHiliteColor: color	7	swatch	
+  tmBaseColor: color	5	swatch	
+  tmText: basic	4	list	
+  tmTemplateName: basic	3	string	
+  tmBorderWidth: dimensions	8	stepper	
+  tmCellColor: color	6	swatch	
+  tmCellGroupPadding: dimensions	9	stepper	
+  tmCellHeight: dimensions	10	string	
+  tmMargins: dimensions	11	string	
+  tmHiliteOpacity: effects	13	stepper	
+Mobile Text Input Single:
+  tmBackgroundColor: color	16	swatch	
+  tmUnicodeText: basic	3	string	
+  tmAutoCorrectionType: miscellaneous	20	options	default,no,yes
+  tmTextColor: color	13	swatch
+  tmOpaque: basic	12	switch	
+  tmBorderStyle: effects	18	options	none,line,bezel,rounded
+  tmAutoCreate: basic	4	switch
+  tmKeyboardStyle: miscellaneous	22	options	default,alert
+  tmEnabled: basic	6	switch	
+  tmText: basic	2	string	
+  tmContentType: basic	1	options	plain,password
+  tmEditable: basic	10	switch	
+  tmKeyboardType: miscellaneous	23	options	default,alphabet,numeric,url,number,phone,contact,email,decimal
+  tmAutoRemove: basic	5	switch
+  tmAutoClear: basic	8	switch	
+  tmAutoFit: basic	9	switch	
+  tmManageReturnKey: basic	11	switch	
+  tmBaseColor: color	14	swatch	
+  tmFaceColor: color	15	swatch	
+  tmReturnKeyType: miscellaneous	24	options	default,go,google,join,next,route,search,send,yahoo,done,emergency call	
+  tmMinimumFontSize: text	25	stepper	
+  tmClearButtonMode: miscellaneous	21	options	never,while editing,unless editing,always
+  tmVisible: basic	7	switch	
+  tmInputRect: dimensions	17	string	
+  tmAutoCapitalizationType: miscellaneous	19	options	none,words,sentences,all characters
+Simple Table:
+  tmIndicatorStyle: basic	12	options	default,white,black
+  tmAlternateRowColor: color	26	swatch
+  tmSeparatorColor: color	25	swatch
+  tmHiliteColor: color	22	swatch
+  tmCanCancelTouches: basic	14	switch	
+  tmPagingEnabled: basic	18	switch		
+  tmUnboundedHScroll: basic	19	switch	
+  tmMargins: text	28	string
+  tmDelayTouches: basic	16	switch	
+  tmUnboundedVScroll: basic	20	switch	
+  tmHIndicator: basic	11	switch	
+  heading1: basic	5	heading	MOBILE SCROLLER PROPERTIES
+  tmLocked: dimensions	31	switch	
+  tmFirstIndent: text	29	stepper	0,200
+  tmCanScrollToTop: basic	15	switch	
+  tmTextOffset: text	30	stepper	0,30
+  tmLockDirection: basic	17	switch	
+  tmShowSeparators: basic	4	switch
+  tmListBehavior: basic	3	switch
+  tmVisible: basic	9	switch	
+  tmIndicatorInsets: dimensions	34	string	
+  tmCanBounce: basic	13	switch	
+  tmContentRect: dimensions	32	string	
+  heading2: text	27	heading	FORMATTING
+  tmScrollingEnabled: basic	8	switch	
+  tmAutoRemove: basic	7	switch
+  tmBaseColor: color	21	swatch	
+  tmHilitedTextColor: color	24	swatch
+  tmTextColor: color	23	swatch
+  tmAutoCreate: basic	6	switch
+  tmDecelerationRate: miscellaneous	36	string	
+  tmBaseOpacity: effects	35	stepper	0,100
+  tmText: basic	1	list
+  tmControlMargins: dimensions	33	string	
+  tmAutoHilite: basic	2	switch
+  tmVIndicator: basic	10	switch	
+Stepper:
+  tmBaseColor: color	5	swatch
+  tmStartValue: basic	1	string
+  tmEndValue: basic	2	string
+  tmRoundRadius: dimensions	9	stepper	0,50
+  tmStepIncrement: basic	3	stepper	1,50
+  tmBaseOpacity: effects	10	stepper	0,100
+  tmHiliteColor: color	6	swatch
+  tmStrokeColor: color	7	swatch
+  tmHiliteOpacity: effects	11	stepper	0,100
+  tmDisabled: basic	4	switch
+  tmIconColor: color	8	swatch
+Tab Bar:
+  tmAutoHilite: basic	2	switch	
+  tmLockImageIconColor: color	8	switch
+  tmDisabled: basic	4	switch
+  tmGlyphFont: icons	10	string
+  tmBaseColor: color	5	swatch
+  tmGlyphSize: icons	11	stepper	10,400
+  tmIconColor: color	6	swatch
+  tmIconType: icons	9	options	glyph,image,mixed
+  tmAutoPosition: basic	3	switch
+  tmText: basic	1	list
+  tmBaseOpacity: effects	12	stepper	0,100
+  tmHiliteIconColor: color	7	swatch
+Segmented Control:
+  tmBaseColor: color	6	swatch
+  tmEqualWidths: basic	4	switch
+  tmAutoHilite: basic	2	switch
+  tmRoundRadius: dimensions	10	stepper	
+  tmShowDividers: basic	3	switch	
+  tmHiliteColor: color	7	swatch
+  tmTextHiliteColor: text	8	swatch
+  tmText: basic	1	list
+  tmDisabled: basic	5	switch
+  tmVerticalTextOffset: text	9	stepper
+Simple Gauge:
+  tmBaseColor: color	5	swatch	
+  tmStartValue: basic	1	string
+  tmEndValue: basic	2	string	
+  tmFillColor: color	6	swatch	
+  tmFillDirection: basic	4	options	clockwise,counterclockwise	
+  tmDigitScale: dimensions	9	string	
+  tmGaugeValue: basic	3	string
+  tmTextColor: color	7	swatch
+  tmBarSize: dimensions	8	stepper	
+  tmOpacity: effects	10	stepper
+Mobile Text Input:
+  tmIndicatorStyle: basic	21	options	default,white,black
+  tmEnabled: basic	6	switch	
+  tmReturnKeyType: miscellaneous	37	options	default,go,google,join,next,route,search,send,yahoo,done,emergency call	
+  tmDataDetectorTypes: basic	17	string	
+  tmKeyboardStyle: miscellaneous	35	options	default,alert
+  tmAutoCorrectionType: miscellaneous	33	options	default,no,yes
+  tmInputRect: dimensions	30	string	
+  tmEditable: basic	9	switch	
+  tmAutoFit: basic	8	switch	
+  tmCanCancelTouches: basic	15	switch	
+  tmPagingEnabled: basic	13	switch	
+  tmAutoCapitalizationType: miscellaneous	32	options	none,words,sentences,all characters
+  tmDelayTouches: basic	18	switch
+  tmKeyboardType: miscellaneous	36	options	default,alphabet,numeric,url,number,phone,contact,email,decimal
+  tmHIndicator: basic	19	switch	
+  heading1: basic	11	heading	MOBILE SCROLLER SETTINGS
+  tmBorderStyle: effects	31	options	none,line,bezel,rounded
+  tmClearButtonMode: miscellaneous	34	options	never,while editing,unless editing,always
+  tmCanScrollToTop: basic	16	switch	
+  tmLockDirection: basic	22	switch	
+  tmVisible: basic	7	switch
+  tmIndicatorInsets: dimensions	29	string	
+  tmFaceColor: color	26	swatch	
+  tmCanBounce: basic	14	switch	
+  tmScrollingEnabled: basic	12	switch	
+  tmAutoRemove: basic	5	switch
+  tmUnicodeText: basic	3	string	
+  tmOpaque: basic	10	switch	
+  tmManageReturnKey: basic	23	switch		
+  tmBackgroundColor: color	27	swatch	
+  tmTextColor: color	24	swatch
+  tmContentType: basic	1	options	plain,password
+  tmAutoCreate: basic	4	switch
+  tmBaseColor: color	25	swatch	
+  tmDecelerationRate: miscellaneous	38	string	
+  tmText: basic	2	string	
+  tmVIndicator: basic	20	switch	
+  tmMinimumFontSize: text	28	stepper	
+Slider:
+  tmBaseColor: color	4	swatch	
+  tmStartValue: basic	1	string	
+  tmEndValue: basic	2	string	
+  tmRoundRadius: dimensions	7	stepper	
+  tmFillColor: color	5	swatch
+  tmBaseSize: dimensions	6	stepper	1,30	
+  tmBaseOpacity: effects	10	stepper	0,100
+  tmFillMargins: dimensions	9	string	
+  tmDisabled: basic	3	switch
+  tmThumbMargins: dimensions	8	string	
+Mobile Scroller:
+  tmIndicatorInsets: dimensions	22	string	
+  tmDelayTouches: basic	10	switch	
+  tmGuideColor: Color	18	swatch	
+  tmScrollingEnabled: basic	3	switch	
+  tmLockDirection: basic	14	switch
+  tmUnboundedHScroll: basic	15	switch	
+  tmCanScrollToTop: basic	9	switch	
+  tmDecelerationRate: miscellaneous	23	string	
+  tmAutoRemove: basic	2	switch
+  tmAutoCreate: basic	1	switch
+  tmCanCancelTouches: basic	8	switch	
+  tmCanBounce: basic	7	switch	
+  tmUnboundedVScroll: basic	16	switch
+  tmPagingEnabled: basic	4	switch
+  tmLocked: dimensions	19	switch	
+  tmOrientation: basic	5	options	vertical,horizontal	
+  tmControlMargins: dimensions	21	string	
+  tmHIndicator: basic	11	switch	
+  tmShowGrid: basic	17	switch
+  tmContentRect: dimensions	20	string	
+  tmVisible: basic	6	switch	
+  tmVIndicator: basic	12	switch	
+  tmIndicatorStyle: basic	13	options	default,white,black
+Simple Chart:
+  tmBaseColor: color	4	swatch
+  tmPadding: dimensions	7	string
+  tmFillColor: color	5	swatch
+  tmMaxValue: basic	2	string
+  tmBaseOpacity: effects	8	stepper	0,100
+  tmChartValues: basic	1	string
+  tmOrientation: basic	3	options	horizontal,vertical
+  tmBarSize: dimensions	6	stepper	1,50
+Mobile Browser:
+  tmAutoCreate: basic	2	switch
+  tmAllowsInlinePlayback: basic	10	switch	
+  tmCanRetreat: basic	8	switch	
+  tmDelayRequests: basic	11	switch	
+  tmURL: basic	1	string	left
+  tmDataDetectorTypes: basic	13	string	left
+  tmVisible: basic	4	switch	
+  tmScrollingEnabled: basic	5	switch	
+  tmAutoFit: basic	6	switch	
+  tmCanBounce: basic	9	switch	
+  tmRect: dimensions	14	string	
+  tmCanAdvance: basic	7	switch	
+  tmMediaPlaybackRequiresUserAction: basic	12	switch	
+  tmAutoRemove: basic	3	switch
