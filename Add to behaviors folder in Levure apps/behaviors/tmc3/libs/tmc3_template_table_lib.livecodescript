@@ -4,7 +4,7 @@ before mouseDown
    get controlAtLoc(mouseLoc())
    if it is empty then exit mouseDown
    put long id of owner of it into theObj
-   if theObj = long id of me or theObj is empty then exit mouseDown
+   if theObj = long id of the target or theObj is empty then exit mouseDown
    put lineOffset(theObj,myCells()) into N
    manageMyHilitedCell N
 end mouseDown
@@ -19,7 +19,7 @@ before mouseUp
    if not myAutoHilite() then exit mouseUp
    if myListBehavior() then exit mouseUp
    unhiliteMe
-   set the tmControlData["hilitedCell"] of me to 0
+   set the tmControlData["hilitedCell"] of the target to 0
 end mouseUp
 
 
@@ -33,13 +33,13 @@ command manageMyHilitedCell pNum
    unhiliteMe -- UNHILITE CURRENTLY HILITED CELL
    --
    if pNum is empty then exit manageMyHilitedCell
-   set the tmControlData["hilitedCell"] of me to pNum
-   set the tmControlData["menuHistory"] of me to pNum
+   set the tmControlData["hilitedCell"] of the target to pNum
+   set the tmControlData["menuHistory"] of the target to pNum
    if pNum = 0 then
-      set the tmControlData["hilitedCellLabel"] of me to empty
+      set the tmControlData["hilitedCellLabel"] of the target to empty
       exit manageMyHilitedCell
    end if
-   set the tmControlData["hilitedCellLabel"] of me to short name of (line pNum of myCells())
+   set the tmControlData["hilitedCellLabel"] of the target to short name of (line pNum of myCells())
    hiliteMe
 end manageMyHilitedCell
 
@@ -74,15 +74,15 @@ command unhiliteAllCells
       put long id of control 1 of theCell into theBase
       if word 1 of theBase is "graphic" then set colorOverlay["opacity"] of theBase to 0
    end repeat
-   set the tmControlData["hilitedCell"] of me to 0
-   set the tmControlData["hilitedCellLabel"] of me to empty
-   set the tmControlData["menuHistory"] of me to 0
+   set the tmControlData["hilitedCell"] of the target to 0
+   set the tmControlData["hilitedCellLabel"] of the target to empty
+   set the tmControlData["menuHistory"] of the target to 0
 end unhiliteAllCells
 
 
 on resizeControl
    lock screen
-   put long owner of me into myOwner
+   put long owner of the target into myOwner
    if word 1 of myOwner is "group" and the tmControlData["type"] of myOwner is "template table" then
       -- RESIZE TABLE GROUP INSIDE SCROLLING REGION
       put rect of control 1 of myOwner into theRect
@@ -91,19 +91,19 @@ on resizeControl
       add item 2 of M to item 2 of theRect
       if myOrientation() is "vertical" then
          subtract item 3 of M from item 3 of theRect
-         put item 2 of theRect + formattedHeight of me into item 4 of theRect
+         put item 2 of theRect + formattedHeight of the target into item 4 of theRect
       else
-         put item 1 of theRect + formattedWidth of me into item 3 of theRect
+         put item 1 of theRect + formattedWidth of the target into item 3 of theRect
          subtract item 4 of M from item 4 of theRect
       end if
    else
       -- RESIZE TABLE GROUP OUTSIDE OF CONTAINER
-      put rect of me into theRect
+      put rect of the target into theRect
       if myOrientation() is "vertical" then
-         put item 2 of theRect + formattedHeight of me into item 4 of theRect
-      else put item 1 of theRect + formattedWidth of me into item 3 of theRect
+         put item 2 of theRect + formattedHeight of the target into item 4 of theRect
+      else put item 1 of theRect + formattedWidth of the target into item 3 of theRect
    end if
-   set rect of me to theRect
+   set rect of the target to theRect
    unlock screen
 end resizeControl
 
@@ -125,11 +125,11 @@ command buildTable pCellTemplate
    put long id of theTemplate into theTemplate
    --
    lock screen
-   set vScroll of me to 0
-   set lockUpdates of me to true
-   if the tmControlData["type"] of owner of me is "template table" then
-      set vScroll of owner of me to 0
-      set hScroll of owner of me to 0
+   set vScroll of the target to 0
+   set lockUpdates of the target to true
+   if the tmControlData["type"] of owner of the target is "template table" then
+      set vScroll of owner of the target to 0
+      set hScroll of owner of the target to 0
    end if
    -- CLEAR CELL GROUPS
    put false into cellsHadToBeCleared
@@ -138,7 +138,7 @@ command buildTable pCellTemplate
       delete theCell
    end repeat
    --
-   set the tmControlData["hilitedCell"] of me to empty
+   set the tmControlData["hilitedCell"] of the target to empty
    --
    -- CREATE FIRST CELL FROM TEMPLATE
    put myText() into theCellList
@@ -149,7 +149,7 @@ command buildTable pCellTemplate
    end if
    --
    -- CREATE LIST OF ANY PLACED CONTROLS
-   put the childControlIDs of me into thePlacedControlList
+   put the childControlIDs of the target into thePlacedControlList
    get long name of control id (line 1 of thePlacedControlList)
    if word 1 of it is "graphic" then delete line 1 of thePlacedControlList -- REMOVE BASE GRAPHIC FROM LIST
    --
@@ -195,21 +195,21 @@ command buildTable pCellTemplate
    put myCells() into theCells
    put topLeft of (line 1 of theCells),bottomRight of (line -1 of theCells) into theRect
    set rect of myBase() to theRect
-   set rect of me to theRect
+   set rect of the target to theRect
    unlock messages
    --
    -- RESTORE POSITIONS OF PLACED CONTROLS
    repeat for each line theID in thePlacedControlList
-      relayer control id theID to front of me
+      relayer control id theID to front of the target
    end repeat
    --
    put true into noTableResize
-   dispatch "resizeControl" to owner of me with noTableResize
+   dispatch "resizeControl" to owner of the target with noTableResize
    --
    -- UPDATE SCROLLING REGION
-   -- if the tmControlData["type"] of owner of me is "template table" then dispatch "updateMe" to owner of me
+   -- if the tmControlData["type"] of owner of the target is "template table" then dispatch "updateMe" to owner of the target
    --
-   set lockUpdates of me to false
+   set lockUpdates of the target to false
    unlock screen
 end buildTable
 
@@ -265,7 +265,7 @@ command addCell pName, pIndex, pPosition
       add W to item 3 of theRect
       set rect of myBase() to theRect
    end if
-   set rect of me to theRect
+   set rect of the target to theRect
    --
    -- UPDATE TEXT PROPERTY
    put myText() into theData
@@ -281,10 +281,10 @@ command addCell pName, pIndex, pPosition
          put return & pName after theData
       else put return & pName after line adjustedLineNumber(pIndex) of theData
    end if
-   set the tmControlData["text"] of me to theData
+   set the tmControlData["text"] of the target to theData
    dispatch "postProcessTable" to me
-   dispatch "updateMyRegion" to owner of me
-   dispatch "updateMe" to owner of me -- UPDATE SCROLLER
+   dispatch "updateMyRegion" to owner of the target
+   dispatch "updateMe" to owner of the target -- UPDATE SCROLLER
    unlock screen
 end addCell
 
@@ -329,14 +329,14 @@ command deleteCell pIndex
       subtract W from item 3 of theRect
       set rect of myBase() to theRect
    end if
-   set rect of me to theRect
+   set rect of the target to theRect
    -- UPDATE TEXT PROPERTY
    put myText() into theData
    delete line adjustedLineNumber(theIndex) of theData
-   set the tmControlData["text"] of me to theData
+   set the tmControlData["text"] of the target to theData
    dispatch "postProcessTable" to me
-   dispatch "updateMyRegion" to owner of me
-   dispatch "updateMe" to owner of me -- UPDATE SCROLLER
+   dispatch "updateMyRegion" to owner of the target
+   dispatch "updateMe" to owner of the target -- UPDATE SCROLLER
    unlock screen
 end deleteCell
 
@@ -378,7 +378,7 @@ getProp tmControlType
 end tmControlType
 
 function myControlType
-   return the tmControlData["type"] of me
+   return the tmControlData["type"] of the target
 end myControlType
 
 
@@ -389,7 +389,7 @@ getProp tmCells
 end tmCells
 
 function myCells -- MISSING CODE FOR HORIZONTAL ORIENTATION
-   repeat for each line theID in the childControlIDs of me
+   repeat for each line theID in the childControlIDs of the target
       put long id of control id theID into theControl
       if the tmControlData["type"] of theControl is not "table cell" then next repeat
       put theControl,top of theControl & return after temp
@@ -485,7 +485,7 @@ end myCellIDs
 # TEXT
 ------
 setProp tmText pValue
-   set the tmControlData["text"] of me to pValue
+   set the tmControlData["text"] of the target to pValue
    buildTable
 end tmText
 
@@ -494,14 +494,14 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of me
+   return the tmControlData["text"] of the target
 end myText
 
 
 # CELL TEMPLATE REFERENCE
 -------------------------
 setProp tmCellTemplate pValue
-   set the tmControlData["cellTemplate"] of me to pValue
+   set the tmControlData["cellTemplate"] of the target to pValue
    buildTable
 end tmCellTemplate
 
@@ -510,14 +510,14 @@ getProp tmCellTemplate
 end tmCellTemplate
 
 function myCellTemplate
-   return the tmControlData["cellTemplate"] of me
+   return the tmControlData["cellTemplate"] of the target
 end myCellTemplate
 
 
 # ORIENTATION
 -------------
 setProp tmOrientation pValue
-   set the tmControlData["orientation"] of me to pValue
+   set the tmControlData["orientation"] of the target to pValue
 end tmOrientation
 
 getProp tmOrientation
@@ -525,7 +525,7 @@ getProp tmOrientation
 end tmOrientation
 
 function myOrientation
-   return the tmControlData["orientation"] of me
+   return the tmControlData["orientation"] of the target
 end myOrientation
 
 
@@ -546,7 +546,7 @@ getProp tmHilitedCell
 end tmHilitedCell
 
 function myHilitedCell
-   return the tmControlData["hilitedCell"] of me
+   return the tmControlData["hilitedCell"] of the target
 end myHilitedCell
 
 
@@ -567,13 +567,13 @@ getProp tmHilitedCellLabel
 end tmHilitedCellLabel
 
 function myHilitedCellLabel
-   return the tmControlData["hilitedCellLabel"] of me
+   return the tmControlData["hilitedCellLabel"] of the target
 end myHilitedCellLabel
 
 
 -- LIST BEHAVIOR
 setProp tmListBehavior pValue
-   set the tmControlData["listBehavior"] of me to pValue
+   set the tmControlData["listBehavior"] of the target to pValue
    --   set listBehavior of myField() to true
 end tmListBehavior
 
@@ -582,14 +582,14 @@ getProp tmListBehavior
 end tmListBehavior
 
 function myListBehavior
-   return the tmControlData["listBehavior"] of me
+   return the tmControlData["listBehavior"] of the target
 end myListBehavior
 
 
 # AUTOHILITE
 -----------
 setProp tmAutoHilite pValue
-   set the tmControlData["autoHilite"] of me to pValue
+   set the tmControlData["autoHilite"] of the target to pValue
 end tmAutoHilite
 
 getProp tmAutoHilite
@@ -597,14 +597,14 @@ getProp tmAutoHilite
 end tmAutoHilite
 
 function myAutoHilite
-   return the tmControlData["autoHilite"] of me
+   return the tmControlData["autoHilite"] of the target
 end myAutoHilite
 
 
 # BASE COLOR
 ------------
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of me to pValue
+   set the tmControlData["baseColor"] of the target to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -613,14 +613,14 @@ getProp tmBaseColor
 end tmBaseColor
 
 function myBaseColor
-   return the tmControlData["baseColor"] of me to pValue
+   return the tmControlData["baseColor"] of the target to pValue
 end myBaseColor
 
 
 # BASE OPACITY
 --------------
 setProp tmBaseOpacity pValue
-   set the tmControlData["baseOpacity"] of me to pValue
+   set the tmControlData["baseOpacity"] of the target to pValue
    set blendLevel of myBase() to 100 - pValue
 end tmBaseOpacity
 
@@ -629,14 +629,14 @@ getProp tmBaseOpacity
 end tmBaseOpacity
 
 function myBaseOpacity
-   return the tmControlData["baseOpacity"] of me
+   return the tmControlData["baseOpacity"] of the target
 end myBaseOpacity
 
 
 # CELL COLOR
 ------------
 setProp tmCellColor pValue
-   set the tmControlData["cellColor"] of me to pValue
+   set the tmControlData["cellColor"] of the target to pValue
    repeat for each line theCell in myCells()
       set backColor of grc 1 of theCell to pValue
    end repeat
@@ -647,14 +647,14 @@ getProp tmCellColor
 end tmCellColor
 
 function myCellColor
-   return the tmControlData["cellColor"] of me to pValue
+   return the tmControlData["cellColor"] of the target to pValue
 end myCellColor
 
 
 # HILITE COLOR
 -------------
 setProp tmHiliteColor pValue
-   set the tmControlData["hiliteColor"] of me to pValue
+   set the tmControlData["hiliteColor"] of the target to pValue
    repeat for each line theCell in myCells()
       set colorOverlay["color"] of grc 1 of theCell to pValue
    end repeat
@@ -665,14 +665,14 @@ getProp tmHiliteColor
 end tmHiliteColor
 
 function myHiliteColor
-   return the tmControlData["hiliteColor"] of me
+   return the tmControlData["hiliteColor"] of the target
 end myHiliteColor
 
 
 # HILITE OPACITY
 --------------
 setProp tmHiliteOpacity pValue
-   set the tmControlData["hiliteOpacity"] of me to pValue
+   set the tmControlData["hiliteOpacity"] of the target to pValue
    hiliteMe
 end tmHiliteOpacity
 
@@ -681,14 +681,14 @@ getProp tmHiliteOpacity
 end tmHiliteOpacity
 
 function myHiliteOpacity
-   return the tmControlData["hiliteOpacity"] of me
+   return the tmControlData["hiliteOpacity"] of the target
 end myHiliteOpacity
 
 
 # CELL HEIGHT
 ------------
 --setProp tmCellHeight pValue
---   set the tmControlData["cellHeight"] of me to pValue
+--   set the tmControlData["cellHeight"] of the target to pValue
 --   updateMe
 --end tmCellHeight
 
@@ -697,28 +697,28 @@ end myHiliteOpacity
 --end tmCellHeight
 
 --function myCellHeight
---   return the tmControlData["cellHeight"] of me
+--   return the tmControlData["cellHeight"] of the target
 --end myCellHeight
 
 
 # CELL GROUP PADDING
 --------------------
 setProp tmCellGroupPadding pValue
-   set the tmControlData["cellGroupPadding"] of me to pValue
+   set the tmControlData["cellGroupPadding"] of the target to pValue
    put myText() into theCellNames
    put line 1 of myCells() into theMasterCell
    put bottom of theMasterCell into theLastBottom
    put right of theMasterCell into theLastRight
    delete line 1 of theCellNames
    lock screen
-   set lockUpdates of me to true
+   set lockUpdates of the target to true
    repeat for each line theString in theCellNames
       if theString is empty then
          add myCellGroupPadding() to theLastBottom
          add myCellGroupPadding() to theLastRight
          next repeat
       end if
-      put long id of grp theString of me into theCell
+      put long id of grp theString of the target into theCell
       if myOrientation() is "vertical" then
          -- VERTICAL TABLE
          set topLeft of theCell to left of theMasterCell,theLastBottom
@@ -735,11 +735,11 @@ setProp tmCellGroupPadding pValue
    put myCells() into theCells
    put topLeft of (line 1 of theCells),bottomRight of (line -1 of theCells) into theRect
    set rect of myBase() to theRect
-   set rect of me to theRect
+   set rect of the target to theRect
    --
    put true into noTableResize
-   dispatch "resizeControl" to owner of me with noTableResize
-   set lockUpdates of me to false
+   dispatch "resizeControl" to owner of the target with noTableResize
+   set lockUpdates of the target to false
    unlock screen
 end tmCellGroupPadding
 
@@ -748,14 +748,14 @@ getProp tmCellGroupPadding
 end tmCellGroupPadding
 
 function myCellGroupPadding
-   return the tmControlData["cellGroupPadding"] of me
+   return the tmControlData["cellGroupPadding"] of the target
 end myCellGroupPadding
 
 
 # MARGINS
 ---------
 setProp tmMargins pValue
-   set the tmControlData["margins"] of me to pValue
+   set the tmControlData["margins"] of the target to pValue
    updateMe
 end tmMargins
 
@@ -764,7 +764,7 @@ getProp tmMargins
 end tmMargins
 
 function myMargins
-   return the tmControlData["margins"] of me
+   return the tmControlData["margins"] of the target
 end myMargins
 
 
@@ -772,52 +772,52 @@ end myMargins
 # BORDER WIDTH
 --------------
 --setProp tmBorderWidth pValue
---   set the tmControlData["borderWidth"] of me to pValue
---   set lineSize of grc "table_base" of me to pValue
---   set lineSize of grc "table_rowSeparators" of me to pValue
+--   set the tmControlData["borderWidth"] of the target to pValue
+--   set lineSize of grc "table_base" of the target to pValue
+--   set lineSize of grc "table_rowSeparators" of the target to pValue
 --end tmBorderWidth
 
 --getProp tmBorderWidth
---   return the tmControlData["borderWidth"] of me
+--   return the tmControlData["borderWidth"] of the target
 --end tmBorderWidth
 
 
 # DISABLED
 ---------
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of me to pValue
-   set the disabled of me to pValue
+   set the tmControlData["disabled"] of the target to pValue
+   set the disabled of the target to pValue
 end tmDisabled
 
 getProp tmDisabled
-   return the tmControlData["disabled"] of me
+   return the tmControlData["disabled"] of the target
 end tmDisabled
 
 
 # COMPONENT STYLE
 -----------------
 --setProp tmComponentStyle pValue
---   set the tmControlData["componentStyle"] of me to pValue
+--   set the tmControlData["componentStyle"] of the target to pValue
 --   if pValue is "plain" then
 --      set roundRadius of myBase() to 0
---      set the tmControlData["roundRadius"] of me to 0
+--      set the tmControlData["roundRadius"] of the target to 0
 --   end if
 --   if pValue is "grouped" then
 --      set roundRadius of myBase() to 20
---      set the tmControlData["roundRadius"] of me to 20
+--      set the tmControlData["roundRadius"] of the target to 20
 --   end if
 --   updateMe
 --end tmComponentStyle
 
 --getProp tmComponentStyle
---   return the tmControlData["componentStyle"] of me
+--   return the tmControlData["componentStyle"] of the target
 --end tmComponentStyle
 
 
 # MENUHISTORY
 -------------
 setProp tmMenuHistory pValue
-   set the tmControlData["menuHistory"] of me to max(0,pValue)
+   set the tmControlData["menuHistory"] of the target to max(0,pValue)
    hiliteMe pValue
 end tmMenuHistory
 
@@ -826,15 +826,15 @@ getProp tmMenuHistory
 end tmMenuHistory
 
 function myMenuHistory
-   return the tmControlData["menuHistory"] of me
+   return the tmControlData["menuHistory"] of the target
 end myMenuHistory
 
 
 # ROUND RADIUS
 --------------
 setProp tmRoundRadius pValue
-   set the tmControlData["roundRadius"] of me to pValue
-   set roundRadius of grc "table_base" of me to pValue
+   set the tmControlData["roundRadius"] of the target to pValue
+   set roundRadius of grc "table_base" of the target to pValue
    updateHilite
 end tmRoundRadius
 
@@ -843,7 +843,7 @@ getProp tmRoundRadius
 end tmRoundRadius
 
 function myRoundRadius
-   return the tmControlData["roundRadius"] of me
+   return the tmControlData["roundRadius"] of the target
 end myRoundRadius
 
 
@@ -855,5 +855,5 @@ end myRoundRadius
 
 
 private function myBase
-   return long id of control 1 of me
+   return long id of control 1 of the target
 end myBase

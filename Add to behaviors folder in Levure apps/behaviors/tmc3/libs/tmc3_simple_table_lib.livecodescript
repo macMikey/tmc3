@@ -6,7 +6,7 @@ before mouseDown
    if not myAutoHilite() then exit mouseDown
    put word 2 of mouseLine() into thePressedLine
    set hilitedLines of myField() to thePressedLine
-   set the tmControlData["hilitedCell"] of me to thePressedLine
+   set the tmControlData["hilitedCell"] of the target to thePressedLine
    updateMyColors
 end mouseDown
 
@@ -20,9 +20,9 @@ end mouseUp
 
 on resizeControl
    lock screen
-   put long owner of me into myOwner
+   put long owner of the target into myOwner
    if word 1 of myOwner is "group" and the tmControlData["type"] of myOwner is "simple table" then
-      put long owner of me into myOwner
+      put long owner of the target into myOwner
       put rect of myOwner into theRect
       put the tmControlData["controlMargins"] of myOwner into M
       add item 1 of M to item 1 of theRect
@@ -33,7 +33,7 @@ on resizeControl
       set rect of myField() to theRect
    end if
    --
-   put rect of me into theRect
+   put rect of the target into theRect
    put text of myField() into theText
    put item 2 of theRect + (number of lines of theText * textHeight of myField()) into item 4 of theRect
    set rect of myBase() to theRect
@@ -79,7 +79,7 @@ setProp tmText pValue
    set text of myField() to pValue
    updateMyColors
    updateMyOffset
-   -- set height of me to formattedHeight of myField()
+   -- set height of the target to formattedHeight of myField()
    resizeControl
 end tmText
 
@@ -94,7 +94,7 @@ end myText
 
 -- MARGINS
 setProp tmMargins pValue
-   set the tmControlData["margins"] of me to pValue
+   set the tmControlData["margins"] of the target to pValue
    set margins of myField() to pValue
 end tmMargins
 
@@ -109,7 +109,7 @@ end myMargins
 
 -- LIST BEHAVIOR
 setProp tmListBehavior pValue
-   set the tmControlData["listBehavior"] of me to pValue
+   set the tmControlData["listBehavior"] of the target to pValue
    set listBehavior of myField() to true
 end tmListBehavior
 
@@ -118,13 +118,13 @@ getProp tmListBehavior
 end tmListBehavior
 
 function myListBehavior
-   return the tmControlData["listBehavior"] of me
+   return the tmControlData["listBehavior"] of the target
 end myListBehavior
 
 
 -- HILITED CELL
 setProp tmHilitedCell pValue
-   set the tmControlData["hilitedCell"] of me to pValue
+   set the tmControlData["hilitedCell"] of the target to pValue
    set hilitedLines of myField() to pValue
    updateMyColors
 end tmHilitedCell
@@ -134,13 +134,13 @@ getProp tmHilitedCell
 end tmHilitedCell
 
 function myHilitedCell
-   return the tmControlData["hilitedCell"] of me
+   return the tmControlData["hilitedCell"] of the target
 end myHilitedCell
 
 
 -- HILITED CELL LABEL
 setProp tmHilitedCellLabel pValue
-   set the tmControlData["hilitedCellLabel"] of me to pValue
+   set the tmControlData["hilitedCellLabel"] of the target to pValue
    set hilitedLines of myField() to lineOffset(pValue,text of myField()) 
 end tmHilitedCellLabel
 
@@ -157,7 +157,7 @@ end myHilitedCellLabel
 
 -- AUTOHILITE
 setProp tmAutoHilite pValue
-   set the tmControlData["autoHilite"] of me to pValue
+   set the tmControlData["autoHilite"] of the target to pValue
 end tmAutoHilite
 
 getProp tmAutoHilite
@@ -165,13 +165,13 @@ getProp tmAutoHilite
 end tmAutoHilite
 
 function myAutoHilite
-   return the tmControlData["autoHilite"] of me
+   return the tmControlData["autoHilite"] of the target
 end myAutoHilite
 
 
 -- HILITE COLOR
 setProp tmHiliteColor pValue
-   set the tmControlData["hiliteColor"] of me to pValue
+   set the tmControlData["hiliteColor"] of the target to pValue
    set hiliteColor of myField() to pValue
 end tmHiliteColor
 
@@ -186,7 +186,7 @@ end myHiliteColor
 
 -- TEXT SIZE
 setProp tmTextSize pValue
-   set the tmControlData["textSize"] of me to pValue
+   set the tmControlData["textSize"] of the target to pValue
    set textSize of myField() to pValue
 end tmTextSize
 
@@ -201,7 +201,7 @@ end myTextSize
 
 -- TEXT HEIGHT
 setProp tmTextHeight pValue
-   set the tmControlData["textHeight"] of me to pValue
+   set the tmControlData["textHeight"] of the target to pValue
    set textHeight of myField() to pValue
 end tmTextHeight
 
@@ -216,7 +216,7 @@ end myTextHeight
 
 -- CELL HEIGHT -- VIRTUAL PROPERTY, SAME AS TEXTHEIGHT
 setProp tmCellHeight pValue
-   set the tmControlData["textHeight"] of me to pValue
+   set the tmControlData["textHeight"] of the target to pValue
    set textHeight of myField() to pValue
 end tmCellHeight
 
@@ -227,7 +227,7 @@ end tmCellHeight
 
 -- TEXT FONT
 setProp tmTextFont pValue
-   set the tmControlData["textFont"] of me to pValue
+   set the tmControlData["textFont"] of the target to pValue
    set textFont of myField() to pValue
 end tmTextFont
 
@@ -242,7 +242,7 @@ end myTextFont
 
 -- TEXT STYLE
 setProp tmTextStyle pValue
-   set the tmControlData["textStyle"] of me to pValue
+   set the tmControlData["textStyle"] of the target to pValue
    set textStyle of myField() to pValue
 end tmTextStyle
 
@@ -257,7 +257,7 @@ end myTextStyle
 
 -- TEXT ALIGN
 setProp tmTextAlign pValue
-   set the tmControlData["textAlign"] of me to pValue
+   set the tmControlData["textAlign"] of the target to pValue
    set textAlign of myField() to pValue
 end tmTextAlign
 
@@ -272,7 +272,7 @@ end myTextAlign
 
 -- TEXT COLOR
 setProp tmTextColor pValue
-   set the tmControlData["textColor"] of me to pValue
+   set the tmControlData["textColor"] of the target to pValue
    updateMyColors
 end tmTextColor
 
@@ -281,13 +281,13 @@ getProp tmTextColor
 end tmTextColor
 
 function myTextColor
-   return the tmControlData["textColor"] of me
+   return the tmControlData["textColor"] of the target
 end myTextColor
 
 
 -- HILITED TEXT COLOR
 setProp tmHilitedTextColor pValue
-   set the tmControlData["hilitedTextColor"] of me to pValue
+   set the tmControlData["hilitedTextColor"] of the target to pValue
    updateMyColors
 end tmHilitedTextColor
 
@@ -296,13 +296,13 @@ getProp tmHilitedTextColor
 end tmHilitedTextColor
 
 function myHilitedTextColor
-   return the tmControlData["hilitedTextColor"] of me
+   return the tmControlData["hilitedTextColor"] of the target
 end myHilitedTextColor
 
 
 -- SEPARATOR COLOR
 setProp tmSeparatorColor pValue
-   set the tmControlData["separatorColor"] of me to pValue
+   set the tmControlData["separatorColor"] of the target to pValue
    set borderColor of myField() to pValue
 end tmSeparatorColor
 
@@ -311,13 +311,13 @@ getProp tmSeparatorColor
 end tmSeparatorColor
 
 function mySeparatorColor
-   return the tmControlData["separatorColor"] of me
+   return the tmControlData["separatorColor"] of the target
 end mySeparatorColor
 
 
 -- SHOW SEPARATORS
 setProp tmShowSeparators pValue
-   set the tmControlData["showSeparators"] of me to pValue
+   set the tmControlData["showSeparators"] of the target to pValue
    set hGrid of myField() to pValue
 end tmShowSeparators
 
@@ -326,13 +326,13 @@ getProp tmShowSeparators
 end tmShowSeparators
 
 function myShowSeparators
-   return the tmControlData["showSeparators"] of me
+   return the tmControlData["showSeparators"] of the target
 end myShowSeparators
 
 
 -- BASE COLOR
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of me to pValue
+   set the tmControlData["baseColor"] of the target to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -349,7 +349,7 @@ end myBaseColor
 --------------
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of me to pValue
+   set the tmControlData["baseOpacity"] of the target to pValue
    set blendLevel of myBase() to 100 - pValue
 end tmBaseOpacity
 
@@ -365,7 +365,7 @@ end myBaseOpacity
 -- ALTERNATE ROW COLOR
 -----------------------
 setProp tmAlternateRowColor pValue
-   set the tmControlData["alternateRowColor"] of me to pValue
+   set the tmControlData["alternateRowColor"] of the target to pValue
    updateMyColors
 end tmAlternateRowColor
 
@@ -374,13 +374,13 @@ getProp tmAlternateRowColor
 end tmAlternateRowColor
 
 function myAlternateRowColor
-   return the tmControlData["alternateRowColor"] of me
+   return the tmControlData["alternateRowColor"] of the target
 end myAlternateRowColor
 
 
 -- FIRST INDENT
 setProp tmFirstIndent pValue
-   set the tmControlData["firstIndent"] of me to pValue
+   set the tmControlData["firstIndent"] of the target to pValue
    set firstIndent of myField() to pValue
 end tmFirstIndent
 
@@ -389,13 +389,13 @@ getProp tmFirstIndent
 end tmFirstIndent
 
 function myFirstIndent
-   return the tmControlData["firstIndent"] of me
+   return the tmControlData["firstIndent"] of the target
 end myFirstIndent
 
 
 -- VERTICAL TEXT OFFSET
 setProp tmTextOffset pValue
-   set the tmControlData["textOffset"] of me to pValue
+   set the tmControlData["textOffset"] of the target to pValue
    updateMyOffset
 end tmTextOffset
 
@@ -404,17 +404,17 @@ getProp tmTextOffset
 end tmTextOffset
 
 function myTextOffset
-   return the tmControlData["textOffset"] of me
+   return the tmControlData["textOffset"] of the target
 end myTextOffset
 
 
 
 
 private function myBase
-   return long id of control 1 of me
+   return long id of control 1 of the target
 end myBase
 
 
 private function myField
-   return long id of fld 1 of me
+   return long id of fld 1 of the target
 end myField

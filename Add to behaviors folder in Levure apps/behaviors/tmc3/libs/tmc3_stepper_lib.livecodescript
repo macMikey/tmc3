@@ -11,7 +11,7 @@ before mouseDown
       put empty into thePressedControl
       exit mouseDown
    end if
-   if not the tmControlData["autoHilite"] of me then exit mouseDown
+   if not the tmControlData["autoHilite"] of the target then exit mouseDown
    set colorOverLay["opacity"] of thePressedControl to myHiliteOpacity()
    updateMyValue
    put true into allowTracking
@@ -22,7 +22,7 @@ end mouseDown
 
 
 on tmControlStillPressed
-   if not the tmControlData["autoHilite"] of me then exit tmControlStillPressed
+   if not the tmControlData["autoHilite"] of the target then exit tmControlStillPressed
    if thePressedControl is empty or the disabled of thePressedControl then exit tmControlStillPressed
    if allowTracking then updateMyValue
    send "tmControlStillPressed" to me in 100 millisecs
@@ -41,7 +41,7 @@ before mouseUp
    put false into allowTracking
    if thePressedControl is empty then exit mouseUp
    if the uDisabled of thePressedControl then exit mouseUp
-   if not the tmControlData["autoHilite"] of me then exit mouseUp
+   if not the tmControlData["autoHilite"] of the target then exit mouseUp
    if thePressedControl is not empty then
       set colorOverlay["opacity"] of thePressedControl to 0
       put empty into thePressedControl
@@ -73,25 +73,25 @@ end dehiliteMe
 command updateMyValue
    put myStepIncrement() into theDelta
    if thePressedControl = myDecrementButton() then multiply theDelta by -1
-   set the tmControlData["stepValue"] of me to min(myEndValue(),max(myStepValue()+theDelta,myStartValue()))
-   dispatch "stepperValueChanged" to me with the tmControlData["stepValue"] of me
+   set the tmControlData["stepValue"] of the target to min(myEndValue(),max(myStepValue()+theDelta,myStartValue()))
+   dispatch "stepperValueChanged" to me with the tmControlData["stepValue"] of the target
    set the uDisabled of myDecrementButton() to myStepValue() = myStartValue()
    set the uDisabled of myIncrementButton() to myStepValue() = myEndValue()
-   set blendLevel of grc "stepper_decicon" of me to item itemOffset(the uDisabled of myDecrementButton(),"false,true") of "0,50"
-   set blendLevel of grc "stepper_incicon" of me to item itemOffset(the uDisabled of myIncrementButton(),"false,true") of "0,50"
+   set blendLevel of grc "stepper_decicon" of the target to item itemOffset(the uDisabled of myDecrementButton(),"false,true") of "0,50"
+   set blendLevel of grc "stepper_incicon" of the target to item itemOffset(the uDisabled of myIncrementButton(),"false,true") of "0,50"
    set colorOverLay["opacity"] of thePressedControl to item itemOffset(the uDisabled of thePressedControl,"false,true") of "128,0"
 end updateMyValue
 
 
 on resizeControl
-   if behavior of me is empty then pass resizeControl
+   if behavior of the target is empty then pass resizeControl
    updateMyButtons
 end resizeControl
 
 
 command updateMyButtons
    lock screen
-   set rect of myBase() to rect of me
+   set rect of myBase() to rect of the target
    put left of myBase() into L
    put top of myBase() into T
    put right of myBase() into R
@@ -137,7 +137,7 @@ end updateMyButtons
 
 -- START VALUE
 setProp tmStartValue pValue
-   set the tmControlData["startValue"] of me to pValue
+   set the tmControlData["startValue"] of the target to pValue
 end tmStartValue
 
 getProp tmStartValue
@@ -145,13 +145,13 @@ getProp tmStartValue
 end tmStartValue
 
 function myStartValue
-   return the tmControlData["startValue"] of me
+   return the tmControlData["startValue"] of the target
 end myStartValue
 
 
 -- END VALUE
 setProp tmEndValue pValue
-   set the tmControlData["endValue"] of me to pValue
+   set the tmControlData["endValue"] of the target to pValue
 end tmEndValue
 
 getProp tmEndValue
@@ -159,13 +159,13 @@ getProp tmEndValue
 end tmEndValue
 
 function myEndValue
-   return the tmControlData["endValue"] of me
+   return the tmControlData["endValue"] of the target
 end myEndValue
 
 
 -- STEP INCREMENT
 setProp tmStepIncrement pValue
-   set the tmControlData["stepIncrement"] of me to pValue
+   set the tmControlData["stepIncrement"] of the target to pValue
 end tmStepIncrement
 
 getProp tmStepIncrement
@@ -173,13 +173,13 @@ getProp tmStepIncrement
 end tmStepIncrement
 
 function myStepIncrement
-   return the tmControlData["stepIncrement"] of me
+   return the tmControlData["stepIncrement"] of the target
 end myStepIncrement
 
 
 -- STEP VALUE
 setProp tmStepValue pValue
-   set the tmControlData["stepValue"] of me to max(myStartValue(),pValue)
+   set the tmControlData["stepValue"] of the target to max(myStartValue(),pValue)
 end tmStepValue
 
 getProp tmStepValue
@@ -187,7 +187,7 @@ getProp tmStepValue
 end tmStepValue
 
 function myStepValue
-   return the tmControlData["stepValue"] of me
+   return the tmControlData["stepValue"] of the target
 end myStepValue
 
 
@@ -197,7 +197,7 @@ setProp tmRoundRadius pValue
    set roundRadius of myBase() to pValue
    set roundRadius of grc 1 of myDecrementButton() to pValue
    set roundRadius of grc 1 of myIncrementButton() to pValue
-   set the tmControlData["roundRadius"] of me to pValue
+   set the tmControlData["roundRadius"] of the target to pValue
    resizeControl
 end tmRoundRadius
 
@@ -206,7 +206,7 @@ getProp tmRoundRadius
 end tmRoundRadius
 
 function myRoundRadius
-   return the tmControlData["roundRadius"] of me
+   return the tmControlData["roundRadius"] of the target
 end myRoundRadius
 
 
@@ -227,7 +227,7 @@ end myHiliteColor
 
 -- HILITE OPACITY
 setProp tmHiliteOpacity pValue
-   set the tmControlData["hiliteOpacity"] of me to pValue
+   set the tmControlData["hiliteOpacity"] of the target to pValue
    set colorOverlay["opacity"] of myDecrementButton() to pValue
    set colorOverlay["opacity"] of myIncrementButton() to pValue
 end tmHiliteOpacity
@@ -237,15 +237,15 @@ getProp tmHiliteOpacity
 end tmHiliteOpacity
 
 function myHiliteOpacity
-   return the tmControlData["hiliteOpacity"] of me
+   return the tmControlData["hiliteOpacity"] of the target
 end myHiliteOpacity
 
 
 -- BASE COLOR
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of me to pValue
-   set backColor of grc "stepper_decface" of me to pValue
-   set backColor of grc "stepper_incface" of me to pValue
+   set the tmControlData["baseColor"] of the target to pValue
+   set backColor of grc "stepper_decface" of the target to pValue
+   set backColor of grc "stepper_incface" of the target to pValue
 end tmBaseColor
 
 getProp tmBaseColor
@@ -253,16 +253,16 @@ getProp tmBaseColor
 end tmBaseColor
 
 function myBaseColor
-   return the tmControlData["baseColor"] of me
+   return the tmControlData["baseColor"] of the target
 end myBaseColor
 
 
 -- BASE OPACITY
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of me to pValue
-   set blendLevel of grc "stepper_decface" of me to (100 - pValue)
-   set blendLevel of grc "stepper_incface" of me to (100 - pValue)
+   set the tmControlData["baseOpacity"] of the target to pValue
+   set blendLevel of grc "stepper_decface" of the target to (100 - pValue)
+   set blendLevel of grc "stepper_incface" of the target to (100 - pValue)
 end tmBaseOpacity
 
 getProp tmBaseOpacity
@@ -270,7 +270,7 @@ getProp tmBaseOpacity
 end tmBaseOpacity
 
 function myBaseOpacity
-   return the tmControlData["baseOpacity"] of me
+   return the tmControlData["baseOpacity"] of the target
 end myBaseOpacity
 
 
@@ -291,8 +291,8 @@ end myStrokeColor
 
 -- ICON COLOR
 setProp tmIconColor pValue
-   set foreColor of grc "stepper_decicon" of me to pValue
-   set foreColor of grc "stepper_incicon" of me to pValue
+   set foreColor of grc "stepper_decicon" of the target to pValue
+   set foreColor of grc "stepper_incicon" of the target to pValue
 end tmIconColor
 
 getProp tmIconColor
@@ -300,15 +300,15 @@ getProp tmIconColor
 end tmIconColor
 
 function myIconColor
-   return foreColor of grc "stepper_decicon" of me
+   return foreColor of grc "stepper_decicon" of the target
 end myIconColor
 
 
 -- DISABLED
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of me to pValue
-   set disabled of me to pValue
-   set blendLevel of me to item wordOffset(pValue,"true false") of "50,0"
+   set the tmControlData["disabled"] of the target to pValue
+   set disabled of the target to pValue
+   set blendLevel of the target to item wordOffset(pValue,"true false") of "50,0"
 end tmDisabled
 
 getProp tmDisabled
@@ -316,7 +316,7 @@ getProp tmDisabled
 end tmDisabled
 
 function myDisabled
-   return the tmControlData["disabled"] of me
+   return the tmControlData["disabled"] of the target
 end myDisabled
 
 
@@ -324,20 +324,20 @@ end myDisabled
 
 
 private function myBase
-   return long id of grc "stepper_base" of me
+   return long id of grc "stepper_base" of the target
 end myBase
 
 
 private function myDivider
-   return long id of grc "stepper_divider" of me
+   return long id of grc "stepper_divider" of the target
 end myDivider
 
 
 private function myDecrementButton
-   return long id of grp "stepper_decrement" of me
+   return long id of grp "stepper_decrement" of the target
 end myDecrementButton
 
 
 private function myIncrementButton
-   return long id of grp "stepper_increment" of me
+   return long id of grp "stepper_increment" of the target
 end myIncrementButton

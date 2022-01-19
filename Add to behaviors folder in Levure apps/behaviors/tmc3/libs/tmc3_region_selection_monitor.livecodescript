@@ -39,5 +39,5 @@ end tmStoreScrollingControlID
 
 command tmRemoveSelectionMonitor
    put empty into theScrollingControl
-   remove script of me from back
+   remove script of the target from back
 end tmRemoveSelectionMonitor

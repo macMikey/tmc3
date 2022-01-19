@@ -11,14 +11,14 @@ end preOpenControl
 
 command autoPositionMe
    if not myAutoPosition() then exit autoPositionMe
-   put height of me into H
+   put height of the target into H
    put rect of this cd into theRect
    put item 2 of theRect + H into item 4 of theRect
    if myStickyLocation() then
-      put top of me into item 2 of theRect
-      put bottom of me into item 4 of theRect
+      put top of the target into item 2 of theRect
+      put bottom of the target into item 4 of theRect
    end if
-   set rect of me to theRect
+   set rect of the target to theRect
 end autoPositionMe
 
 
@@ -31,13 +31,13 @@ end positionMyButton
 
 command updateMyButton pSide
    lock screen
-   set lockUpdates of me to true
-   put long id of control ("nav_" & pSide) of me into theButtonGroup
+   set lockUpdates of the target to true
+   put long id of control ("nav_" & pSide) of the target into theButtonGroup
    put the tmMargins of theButtonGroup into theMargins
    put long id of btn "button_icon" of theButtonGroup into theButtonIcon
    put long id of btn "button_label" of theButtonGroup into theButtonLabel
    --
-   if navStateOverride then set the tmControlData[pSide & "NavStyle"] of me to false
+   if navStateOverride then set the tmControlData[pSide & "NavStyle"] of the target to false
    put empty into navStateOverride
    --
    -- SET BUTTON STYLE
@@ -47,12 +47,12 @@ command updateMyButton pSide
       -- REMOVE STROKE
       set the tmStrokeWidth of theButtonGroup to 0
       put "show" & pSide & "Bezel" into bezelProp
-      set the tmControlData[bezelProp] of me to false
+      set the tmControlData[bezelProp] of the target to false
    else
       --
       -- ANY STYLE
       put (pSide & "NavStyle") into navProp
-      set the tmControlData[navProp] of me to false
+      set the tmControlData[navProp] of the target to false
       set the tmControlData["class"] of theButtonGroup to "inNavBar" -- CHANGE CLASS FOR BUTTON BEHAVIOR SCRIPT
       -- MANAGE STROKE
       put 0 into LS
@@ -83,7 +83,7 @@ command updateMyButton pSide
    positionMyButton pSide
    --
    if environment() is "development" then selectedObjectChanged -- UPDATE EDITOR
-   set lockUpdates of me to false
+   set lockUpdates of the target to false
    unlock screen
    unlock screen -- KEEP 2ND UNLOCK FOR NOW, MAY NEED TO REMOVE IF INTERRUPTING CARD TRANSITIONS
 end updateMyButton
@@ -91,7 +91,7 @@ end updateMyButton
 
 command updateMyButtonIcon pSide
    lock screen
-   put long id of control ("nav_" & pSide) of me into theButtonGroup
+   put long id of control ("nav_" & pSide) of the target into theButtonGroup
    put long id of btn "button_icon" of theButtonGroup into theButtonIcon
    put long id of img 1 of theButtonGroup into theSourceImage
    --
@@ -124,7 +124,7 @@ command updateMyButtonIcon pSide
          -- USE EMBEDDED NAV ICON
          set the tmShowIcon of theButtonGroup to true
          put "show" & pSide & "Icon" into iconProp
-         set the tmControlData[iconProp] of me to true
+         set the tmControlData[iconProp] of the target to true
          put item (the screenPixelScale) of "mediumNavIcon,extrahighNavIcon" into iconData
          set text of theSourceImage to the tmControlData[iconData] of theSourceImage
          set width of theSourceImage to formattedWidth of theSourceImage
@@ -157,30 +157,30 @@ end updateMyButtonIcon
 
 on resizeControl
    lock screen
-   set lockUpdates of me to true
-   put rect of me into theRect
+   set lockUpdates of the target to true
+   put rect of the target into theRect
    set rect of myLabel() to theRect -- RESIZE LABEL FIRST TO ALLOW FOR VERTICAL 1 PIXEL BASE OFFSET WORKAROUND
    -- add 1 to item 2 of theRect -- MAY NOT BE NEEDED FOR v6.6+
    set rect of myBase() to theRect
    positionMyButton "left"
    positionMyButton "right"
    set topMargin of myLabel() to height of myBase() - 43
-   set lockUpdates of me to false
+   set lockUpdates of the target to false
    unlock screen
 end resizeControl
 
 
 --on resizeControl
 --   lock screen
---   set lockUpdates of me to true
---   put rect of me into theRect
+--   set lockUpdates of the target to true
+--   put rect of the target into theRect
 --   set rect of myLabel() to theRect -- RESIZE LABEL FIRST TO ALLOW FOR VERTICAL 1 PIXEL BASE OFFSET WORKAROUND
 --   -- add 1 to item 2 of theRect -- MAY NOT BE NEEDED FOR v6.6+
 --   set rect of myBase() to theRect
 --   positionMyButton "left"
 --   positionMyButton "right"
 --   set topMargin of myLabel() to height of myBase() - 43
---   set lockUpdates of me to false
+--   set lockUpdates of the target to false
 --   unlock screen
 --end resizeControl
 
@@ -196,13 +196,13 @@ getProp tmControlType
 end tmControlType
 
 function myControlType
-   return the tmControlData["type"] of me
+   return the tmControlData["type"] of the target
 end myControlType
 
 
 -- NAV BAR LABEL
 setProp tmLabel pValue
-   put rect of me into theRect
+   put rect of the target into theRect
    put right of myLeftButton() into item 1 of theRect
    put left of myRightButton() into item 3 of theRect
    put effectRate into ER
@@ -215,7 +215,7 @@ setProp tmLabel pValue
    set label of myLabel() to pValue
    if theTransition is not "none" then unlock screen with visual effect theTransition very fast
    set effectRate to ER
-   set the tmControlData["label"] of me to pValue
+   set the tmControlData["label"] of the target to pValue
 end tmLabel
 
 getProp tmLabel
@@ -223,7 +223,7 @@ getProp tmLabel
 end tmLabel
 
 function myLabelText
-   return the tmControlData["label"] of me
+   return the tmControlData["label"] of the target
 end myLabelText
 
 
@@ -266,7 +266,7 @@ end myLeftButtonLabelText
 
 -- LEFT NAV STYLE
 setProp tmLeftNavStyle pValue
-   set the tmControlData["leftNavStyle"] of me to pValue
+   set the tmControlData["leftNavStyle"] of the target to pValue
    updateMyButton "left"
 end tmLeftNavStyle
 
@@ -275,13 +275,13 @@ getProp tmLeftNavStyle
 end tmLeftNavStyle
 
 function myLeftNavStyle
-   return the tmControlData["leftNavStyle"] of me
+   return the tmControlData["leftNavStyle"] of the target
 end myLeftNavStyle
 
 
 -- SHOW LEFT LABEL
 setProp tmShowLeftLabel pValue
-   set the tmControlData["showLeftLabel"] of me to pValue
+   set the tmControlData["showLeftLabel"] of the target to pValue
    updateMyButton "left"
 end tmShowLeftLabel
 
@@ -290,7 +290,7 @@ getProp tmShowLeftLabel
 end tmShowLeftLabel
 
 function myShowLeftLabel
-   return the tmControlData["showLeftLabel"] of me
+   return the tmControlData["showLeftLabel"] of the target
 end myShowLeftLabel
 
 
@@ -311,7 +311,7 @@ end myLeftMargins
 
 -- LEFT ICON
 setProp tmLeftIcon pValue
-   if the tmControlData["iconType"] of myLeftButton() is "glyph" then set the tmControlData["defaultLeftIcon"] of me to pValue
+   if the tmControlData["iconType"] of myLeftButton() is "glyph" then set the tmControlData["defaultLeftIcon"] of the target to pValue
    set the tmIcon of myLeftButton() to pValue
    updateMyButton "left"
 end tmLeftIcon
@@ -327,7 +327,7 @@ end myLeftIconID
 
 -- SHOW LEFT ICON
 setProp tmShowLeftIcon pValue
-   set the tmControlData["showLeftIcon"] of me to pValue
+   set the tmControlData["showLeftIcon"] of the target to pValue
    lock screen
    set the tmShowIcon of myLeftButton() to pValue
    if pValue is false then put true into navStateOverride
@@ -340,13 +340,13 @@ getProp tmShowLeftIcon
 end tmShowLeftIcon
 
 function myShowLeftIcon
-   return the tmControlData["showLeftIcon"] of me
+   return the tmControlData["showLeftIcon"] of the target
 end myShowLeftIcon
 
 
 -- SHOW LEFT BEZEL
 setProp tmShowLeftBezel pValue
-   set the tmControlData["showLeftBezel"] of me to pValue
+   set the tmControlData["showLeftBezel"] of the target to pValue
    if pValue is true then put true into navStateOverride
    updateMyButton "left"
 end tmShowLeftBezel
@@ -356,7 +356,7 @@ getProp tmShowLeftBezel
 end tmShowLeftBezel
 
 function myShowLeftBezel
-   return the tmControlData["showLeftBezel"] of me
+   return the tmControlData["showLeftBezel"] of the target
 end myShowLeftBezel
 
 
@@ -406,7 +406,7 @@ end myRightMargins
 
 -- RIGHT NAV STYLE
 setProp tmRightNavStyle pValue
-   set the tmControlData["rightNavStyle"] of me to pValue
+   set the tmControlData["rightNavStyle"] of the target to pValue
    updateMyButton "right"
 end tmRightNavStyle
 
@@ -415,13 +415,13 @@ getProp tmRightNavStyle
 end tmRightNavStyle
 
 function myRightNavStyle
-   return the tmControlData["rightNavStyle"] of me
+   return the tmControlData["rightNavStyle"] of the target
 end myRightNavStyle
 
 
 -- SHOW RIGHT LABEL
 setProp tmShowRightLabel pValue
-   set the tmControlData["showRightLabel"] of me to pValue
+   set the tmControlData["showRightLabel"] of the target to pValue
    updateMyButton "right"
 end tmShowRightLabel
 
@@ -430,13 +430,13 @@ getProp tmShowRightLabel
 end tmShowRightLabel
 
 function myShowRightLabel
-   return the tmControlData["showRightLabel"] of me
+   return the tmControlData["showRightLabel"] of the target
 end myShowRightLabel
 
 
 -- RIGHT ICON
 setProp tmRightIcon pValue
-   if the tmControlData["iconType"] of myRightButton() is "glyph" then set the tmControlData["defaultRightIcon"] of me to pValue
+   if the tmControlData["iconType"] of myRightButton() is "glyph" then set the tmControlData["defaultRightIcon"] of the target to pValue
    set the tmIcon of myRightButton() to pValue
    updateMyButton "right"
 end tmRightIcon
@@ -452,7 +452,7 @@ end myRightIconID
 
 -- SHOW RIGHT ICON
 setProp tmShowRightIcon pValue
-   set the tmControlData["showRightIcon"] of me to pValue
+   set the tmControlData["showRightIcon"] of the target to pValue
    lock screen
    set the tmShowIcon of myRightButton() to pValue
    if pValue is false then put true into navStateOverride
@@ -465,13 +465,13 @@ getProp tmShowRightIcon
 end tmShowRightIcon
 
 function myShowRightIcon
-   return the tmControlData["showRightIcon"] of me
+   return the tmControlData["showRightIcon"] of the target
 end myShowRightIcon
 
 
 -- SHOW RIGHT BEZEL
 setProp tmShowRightBezel pValue
-   set the tmControlData["showRightBezel"] of me to pValue
+   set the tmControlData["showRightBezel"] of the target to pValue
    if pValue is true then put true into navStateOverride
    updateMyButton "right"
 end tmShowRightBezel
@@ -481,7 +481,7 @@ getProp tmShowRightBezel
 end tmShowRightBezel
 
 function myShowRightBezel
-   return the tmControlData["showRightBezel"] of me
+   return the tmControlData["showRightBezel"] of the target
 end myShowRightBezel
 
 
@@ -501,7 +501,7 @@ end myShowRightButton
 
 -- LOCK ICON COLOR
 setProp tmLockImageIconColor pValue
-   set the tmControlData["lockImageIconColor"] of me to pValue
+   set the tmControlData["lockImageIconColor"] of the target to pValue
    set the tmControlData["lockImageIconColor"] of myLeftButton() to pValue
    set the tmControlData["lockImageIconColor"] of myRightButton() to pValue
 end tmLockImageIconColor
@@ -511,13 +511,13 @@ getProp tmLockImageIconColor
 end tmLockImageIconColor
 
 function myLockImageIconColor
-   return the tmControlData["lockImageIconColor"] of me
+   return the tmControlData["lockImageIconColor"] of the target
 end myLockImageIconColor
 
 
 -- MAXIMUM ICON HEIGHT, PREVENTS NAV BUTTON HEIGHT FROM EXCEEDING AVAILABLE SPACE
 setProp tmMaxIconHeight pValue
-   set the tmControlData["maxIconHeight"] of me to pValue
+   set the tmControlData["maxIconHeight"] of the target to pValue
 end tmMaxIconHeight
 
 getProp tmMaxIconHeight
@@ -525,7 +525,7 @@ getProp tmMaxIconHeight
 end tmMaxIconHeight
 
 function myMaxIconHeight
-   return the tmControlData["maxIconHeight"] of me
+   return the tmControlData["maxIconHeight"] of the target
 end myMaxIconHeight
 
 
@@ -533,7 +533,7 @@ end myMaxIconHeight
 setProp tmGlyphFont pValue
    set textFont of btn 1 of myLeftButton() to pValue
    set textFont of btn 1 of myRightButton() to pValue
-   set the tmControlData["glyphFont"] of me to pValue
+   set the tmControlData["glyphFont"] of the target to pValue
    put true into navStateOverride
    updateMyButton "left"
    updateMyButton "right"
@@ -557,7 +557,7 @@ end myGlyphFont
 setProp tmGlyphSize pValue
    set textSize of btn 1 of myLeftButton() to pValue
    set textSize of btn 1 of myRightButton() to pValue
-   set the tmControlData["glyphSize"] of me to pValue
+   set the tmControlData["glyphSize"] of the target to pValue
    updateMyButton "left"
    updateMyButton "right"
 end tmGlyphSize
@@ -575,7 +575,7 @@ end myGlyphSize
 
 -- TEXT FONT
 setProp tmTextFont pValue
-   set the tmControlData["textFont"] of me to pValue
+   set the tmControlData["textFont"] of the target to pValue
    set textFont of myLabel() to pValue
    set the tmTextFont of myLeftButton() to pValue
    set the tmTextFont of myRightButton() to pValue
@@ -586,13 +586,13 @@ getProp tmTextFont
 end tmTextFont
 
 function myTextFont
-   return the tmControlData["textFont"] of me
+   return the tmControlData["textFont"] of the target
 end myTextFont
 
 
 -- TEXT STYLE
 setProp tmTextStyle pValue
-   set the tmControlData["textStyle"] of me to pValue
+   set the tmControlData["textStyle"] of the target to pValue
    set textStyle of myLabel() to pValue
 end tmTextStyle
 
@@ -601,13 +601,13 @@ getProp tmTextStyle
 end tmTextStyle
 
 function myTextStyle
-   return the tmControlData["textStyle"] of me
+   return the tmControlData["textStyle"] of the target
 end myTextStyle
 
 
 -- TEXT SIZE
 setProp tmTextSize pValue
-   set the tmControlData["textSize"] of me to pValue
+   set the tmControlData["textSize"] of the target to pValue
    set textSize of myLabel() to pValue
 end tmTextSize
 
@@ -616,13 +616,13 @@ getProp tmTextSize
 end tmTextSize
 
 function myTextSize
-   return the tmControlData["textSize"] of me
+   return the tmControlData["textSize"] of the target
 end myTextSize
 
 
 -- BASE COLOR
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of me to pValue
+   set the tmControlData["baseColor"] of the target to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -637,7 +637,7 @@ end myBaseColor
 
 -- TEXT COLOR
 setProp tmTextColor pValue
-   set the tmControlData["textColor"] of me to pValue
+   set the tmControlData["textColor"] of the target to pValue
    set textColor of myLabel() to pValue
 end tmTextColor
 
@@ -646,7 +646,7 @@ getProp tmTextColor
 end tmTextColor
 
 function myTextColor
-   return the tmControlData["textColor"] of me
+   return the tmControlData["textColor"] of the target
 end myTextColor
 
 
@@ -695,7 +695,7 @@ end myLeftStrokeColor
 -- LEFT HILITE COLOR
 setProp tmLeftHiliteColor pValue
    set the tmControlData["hiliteColor"] of myLeftButton() to pValue
-   set the tmControlData["leftHiliteColor"] of me to pValue
+   set the tmControlData["leftHiliteColor"] of the target to pValue
 end tmLeftHiliteColor
 
 getProp tmLeftHiliteColor
@@ -703,7 +703,7 @@ getProp tmLeftHiliteColor
 end tmLeftHiliteColor
 
 function myLeftHiliteColor
-   return the tmControlData["leftHiliteColor"] of me
+   return the tmControlData["leftHiliteColor"] of the target
 end myLeftHiliteColor
 
 
@@ -782,7 +782,7 @@ end myRightStrokeColor
 -- RIGHT HILITE COLOR
 setProp tmRightHiliteColor pValue
    set the tmControlData["hiliteColor"] of myRightButton() to pValue
-   set the tmControlData["rightHiliteColor"] of me to pValue
+   set the tmControlData["rightHiliteColor"] of the target to pValue
 end tmRightHiliteColor
 
 getProp tmRightHiliteColor
@@ -790,7 +790,7 @@ getProp tmRightHiliteColor
 end tmRightHiliteColor
 
 function myRightHiliteColor
-   return the tmControlData["rightHiliteColor"] of me
+   return the tmControlData["rightHiliteColor"] of the target
 end myRightHiliteColor
 
 
@@ -824,7 +824,7 @@ end myRightHiliteIconColor
 
 -- TEXT HEIGHT
 setProp tmTextHeight pValue
-   set the tmControlData["textHeight"] of me to pValue
+   set the tmControlData["textHeight"] of the target to pValue
    set textHeight of myLabel() to pValue
 end tmTextHeight
 
@@ -833,13 +833,13 @@ getProp tmTextHeight
 end tmTextHeight
 
 function myTextHeight
-   return the tmControlData["textHeight"] of me
+   return the tmControlData["textHeight"] of the target
 end myTextHeight
 
 
 -- TEXT ALIGN -- NOT SET ON NAV BARS SINCE ALWAYS CENTERED
 --setProp tmTextAlign pValue
---   set the tmControlData["textAlign"] of me to pValue
+--   set the tmControlData["textAlign"] of the target to pValue
 --end tmTextAlign
 
 getProp tmTextAlign
@@ -854,7 +854,7 @@ end myTextAlign
 -- BASE OPACITY
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of me to pValue
+   set the tmControlData["baseOpacity"] of the target to pValue
    set blendLevel of myBase() to (100 - pValue)
 end tmBaseOpacity
 
@@ -869,7 +869,7 @@ end myBaseOpacity
 
 -- DEFAULT LEFT NAV ICON
 setProp tmDefaultLeftNavIcon pValue
-   set the tmControlData["defaultLeftNavIcon"] of me to pValue
+   set the tmControlData["defaultLeftNavIcon"] of the target to pValue
 end tmDefaultLeftNavIcon
 
 getProp tmDefaultLeftNavIcon
@@ -877,13 +877,13 @@ getProp tmDefaultLeftNavIcon
 end tmDefaultLeftNavIcon
 
 function myDefaultLeftNavIcon
-   return the tmControlData["defaultLeftNavIcon"] of me
+   return the tmControlData["defaultLeftNavIcon"] of the target
 end myDefaultLeftNavIcon
 
 
 -- DEFAULT RIGHT NAV ICON
 setProp tmDefaultRightNavIcon pValue
-   set the tmControlData["defaultRightNavIcon"] of me to pValue
+   set the tmControlData["defaultRightNavIcon"] of the target to pValue
 end tmDefaultRightNavIcon
 
 getProp tmDefaultRightNavIcon
@@ -891,13 +891,13 @@ getProp tmDefaultRightNavIcon
 end tmDefaultRightNavIcon
 
 function myDefaultRightNavIcon
-   return the tmControlData["defaultRightNavIcon"] of me
+   return the tmControlData["defaultRightNavIcon"] of the target
 end myDefaultRightNavIcon
 
 
 -- DEFAULT NAV FONT
 setProp tmDefaultNavFont pValue
-   set the tmControlData["defaultNavFont"] of me to pValue
+   set the tmControlData["defaultNavFont"] of the target to pValue
    set the tmGlyphFont of myLeftButton() to pValue
    set the tmGlyphFont of myRightButton() to pValue
 end tmDefaultNavFont
@@ -907,13 +907,13 @@ getProp tmDefaultNavFont
 end tmDefaultNavFont
 
 function myDefaultNavFont
-   return the tmControlData["defaultNavFont"] of me
+   return the tmControlData["defaultNavFont"] of the target
 end myDefaultNavFont
 
 
 -- DEFAULT LEFT ICON
 setProp tmDefaultLeftIcon pValue
-   set the tmControlData["defaultLeftIcon"] of me to pValue
+   set the tmControlData["defaultLeftIcon"] of the target to pValue
 end tmDefaultLeftIcon
 
 getProp tmDefaultLeftIcon
@@ -921,13 +921,13 @@ getProp tmDefaultLeftIcon
 end tmDefaultLeftIcon
 
 function myDefaultLeftIcon
-   return the tmControlData["defaultLeftIcon"] of me
+   return the tmControlData["defaultLeftIcon"] of the target
 end myDefaultLeftIcon
 
 
 -- DEFAULT RIGHT ICON
 setProp tmDefaultRightIcon pValue
-   set the tmControlData["defaultRightIcon"] of me to pValue
+   set the tmControlData["defaultRightIcon"] of the target to pValue
 end tmDefaultRightIcon
 
 getProp tmDefaultRightIcon
@@ -935,13 +935,13 @@ getProp tmDefaultRightIcon
 end tmDefaultRightIcon
 
 function myDefaultRightIcon
-   return the tmControlData["defaultRightIcon"] of me
+   return the tmControlData["defaultRightIcon"] of the target
 end myDefaultRightIcon
 
 
 -- DEFAULT GLYPH FONT
 setProp tmDefaultGlyphFont pValue
-   set the tmControlData["defaultGlyphFont"] of me to pValue
+   set the tmControlData["defaultGlyphFont"] of the target to pValue
    set the tmGlyphFont of myLeftButton() to pValue
    set the tmGlyphFont of myRightButton() to pValue
 end tmDefaultGlyphFont
@@ -951,14 +951,14 @@ getProp tmDefaultGlyphFont
 end tmDefaultGlyphFont
 
 function myDefaultGlyphFont
-   return the tmControlData["defaultGlyphFont"] of me
+   return the tmControlData["defaultGlyphFont"] of the target
 end myDefaultGlyphFont
 
 
 -- USE TRANSITION
 setProp tmUseTransition pValue
    if pValue is not among the items of "left,right,none" then exit tmUseTransition
-   set the tmControlData["useTransition"] of me to pValue
+   set the tmControlData["useTransition"] of the target to pValue
 end tmUseTransition
 
 getProp tmUseTransition
@@ -966,15 +966,15 @@ getProp tmUseTransition
 end tmUseTransition
 
 function myUseTransition
-   return the tmControlData["useTransition"] of me
+   return the tmControlData["useTransition"] of the target
 end myUseTransition
 
 
 -- DISABLED
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of me to pValue
-   set disabled of me to pValue
-   set blendLevel of me to item wordOffset(pValue,"true false") of "50,0"
+   set the tmControlData["disabled"] of the target to pValue
+   set disabled of the target to pValue
+   set blendLevel of the target to item wordOffset(pValue,"true false") of "50,0"
 end tmDisabled
 
 getProp tmDisabled
@@ -982,13 +982,13 @@ getProp tmDisabled
 end tmDisabled
 
 function myDisabled
-   return the tmControlData["disabled"] of me
+   return the tmControlData["disabled"] of the target
 end myDisabled
 
 
 -- AUTO POSITION
 setProp tmAutoPosition pValue
-   set the tmControlData["autoPosition"] of me to pValue
+   set the tmControlData["autoPosition"] of the target to pValue
    if pValue then autoPositionMe
 end tmAutoPosition
 
@@ -997,13 +997,13 @@ getProp tmAutoPosition
 end tmAutoPosition
 
 function myAutoPosition
-   return the tmControlData["autoPosition"] of me
+   return the tmControlData["autoPosition"] of the target
 end myAutoPosition
 
 
 -- STICKY POSITION
 setProp tmStickyLocation pValue
-   set the tmControlData["stickyLocation"] of me to pValue
+   set the tmControlData["stickyLocation"] of the target to pValue
 end tmStickyLocation
 
 getProp tmStickyLocation
@@ -1011,7 +1011,7 @@ getProp tmStickyLocation
 end tmStickyLocation
 
 function myStickyLocation
-   return the tmControlData["stickyLocation"] of me
+   return the tmControlData["stickyLocation"] of the target
 end myStickyLocation
 
 
@@ -1020,27 +1020,27 @@ end myStickyLocation
 
 
 private function myRegion
-   return long id of grc "navbar_region" of me
+   return long id of grc "navbar_region" of the target
 end myRegion
 
 
 private function myBase
-   return long id of grc "navbar_base" of me
+   return long id of grc "navbar_base" of the target
 end myBase
 
 
 private function myLabel
-   return long id of btn "navbar_label" of me
+   return long id of btn "navbar_label" of the target
 end myLabel
 
 
 private function myLeftButton
-   return long id of grp "nav_left" of me
+   return long id of grp "nav_left" of the target
 end myLeftButton
 
 
 private function myRightButton
-   return long id of grp "nav_right" of me
+   return long id of grp "nav_right" of the target
 end myRightButton
 
 

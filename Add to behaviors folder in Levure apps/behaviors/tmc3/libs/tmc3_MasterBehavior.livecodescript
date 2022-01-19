@@ -18,7 +18,7 @@ end mouseMove
 
 
 --on newGroup
---   put name of me
+--   put name of the target
 --end newGroup
 
 
@@ -36,7 +36,7 @@ command tmManageControlGeometry
    put true into mouseResize
    --
    -- RESIZE/SCALE CUSTOM CONTROL GROUP
-   if word 1 of name of me is "group" then
+   if word 1 of name of the target is "group" then
       if mouseResize then
          --
          -- RESIZE/SCALE VIA MOUSE
@@ -93,14 +93,14 @@ command tmResizeMe
       exit tmResizeMe
    end if
    --
-   put long id of control 1 of me into myRegion
+   put long id of control 1 of the target into myRegion
    set rect of myRegion to myL,myT,myR,myB
-   --   set boundingRect of me to rect of myRegion --< !! MAY NEED THIS !!
+   --   set boundingRect of the target to rect of myRegion --< !! MAY NEED THIS !!
    tmInitMyLoc
    tmInitMyProportions
-   repeat with N = 1 to number of controls of me
-      put long id of control N of me into theObj
-      tmScaleAndPositionObject theObj, long id of me, "resize"
+   repeat with N = 1 to number of controls of the target
+      put long id of control N of the target into theObj
+      tmScaleAndPositionObject theObj, long id of the target, "resize"
    end repeat
    --   put (width of theRegion/height of theRegion) into theProportionalW
    --   set the tmGeometryData["proportionalWidth"] of pControl to theProportionalW
@@ -399,29 +399,29 @@ end oppositeEdgeCheck
 --end tmScaleAndPositionObject
 
 command tmInitMyGeometry
-   put left of me into myL
-   put top of me into myT
-   put right of me into myR
-   put bottom of me into myB
-   put width of me into myW
-   put height of me into myH
+   put left of the target into myL
+   put top of the target into myT
+   put right of the target into myR
+   put bottom of the target into myB
+   put width of the target into myW
+   put height of the target into myH
 end tmInitMyGeometry
 
 
 command tmInitMyLoc
-   put loc of me into theLoc
+   put loc of the target into theLoc
    put item 1 of theLoc into theX
    put item 2 of theLoc into theY
 end tmInitMyLoc
 
 
 command tmInitMyProportions
-   put width of me into theW
-   put height of me into theH
+   put width of the target into theW
+   put height of the target into theH
    put theW into origW
    put theH into origH
-   set the tmGeometryData["proportionalWidth"] of me to theW/theH
-   set the tmGeometryData["proportionalHeight"] of me to theH/theW
+   set the tmGeometryData["proportionalWidth"] of the target to theW/theH
+   set the tmGeometryData["proportionalHeight"] of the target to theH/theW
 end tmInitMyProportions
 
 
@@ -432,56 +432,56 @@ end distance
 
 function L pName
    if pName is empty then return left of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return left of theObj
 end L
 
 
 function T pName
    if pName is empty then return top of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return top of theObj
 end T
 
 
 function R pName
    if pName is empty then return right of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return right of theObj
 end R
 
 
 function B pName
    if pName is empty then return bottom of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return bottom of theObj
 end B
 
 
 function W pName
    if pName is empty then return width of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return width of theObj
 end W
 
 
 function H pName
    if pName is empty then return height of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return height of theObj
 end H
 
 
 function X pName
    if pName is empty then return item 1 of loc of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return item 1 of loc of theObj
 end X
 
 
 function Y pName
    if pName is empty then return item 2 of loc of myRegion
-   put long id of control pName of me into theObj
+   put long id of control pName of the target into theObj
    return item 2 of loc of theObj
 end Y
 
@@ -877,7 +877,7 @@ end MISC_FUNCTIONS
 
 -- GET GROUP OWNER OF OBJECT
 function myGroupOwner
-   put long name of me into myName
+   put long name of the target into myName
    if "group" is not in myName then return empty
    put 0 into wordSkip
    if word 1 of myName = "group" then put 1 into wordSkip
@@ -887,7 +887,7 @@ end myGroupOwner
 
 -- GET TMCONTROL GROUP OWNER OF OBJECT
 function myTMControlGroupOwner pObj
-   if pObj is empty then put long id of me into pObj
+   if pObj is empty then put long id of the target into pObj
    if "group" is not in pObj then return empty
    repeat 50
       put wordOffset("group",pObj) into N
@@ -905,7 +905,7 @@ end myTMControlGroupOwner
 
 -- GET CONTROL'S STACK OWNER
 function myStackOwner pObj
-   put long id of me into theObjName
+   put long id of the target into theObjName
    if pObj is not empty then put pObj into theObjName
    return word wordOffset("stack",theObjName) to -1 of theObjName
 end myStackOwner
@@ -913,7 +913,7 @@ end myStackOwner
 
 -- GET CONTROL'S MAINSTACK
 function myMainStack pObj
-   put long id of me into theObj
+   put long id of the target into theObj
    if pObj is not empty then put pObj into theObj
    repeat 100
       get owner of theObj
@@ -925,7 +925,7 @@ end myMainStack
 
 -- CHECK IF CONTROL IS NESTED WITHIN A SCROLLING REGION
 function isWithinScrollingRegion pObj
-   put long id of me into theObj
+   put long id of the target into theObj
    if pObj is not empty then put pObj into theObj
    repeat 100
       put owner of theObj into theOwner

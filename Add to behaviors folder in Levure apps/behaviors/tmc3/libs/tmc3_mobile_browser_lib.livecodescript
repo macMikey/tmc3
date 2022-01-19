@@ -18,7 +18,7 @@ command createBrowser
    -- CREATE BROWSER/STORE ID
    mobileControlCreate "browser"
    put the result into myMobileID
-   set the tmControlData["mobileID"] of me to myMobileID
+   set the tmControlData["mobileID"] of the target to myMobileID
    -- SET BROWSER PROPS
    tmUpdateBrowser
 end createBrowser
@@ -58,8 +58,8 @@ end deleteBrowser
 
 
 on resizeControl
-   set rect of control 1 of me to rect of me
-   if onMobile() then tmUpdateBrowser "rect",rect of me
+   set rect of control 1 of the target to rect of the target
+   if onMobile() then tmUpdateBrowser "rect",rect of the target
 end resizeControl
 
 
@@ -90,7 +90,7 @@ getProp tmControlType
 end tmControlType
 
 function myControlType
-   return the tmControlData["type"] of me
+   return the tmControlData["type"] of the target
 end myControlType
 
 
@@ -101,7 +101,7 @@ getProp tmControlID
 end tmControlID
 
 function myControlID
-   return the short id of me
+   return the short id of the target
 end myControlID
 
 
@@ -148,15 +148,15 @@ getProp tmName
 end tmName
 
 function myName
-   return short name of me
+   return short name of the target
 end myName
 
 
 # RECT
 ----------
 setProp tmRect pValue
-   set rect of control 1 of me to pValue
-   set rect of me to rect of control 1 of me
+   set rect of control 1 of the target to pValue
+   set rect of the target to rect of control 1 of the target
    tmUpdateBrowser "rect",pValue
 end tmRect
 
@@ -165,14 +165,14 @@ getProp tmRect
 end tmRect
 
 function myRect
-   return rect of me
+   return rect of the target
 end myRect
 
 
 # URL
 ----
 setProp tmURL pValue
-   set the tmControlData["URL"] of me to pValue
+   set the tmControlData["URL"] of the target to pValue
    tmUpdateBrowser "url",pValue
 end tmURL
 
@@ -181,14 +181,14 @@ getProp tmURL
 end tmURL
 
 function myURL
-   return the tmControlData["URL"] of me
+   return the tmControlData["URL"] of the target
 end myURL
 
 
 # AUTOFIT
 ---------
 setProp tmAutoFit pValue
-   set the tmControlData["autoFit"] of me to pValue
+   set the tmControlData["autoFit"] of the target to pValue
    tmUpdateBrowser "autoFit",pValue
 end tmAutoFit
 
@@ -197,14 +197,14 @@ getProp tmAutoFit
 end tmAutoFit
 
 function myAutoFit
-   return the tmControlData["autoFit"] of me
+   return the tmControlData["autoFit"] of the target
 end myAutoFit
 
 
 # DELAY REQUESTS
 ---------------
 setProp tmDelayRequests pValue
-   set the tmControlData["delayRequests"] of me to pValue
+   set the tmControlData["delayRequests"] of the target to pValue
    tmUpdateBrowser "delayRequests",pValue
 end tmDelayRequests
 
@@ -213,14 +213,14 @@ getProp tmDelayRequests
 end tmDelayRequests
 
 function myDelayRequests
-   return the tmControlData["delayRequests"] of me
+   return the tmControlData["delayRequests"] of the target
 end myDelayRequests
 
 
 # DATA DETECTOR TYPES
 --------------------
 setProp tmDataDetectorTypes pValue
-   set the tmControlData["dataDetectorTypes"] of me to pValue
+   set the tmControlData["dataDetectorTypes"] of the target to pValue
    tmUpdateBrowser "dataDetectorTypes",pValue
 end tmDataDetectorTypes
 
@@ -229,14 +229,14 @@ getProp tmDataDetectorTypes
 end tmDataDetectorTypes
 
 function myDataDetectorTypes
-   return the tmControlData["dataDetectorTypes"] of me
+   return the tmControlData["dataDetectorTypes"] of the target
 end myDataDetectorTypes
 
 
 # ALLOW INLINE PLAYBACK
 ---------------------
 setProp tmAllowsInlinePlayback pValue
-   set the tmControlData["allowsInlinePlayback"] of me to pValue
+   set the tmControlData["allowsInlinePlayback"] of the target to pValue
    tmUpdateBrowser "allowsInlinePlayback",pValue
 end tmAllowsInlinePlayback
 
@@ -245,14 +245,14 @@ getProp tmAllowsInlinePlayback
 end tmAllowsInlinePlayback
 
 function myAllowsInlinePlayback
-   return the tmControlData["allowsInlinePlayback"] of me
+   return the tmControlData["allowsInlinePlayback"] of the target
 end myAllowsInlinePlayback
 
 
 # MEDIA PLAYBACK REQUIRES USER ACTION
 -----------------------------------
 setProp tmMediaPlaybackRequiresUserAction pValue
-   set the tmControlData["mediaPlaybackRequiresUserAction"] of me to pValue
+   set the tmControlData["mediaPlaybackRequiresUserAction"] of the target to pValue
    tmUpdateBrowser "mediaPlaybackRequiresUserAction",pValue
 end tmMediaPlaybackRequiresUserAction
 
@@ -261,14 +261,14 @@ getProp tmMediaPlaybackRequiresUserAction
 end tmMediaPlaybackRequiresUserAction
 
 function myMediaPlaybackRequiresUserAction
-   return the tmControlData["mediaPlaybackRequiresUserAction"] of me
+   return the tmControlData["mediaPlaybackRequiresUserAction"] of the target
 end myMediaPlaybackRequiresUserAction
 
 
 # SCROLLING ENABLED
 -------------------
 setProp tmScrollingEnabled pValue
-   set the tmControlData["scrollingEnabled"] of me to pValue
+   set the tmControlData["scrollingEnabled"] of the target to pValue
    tmUpdateBrowser "scrollingEnabled",pValue
 end tmScrollingEnabled
 
@@ -277,14 +277,14 @@ getProp tmScrollingEnabled
 end tmScrollingEnabled
 
 function myScrollingEnabled
-   return the tmControlData["scrollingEnabled"] of me
+   return the tmControlData["scrollingEnabled"] of the target
 end myScrollingEnabled
 
 
 # CAN BOUNCE
 -------------
 setProp tmCanBounce pValue
-   set the tmControlData["canBounce"] of me to pValue
+   set the tmControlData["canBounce"] of the target to pValue
    tmUpdateBrowser "canBounce",pValue
 end tmCanBounce
 
@@ -293,14 +293,14 @@ getProp tmCanBounce
 end tmCanBounce
 
 function myCanBounce
-   return the tmControlData["canBounce"] of me
+   return the tmControlData["canBounce"] of the target
 end myCanBounce
 
 
 # VISIBLE
 --------
 setProp tmVisible pValue
-   set the tmControlData["visible"] of me to pValue
+   set the tmControlData["visible"] of the target to pValue
    tmUpdateBrowser "visible",pValue
 end tmVisible
 
@@ -309,14 +309,14 @@ getProp tmVisible
 end tmVisible
 
 function myVisible
-   return the tmControlData["visible"] of me
+   return the tmControlData["visible"] of the target
 end myVisible
 
 
 # AUTO-CREATE BROWSER UPON OPENING
 ----------------------------------
 setProp tmAutoCreate pValue
-   set the tmControlData["autoCreate"] of me to pValue
+   set the tmControlData["autoCreate"] of the target to pValue
 end tmAutoCreate
 
 getProp tmAutoCreate
@@ -324,14 +324,14 @@ getProp tmAutoCreate
 end tmAutoCreate
 
 function autoCreateMe
-   return the tmControlData["autoCreate"] of me
+   return the tmControlData["autoCreate"] of the target
 end autoCreateMe
 
 
 # AUTO-REMOVE BROWSER WHEN CLOSING CONTROL
 --------------------------------------------
 setProp tmAutoRemove pValue
-   set the tmControlData["autoRemove"] of me to pValue
+   set the tmControlData["autoRemove"] of the target to pValue
 end tmAutoRemove
 
 getProp tmAutoRemove
@@ -339,7 +339,7 @@ getProp tmAutoRemove
 end tmAutoRemove
 
 function autoRemoveMe
-   return the tmControlData["autoRemove"] of me
+   return the tmControlData["autoRemove"] of the target
 end autoRemoveMe
 
 
@@ -347,5 +347,5 @@ end autoRemoveMe
 
 
 private function myRegion
-   return long ID of control 1 of me
+   return long ID of control 1 of the target
 end myRegion

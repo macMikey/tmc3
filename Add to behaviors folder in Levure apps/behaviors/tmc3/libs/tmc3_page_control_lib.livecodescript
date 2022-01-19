@@ -1,6 +1,6 @@
 script "tmc3_page_control_lib" with behavior "tmc3_MasterBehavior"
 on resizeControl
-   set rect of myRegion() to rect of me
+   set rect of myRegion() to rect of the target
    put left of myRegion() into L
    put top of myRegion() into T
    put right of myRegion() into R
@@ -18,8 +18,8 @@ on resizeControl
    --
    lock screen
    if W >= H then
-      set the tmControlData["orientation"] of me to "horizontal"
-   else set the tmControlData["orientation"] of me to "vertical"
+      set the tmControlData["orientation"] of the target to "horizontal"
+   else set the tmControlData["orientation"] of the target to "vertical"
    updateDotSpacing
    unlock screen
 end resizeControl
@@ -108,7 +108,7 @@ end updateDotSpacing
 setProp tmCurrentPage pValue
    -- integer
    put number of lines of myDots() into N
-   set the tmControlData["currentPage"] of me to min(N,max(0,pValue))
+   set the tmControlData["currentPage"] of the target to min(N,max(0,pValue))
    updateDots
 end tmCurrentPage
 
@@ -117,7 +117,7 @@ getProp tmCurrentPage
 end tmCurrentPage
 
 function myCurrentPage
-   return the tmControlData["currentPage"] of me
+   return the tmControlData["currentPage"] of the target
 end myCurrentPage
 
 
@@ -152,8 +152,8 @@ setProp tmPageCount pValue
    end if
    unlock messages
    updateDotSpacing
-   set the tmCurrentPage of me to 1
-   set the tmControlData["pageCount"] of me to pValue
+   set the tmCurrentPage of the target to 1
+   set the tmControlData["pageCount"] of the target to pValue
    unlock screen
 end tmPageCount
 
@@ -162,14 +162,14 @@ getProp tmPageCount
 end tmPageCount
 
 function myPageCount
-   return the tmControlData["pageCount"] of me
+   return the tmControlData["pageCount"] of the target
 end myPageCount
 
 
 -- INDICATOR SIZE
 setProp tmIndicatorSize pValue
    -- integer
-   set the tmControlData["indicatorSize"] of me to pValue
+   set the tmControlData["indicatorSize"] of the target to pValue
    lock screen
    repeat for each line theDot in myDots()
       set width of theDot to pValue
@@ -183,14 +183,14 @@ getProp tmIndicatorSize
 end tmIndicatorSize
 
 function myIndicatorSize
-   return the tmControlData["indicatorSize"] of me
+   return the tmControlData["indicatorSize"] of the target
 end myIndicatorSize
 
 
 -- INDICATOR SPACING
 setProp tmIndicatorSpacing pValue
    -- integer
-   set the tmControlData["indicatorSpacing"] of me to max(0,pValue)
+   set the tmControlData["indicatorSpacing"] of the target to max(0,pValue)
    updateDotSpacing
 end tmIndicatorSpacing
 
@@ -199,14 +199,14 @@ getProp tmIndicatorSpacing
 end tmIndicatorSpacing
 
 function myIndicatorSpacing
-   return the tmControlData["indicatorSpacing"] of me
+   return the tmControlData["indicatorSpacing"] of the target
 end myIndicatorSpacing
 
 
 -- PROPORTIONAL SPACING
 setProp tmProportionalSpacing pValue
    -- true, false
-   set the tmControlData["proportionalSpacing"] of me to pValue
+   set the tmControlData["proportionalSpacing"] of the target to pValue
    updateDotSpacing
 end tmProportionalSpacing
 
@@ -215,13 +215,13 @@ getProp tmProportionalSpacing
 end tmProportionalSpacing
 
 function myProportionalSpacing
-   return the tmControlData["proportionalSpacing"] of me
+   return the tmControlData["proportionalSpacing"] of the target
 end myProportionalSpacing
 
 
 setProp tmIndicatorMargins pValue
    -- comma separate list of 4 integers
-   set the tmControlData["indicatorMargins"] of me to pValue
+   set the tmControlData["indicatorMargins"] of the target to pValue
    updateDotSpacing
 end tmIndicatorMargins
 
@@ -230,14 +230,14 @@ getProp tmIndicatorMargins
 end tmIndicatorMargins
 
 function myIndicatorMargins
-   return the tmControlData["indicatorMargins"] of me
+   return the tmControlData["indicatorMargins"] of the target
 end myIndicatorMargins
 
 
 -- FILL
 setProp tmFillColor pValue
    -- RGB values from 0 to 255
-   set the tmControlData["fillColor"] of me to pValue
+   set the tmControlData["fillColor"] of the target to pValue
    updateDots
 end tmFillColor
 
@@ -246,14 +246,14 @@ getProp tmFillColor
 end tmFillColor
 
 function myFillColor
-   return the tmControlData["fillColor"] of me
+   return the tmControlData["fillColor"] of the target
 end myFillColor
 
 
 -- STROKE
 setProp tmStrokeColor pValue
    -- RGB values from 0 to 255
-   set the tmControlData["strokeColor"] of me to pValue
+   set the tmControlData["strokeColor"] of the target to pValue
    updateDots
 end tmStrokeColor
 
@@ -262,15 +262,15 @@ getProp tmStrokeColor
 end tmStrokeColor
 
 function myStrokeColor
-   return the tmControlData["strokeColor"] of me
+   return the tmControlData["strokeColor"] of the target
 end myStrokeColor
 
 
 -- COLOR: SET FILL AND STROKE TOGETHER
 setProp tmIndicatorColor pValue
    -- RGB values from 0 to 255
-   set the tmControlData["fillColor"] of me to pValue
-   set the tmControlData["strokeColor"] of me to pValue
+   set the tmControlData["fillColor"] of the target to pValue
+   set the tmControlData["strokeColor"] of the target to pValue
    updateDots
 end tmIndicatorColor
 
@@ -282,7 +282,7 @@ end tmIndicatorColor
 -- STROKE WIDTH
 setProp tmStrokeWidth pValue
    -- integer
-   set the tmControlData["strokeWidth"] of me to pValue
+   set the tmControlData["strokeWidth"] of the target to pValue
    updateDots
 end tmStrokeWidth
 
@@ -291,14 +291,14 @@ getProp tmStrokeWidth
 end tmStrokeWidth
 
 function myStrokeWidth
-   return the tmControlData["strokeWidth"] of me
+   return the tmControlData["strokeWidth"] of the target
 end myStrokeWidth
 
 
 -- FILLED
 setProp tmFilled pValue
    -- true, false
-   set the tmControlData["filled"] of me to pValue
+   set the tmControlData["filled"] of the target to pValue
    updateDots
 end tmFilled
 
@@ -307,14 +307,14 @@ getProp tmFilled
 end tmFilled
 
 function myFilled
-   return the tmControlData["filled"] of me
+   return the tmControlData["filled"] of the target
 end myFilled
 
 
 -- OPACITY
 setProp tmOpacity pValue
    -- integer value from 0 to 100 (iOS standard is 30?)
-   set the tmControlData["opacity"] of me to pValue
+   set the tmControlData["opacity"] of the target to pValue
    updateDots
 end tmOpacity
 
@@ -323,14 +323,14 @@ getProp tmOpacity
 end tmOpacity
 
 function myOpacity
-   return the tmControlData["opacity"] of me
+   return the tmControlData["opacity"] of the target
 end myOpacity
 
 
 -- ORIENTATION
 setProp tmOrientation pValue
    -- horizontal, vertical
-   set the tmControlData["orientation"] of me to pValue
+   set the tmControlData["orientation"] of the target to pValue
    updateDotSpacing
 end tmOrientation
 
@@ -339,14 +339,14 @@ getProp tmOrientation
 end tmOrientation
 
 function myOrientation
-   return the tmControlData["orientation"] of me
+   return the tmControlData["orientation"] of the target
 end myOrientation
 
 
 
 function myDots
-   repeat with N = 1 to number of grcs of me
-      if "indicator" is in short name of grc N of me then put long id of grc N of me & tab & left of grc N of me & cr after temp
+   repeat with N = 1 to number of grcs of the target
+      if "indicator" is in short name of grc N of the target then put long id of grc N of the target & tab & left of grc N of the target & cr after temp
    end repeat
    delete last char of temp
    set itemDel to tab
@@ -361,5 +361,5 @@ end myDots
 
 
 private function myRegion
-   return long id of grc "pagecontrol_region" of me
+   return long id of grc "pagecontrol_region" of the target
 end myRegion
