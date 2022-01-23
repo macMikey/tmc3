@@ -34,7 +34,7 @@ before mouseLeave
    if the tool is not "browse tool" then exit mouseLeave
    if not myAutoHilite() then exit mouseLeave
    if word 1 of name of the target is not "button" then exit mouseLeave
-   dispatch "resetMyButtonIcon" to me with myHoveredButton
+   dispatch "resetMyButtonIcon" to the target with myHoveredButton
 end mouseLeave
 
 
@@ -53,9 +53,9 @@ end mouseDown
 before mouseUp
    put false into allowTracking
    if myPressedButton is empty then exit mouseUp
-   dispatch "menuPick" to me with short name of (line myPressedButton of myButtons())
+   dispatch "menuPick" to the target with short name of (line myPressedButton of myButtons())
    if not myAutoHilite() then exit mouseUp
-   send "resetMyButtonIcon" to me in 0 millisecs
+   send "resetMyButtonIcon" to the target in 0 millisecs
 end mouseUp
 
 
@@ -63,7 +63,7 @@ before mouseRelease
    put false into allowTracking
    if not myAutoHilite() then exit mouseRelease
    if myPressedButton is empty then exit mouseRelease
-   send "resetMyButtonIcon" to me in 0 millisecs
+   send "resetMyButtonIcon" to the target in 0 millisecs
 end mouseRelease
 
 

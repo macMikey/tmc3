@@ -15,7 +15,7 @@ before mouseUp
    if N = 0 then 
       put empty into theName
    else put line N of myCellNames() into theName
-   dispatch "menuPick" to me with theName
+   dispatch "menuPick" to the target with theName
    if not myAutoHilite() then exit mouseUp
    if myListBehavior() then exit mouseUp
    unhiliteMe
@@ -144,7 +144,7 @@ command buildTable pCellTemplate
    put myText() into theCellList
    --
    if cellsHadToBeCleared then -- WORKAROUND FOR SERIOUS COPY BUG?
-      send "buildTable" && pCellTemplate to me in 20 millisecs
+      send "buildTable" && pCellTemplate to the target in 20 millisecs
       exit buildTable
    end if
    --
@@ -153,7 +153,7 @@ command buildTable pCellTemplate
    get long name of control id (line 1 of thePlacedControlList)
    if word 1 of it is "graphic" then delete line 1 of thePlacedControlList -- REMOVE BASE GRAPHIC FROM LIST
    --
-   copy theTemplate to me
+   copy theTemplate to the target
    --
    put it into theMasterCell
    put theMasterCell into theCell -- TO BE USED BELOW IF THERE IS ONLY ONE CELL IN TABLE
@@ -190,7 +190,7 @@ command buildTable pCellTemplate
       end if
    end repeat
    --
-   dispatch "postProcessTable" to me -- SENT FOR ANY SPECIAL PROCESSING AFTER TABLE IS BUILT
+   dispatch "postProcessTable" to the target -- SENT FOR ANY SPECIAL PROCESSING AFTER TABLE IS BUILT
    --
    put myCells() into theCells
    put topLeft of (line 1 of theCells),bottomRight of (line -1 of theCells) into theRect
@@ -226,7 +226,7 @@ command addCell pName, pIndex, pPosition
    put line theIndex of theCellList into theReferenceCell
    if theIndex = 1 and pPosition is "before" then put line 1 of theCellList into theReferenceCell
    if theIndex = theCellCount and pPosition is "after" then put line -1 of theCellList into theReferenceCell
-   copy myCellTemplate() to me
+   copy myCellTemplate() to the target
    put it into theNewCell
    set name of theNewCell to pName
    set rect of theNewCell to rect of theReferenceCell
@@ -282,7 +282,7 @@ command addCell pName, pIndex, pPosition
       else put return & pName after line adjustedLineNumber(pIndex) of theData
    end if
    set the tmControlData["text"] of the target to theData
-   dispatch "postProcessTable" to me
+   dispatch "postProcessTable" to the target
    dispatch "updateMyRegion" to owner of the target
    dispatch "updateMe" to owner of the target -- UPDATE SCROLLER
    unlock screen
@@ -334,7 +334,7 @@ command deleteCell pIndex
    put myText() into theData
    delete line adjustedLineNumber(theIndex) of theData
    set the tmControlData["text"] of the target to theData
-   dispatch "postProcessTable" to me
+   dispatch "postProcessTable" to the target
    dispatch "updateMyRegion" to owner of the target
    dispatch "updateMe" to owner of the target -- UPDATE SCROLLER
    unlock screen
@@ -730,7 +730,7 @@ setProp tmCellGroupPadding pValue
       end if
    end repeat
    --
-   dispatch "postProcessTable" to me -- SENT FOR ANY SPECIAL PROCESSING AFTER TABLE IS BUILT
+   dispatch "postProcessTable" to the target -- SENT FOR ANY SPECIAL PROCESSING AFTER TABLE IS BUILT
    --
    put myCells() into theCells
    put topLeft of (line 1 of theCells),bottomRight of (line -1 of theCells) into theRect

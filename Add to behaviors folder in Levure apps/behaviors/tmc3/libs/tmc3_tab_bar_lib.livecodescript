@@ -44,7 +44,7 @@ before mouseLeave
    if not myAutoHilite() then exit mouseLeave
    if myHoveredTab is empty then exit mouseLeave
    if word 1 of name of the target is not "button" then exit mouseLeave
-   dispatch "resetMyHilitedTab" to me with myHoveredTab
+   dispatch "resetMyHilitedTab" to the target with myHoveredTab
 end mouseLeave
 
 
@@ -149,7 +149,7 @@ command hiliteMyTab pNum, pHiliteOnly
    set textColor of theLabel to the tmControlData["hiliteIconColor"] of theTab
    set the tmControlData["menuHistory"] of the target to N
    put empty into myHoveredTab
-   if not pHiliteOnly then dispatch "menuPick" to me with short name of (line N of myTabs())
+   if not pHiliteOnly then dispatch "menuPick" to the target with short name of (line N of myTabs())
 end hiliteMyTab
 
 

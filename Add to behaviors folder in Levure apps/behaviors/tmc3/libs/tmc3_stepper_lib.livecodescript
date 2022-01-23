@@ -16,7 +16,7 @@ before mouseDown
    updateMyValue
    put true into allowTracking
    cancel item 1 of line lineOffset("tmControlStillPressed",pendingMessages()) of pendingMessages()
-   send "tmControlStillPressed" to me in 750 millisecs
+   send "tmControlStillPressed" to the target in 750 millisecs
    dispatch "controlDown" -- SEND TO POSSIBLE OWNER CONTROL
 end mouseDown
 
@@ -25,7 +25,7 @@ on tmControlStillPressed
    if not the tmControlData["autoHilite"] of the target then exit tmControlStillPressed
    if thePressedControl is empty or the disabled of thePressedControl then exit tmControlStillPressed
    if allowTracking then updateMyValue
-   send "tmControlStillPressed" to me in 100 millisecs
+   send "tmControlStillPressed" to the target in 100 millisecs
 end tmControlStillPressed
    
 
@@ -74,7 +74,7 @@ command updateMyValue
    put myStepIncrement() into theDelta
    if thePressedControl = myDecrementButton() then multiply theDelta by -1
    set the tmControlData["stepValue"] of the target to min(myEndValue(),max(myStepValue()+theDelta,myStartValue()))
-   dispatch "stepperValueChanged" to me with the tmControlData["stepValue"] of the target
+   dispatch "stepperValueChanged" to the target with the tmControlData["stepValue"] of the target
    set the uDisabled of myDecrementButton() to myStepValue() = myStartValue()
    set the uDisabled of myIncrementButton() to myStepValue() = myEndValue()
    set blendLevel of grc "stepper_decicon" of the target to item itemOffset(the uDisabled of myDecrementButton(),"false,true") of "0,50"

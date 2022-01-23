@@ -56,7 +56,7 @@ end mouseDown
 # MOUSESTILLDOWN
 -----------------
 --before mouseStillDown
---   dispatch "mouseStillDown" to me
+--   dispatch "mouseStillDown" to the target
 --end mouseStillDown
 
 
@@ -83,7 +83,7 @@ before mouseUp pID
    put false into allowTracking
    if myClass() is among the items of "iosNav,nav,inNavBar" then \
          dispatch "buttonUp" to myTMControlGroupOwner() with char 5 to -1 of short name of the target
-   if myAutoHilite() then send "unhiliteMe" to me in 0 millisecs
+   if myAutoHilite() then send "unhiliteMe" to the target in 0 millisecs
    dispatch "controlUp" -- SEND TO POSSIBLE OWNER CONTROL
 end mouseUp
 

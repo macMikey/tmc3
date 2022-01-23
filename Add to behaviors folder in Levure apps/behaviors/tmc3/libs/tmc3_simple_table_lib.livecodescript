@@ -64,7 +64,7 @@ end updateMyOffset
 
 
 command importIconData pSourceObj, pX, pY, pCode
-   copy pSourceObj to me
+   copy pSourceObj to the target
    set loc of it to pX,pY
    if pCode is not empty then set name of it to "glyph" && pCode
 end importIconData

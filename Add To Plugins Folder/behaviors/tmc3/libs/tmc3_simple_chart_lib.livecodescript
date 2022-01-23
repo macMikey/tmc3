@@ -1,7 +1,7 @@
 script "tmc3_simple_chart_lib" with behavior "tmc3_MasterBehavior"
 on resizeControl
    lock screen
-   set rect of myRegion() to rect of me
+   set rect of myRegion() to rect of the target
    positionMyBars
    updateMyValues
    unlock screen
@@ -10,7 +10,7 @@ end resizeControl
 
 command positionMyBars
    lock screen
-   set the lockUpdates of me to true
+   set the lockUpdates of the target to true
    put left of myRegion() into L
    put top of myRegion() into T
    put right of myRegion() into R
@@ -63,7 +63,7 @@ command positionMyBars
       end if
       add 1 to N
    end repeat
-   set the lockUpdates of me to false
+   set the lockUpdates of the target to false
    unlock screen
 end positionMyBars
 
@@ -78,8 +78,8 @@ command updateMyValues
    put myMaxValue() into theMax
    if theMax is empty then put max(theData) into theMax
    if myOrientation() is "vertical" then
-      put height of grc 2 of me into D
-   else put width of grc 2 of me into D
+      put height of grc 2 of the target into D
+   else put width of grc 2 of the target into D
    -- 
    repeat with N = 1 to max(theItemCount,theBarCount)
       -- DELETE ALL UNEEDED BARS
@@ -127,7 +127,7 @@ end updateMyValues
 -- CHART VALUES
 setProp tmChartValues pValue
    -- comma delimited list
-   set the tmControlData["chartValues"] of me to pValue
+   set the tmControlData["chartValues"] of the target to pValue
    updateMyValues
 end tmChartValues
 
@@ -136,13 +136,13 @@ getProp tmChartValues
 end tmChartValues
 
 function myChartValues
-   return the tmControlData["chartValues"] of me
+   return the tmControlData["chartValues"] of the target
 end myChartValues
 
 
 -- MAXIMUM CHART VALUE
 setProp tmMaxValue pValue
-   set the tmControlData["maxValue"] of me to pValue
+   set the tmControlData["maxValue"] of the target to pValue
    updateMyValues
 end tmMaxValue
 
@@ -151,13 +151,13 @@ getProp tmMaxValue
 end tmMaxValue
 
 function myMaxValue
-   return the tmControlData["maxValue"] of me
+   return the tmControlData["maxValue"] of the target
 end myMaxValue
 
 
 -- BAR SIZE
 setProp tmBarSize pValue
-   set the tmControlData["barSize"] of me to pValue
+   set the tmControlData["barSize"] of the target to pValue
    positionMyBars
 end tmBarSize
 
@@ -166,13 +166,13 @@ getProp tmBarSize
 end tmBarSize
 
 function myBarSize
-   return the tmControlData["barSize"] of me
+   return the tmControlData["barSize"] of the target
 end myBarSize
 
 
 -- FILL COLOR
 setProp tmFillColor pValue
-   set the tmControlData["fillColor"] of me to pValue
+   set the tmControlData["fillColor"] of the target to pValue
    repeat for each line theBar in myBars()
       set backColor of theBar to pValue
    end repeat
@@ -183,13 +183,13 @@ getProp tmFillColor
 end tmFillColor
 
 function myFillColor
-   return the tmControlData["fillColor"] of me
+   return the tmControlData["fillColor"] of the target
 end myFillColor
 
 
 -- BASE COLOR
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of me to pValue
+   set the tmControlData["baseColor"] of the target to pValue
    repeat for each line theBase in myBases()
       set backColor of theBase to pValue
    end repeat
@@ -200,7 +200,7 @@ getProp tmBaseColor
 end tmBaseColor
 
 function myBaseColor
-   return the tmControlData["baseColor"] of me
+   return the tmControlData["baseColor"] of the target
 end myBaseColor
 
 
@@ -208,7 +208,7 @@ end myBaseColor
 --------------
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of me to pValue
+   set the tmControlData["baseOpacity"] of the target to pValue
    repeat for each line theBase in myBases()
       set blendLevel of theBase to (100 - pValue)
    end repeat
@@ -219,13 +219,13 @@ getProp tmBaseOpacity
 end tmBaseOpacity
 
 function myBaseOpacity
-   return the tmControlData["baseOpacity"] of me
+   return the tmControlData["baseOpacity"] of the target
 end myBaseOpacity
 
 
 -- MARGINS
 setProp tmMargins pValue
-   set the tmControlData["margins"] of me to pValue
+   set the tmControlData["margins"] of the target to pValue
 end tmMargins
 
 getProp tmMargins
@@ -233,13 +233,13 @@ getProp tmMargins
 end tmMargins
 
 function myMargins
-   return the tmControlData["margins"] of me
+   return the tmControlData["margins"] of the target
 end myMargins
 
 
 -- ORIENTATION
 setProp tmOrientation pValue
-   set the tmControlData["orientation"] of me to pValue
+   set the tmControlData["orientation"] of the target to pValue
    positionMyBars
    updateMyValues
 end tmOrientation
@@ -249,7 +249,7 @@ getProp tmOrientation
 end tmOrientation
 
 function myOrientation
-   return the tmControlData["orientation"] of me
+   return the tmControlData["orientation"] of the target
 end myOrientation
 
 
@@ -259,8 +259,8 @@ end myOrientation
 
 private function myBars
    local theList
-   repeat with N = 1 to number of grcs of me
-      put long id of grc N of me into theObj
+   repeat with N = 1 to number of grcs of the target
+      put long id of grc N of the target into theObj
       get short name of theObj
       if "chart_bar" is in it and "base" is not in it then
          if myOrientation() is "vertical" then
@@ -284,8 +284,8 @@ end myBarCount
 
 private function myBases
    local theList
-   repeat with N = 1 to number of grcs of me
-      put long id of grc N of me into theObj
+   repeat with N = 1 to number of grcs of the target
+      put long id of grc N of the target into theObj
       if short name of theObj is not "chart_barbase" then next repeat
       if myOrientation() is "vertical" then
          put "left" into prop
@@ -301,5 +301,5 @@ end myBases
 
 
 private function myRegion
-   return long id of control 1 of me
+   return long id of control 1 of the target
 end myRegion

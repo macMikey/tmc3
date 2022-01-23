@@ -300,7 +300,7 @@ end scrollerDidScroll
 
 
 on desktopScrollOccurred X,Y
-   dispatch "regionDidScroll" to me with X,Y
+   dispatch "regionDidScroll" to the target with X,Y
    manageControlHilite
    pass desktopScrollOccurred
 end desktopScrollOccurred
@@ -327,9 +327,9 @@ command manageMouseMove X,Y
    lock screen
    set hScroll of the target to hScrollStart + (xStart - X)
    set vScroll of the target to vScrollStart + (yStart - Y)
-   dispatch "desktopScrollOccurred" to me with hScroll of the target - item 1 of myBounceMargins(),vScroll of the target - item 2 of myBounceMargins()
+   dispatch "desktopScrollOccurred" to the target with hScroll of the target - item 1 of myBounceMargins(),vScroll of the target - item 2 of myBounceMargins()
    unlock screen
-   if "storeScrollChunks" is not in pendingMessages() then send "storeScrollChunks X,Y" to me in 100 millisecs
+   if "storeScrollChunks" is not in pendingMessages() then send "storeScrollChunks X,Y" to the target in 100 millisecs
    put X,Y into theLastLoc
 end manageMouseMove
 
@@ -399,7 +399,7 @@ command runEase pObj,pDestScroll,pDuration,pHostObj
    lock screen
    set hScroll of pObj to newHScroll
    set vScroll of pObj to newVScroll
-   dispatch "desktopScrollOccurred" to me with hScroll of the target - item 1 of myBounceMargins(),vScroll of the target - item 2 of myBounceMargins()
+   dispatch "desktopScrollOccurred" to the target with hScroll of the target - item 1 of myBounceMargins(),vScroll of the target - item 2 of myBounceMargins()
    unlock screen
    --
    # REVERSE DIRECTION (BOUNCEBACK) IF END OF SCROLL IS REACHED
@@ -411,7 +411,7 @@ command runEase pObj,pDestScroll,pDuration,pHostObj
    if item 2 of currScroll < minVScroll(pObj) then put 1 into vBounce
    if item 2 of currScroll > maxVScroll(pObj) then put -1 into vBounce
    if (hBounce <> 0 or vBounce <> 0) and not bounceBackBusy then
-      send "bounceBack pObj,hBounce,vBounce" to me in 10 millisecs
+      send "bounceBack pObj,hBounce,vBounce" to the target in 10 millisecs
       exit runEase
    end if
    --
@@ -425,7 +425,7 @@ command runEase pObj,pDestScroll,pDuration,pHostObj
    end if
    --
    # LOOP SCRIPT
-   send "runEase pObj,pDestScroll,pDuration,pHostObj" to me in 10 milliseconds
+   send "runEase pObj,pDestScroll,pDuration,pHostObj" to the target in 10 milliseconds
    put the result into theEaseID
 end runEase
 

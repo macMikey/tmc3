@@ -18,7 +18,7 @@ on selectedObjectChanged
       set margins of theScrollingControl to value("myBounceMargins()",theScrollingControl)
       set the vScrollbar of theScrollingControl to value("myUnboundedVscroll()",theScrollingControl)
       set the hScrollbar of theScrollingControl to value("myUnboundedHscroll()",theScrollingControl)
-      send "tmRemoveSelectionMonitor" to me in 1 millisec
+      send "tmRemoveSelectionMonitor" to the target in 1 millisec
       pass selectedObjectChanged
    end if
    --
@@ -39,5 +39,5 @@ end tmStoreScrollingControlID
 
 command tmRemoveSelectionMonitor
    put empty into theScrollingControl
-   remove script of me from back
+   remove script of the target from back
 end tmRemoveSelectionMonitor

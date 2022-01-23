@@ -35,7 +35,7 @@ before mouseMove X,Y
    if thePos = the tmControlData["thumbPos"] of the target and (thePos = myStartValue() or thePos = myEndValue()) then exit mouseMove
    set the tmControlData["thumbPos"] of the target to thePos
    --
-   dispatch "sliderDrag" to me with thePos
+   dispatch "sliderDrag" to the target with thePos
 end mouseMove
 
 
@@ -144,7 +144,7 @@ command updateMyThumbPosition
    set loc of myThumb() to theLoc
    set rect of myFill() to theRect
    --
-   dispatch "sliderDrag" to me with myThumbPos()
+   dispatch "sliderDrag" to the target with myThumbPos()
 end updateMyThumbPosition
 
 

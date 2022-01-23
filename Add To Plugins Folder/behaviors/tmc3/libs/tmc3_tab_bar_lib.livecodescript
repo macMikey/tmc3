@@ -1,4 +1,4 @@
-script "tmc3_tab_bar_lib" with behavior "tmc3_MasterBehavior"
+﻿script "tmc3_tab_bar_lib" with behavior "tmc3_MasterBehavior"
 local allowTracking, myHoveredTab, theSourceImage
 
 
@@ -15,14 +15,14 @@ end newGroup
 
 
 command autoPositionMe
-   put height of me into H
+   put height of the target into H
    put rect of this cd into theRect
    put item 4 of theRect - H into item 2 of theRect
    if myStickyLocation() then
-      put top of me into item 2 of theRect
-      put bottom of me into item 4 of theRect
+      put top of the target into item 2 of theRect
+      put bottom of the target into item 4 of theRect
    end if
-   set rect of me to theRect
+   set rect of the target to theRect
 end autoPositionMe
 
 
@@ -44,7 +44,7 @@ before mouseLeave
    if not myAutoHilite() then exit mouseLeave
    if myHoveredTab is empty then exit mouseLeave
    if word 1 of name of the target is not "button" then exit mouseLeave
-   dispatch "resetMyHilitedTab" to me with myHoveredTab
+   dispatch "resetMyHilitedTab" to the target with myHoveredTab
 end mouseLeave
 
 
@@ -123,7 +123,7 @@ command hiliteMyTab pNum, pHiliteOnly
    resetMyHilitedTab
    put min(myTabCount(),max(pNum,0)) into N
    if N = 0 then
-      set the tmControlData["menuHistory"] of me to 0
+      set the tmControlData["menuHistory"] of the target to 0
       exit hiliteMyTab -- SET tmMenuHistory TO 0 (NO SELECTION)
    end if
    put line N of myTabs() into theTab
@@ -147,9 +147,9 @@ command hiliteMyTab pNum, pHiliteOnly
    end switch
    put line N of myLabels() into theLabel
    set textColor of theLabel to the tmControlData["hiliteIconColor"] of theTab
-   set the tmControlData["menuHistory"] of me to N
+   set the tmControlData["menuHistory"] of the target to N
    put empty into myHoveredTab
-   if not pHiliteOnly then dispatch "menuPick" to me with short name of (line N of myTabs())
+   if not pHiliteOnly then dispatch "menuPick" to the target with short name of (line N of myTabs())
 end hiliteMyTab
 
 
@@ -232,7 +232,7 @@ command updateMyTabs pNewTabList
          set loc of theLabel to item 1 of loc of theTab,item 2 of loc of theLabel
          add 1 to N
       end repeat
-      set the tmControlData["text"] of me to pNewTabList
+      set the tmControlData["text"] of the target to pNewTabList
       exit updateMyTabs
    end if
    --
@@ -283,7 +283,7 @@ command updateMyTabs pNewTabList
       end repeat
    end if
    --
-   set the tmControlData["text"] of me to pNewTabList
+   set the tmControlData["text"] of the target to pNewTabList
    resizeControl
 end updateMyTabs
 
@@ -309,8 +309,8 @@ end updateMyTabIcon
 
 command updateMyIconColors
    lock screen
-   repeat with N = 1 to number of grps of me
-      put long id of grp N of me into theTab
+   repeat with N = 1 to number of grps of the target
+      put long id of grp N of the target into theTab
       if the tmControlData["iconType"] of theTab is "glyph" then
          -- GLYPH
          set the tmControlData["iconColor"] of theTab to myIconColor()
@@ -393,9 +393,9 @@ end updateMyLabelColors
 
 on resizeControl
    lock screen
-   set rect of myBase() to rect of me
-   set boundingRect of me to rect of myBase()
-   set rect of me to rect of myBase()
+   set rect of myBase() to rect of the target
+   set boundingRect of the target to rect of myBase()
+   set rect of the target to rect of myBase()
    put left of myBase() into L
    put top of myBase() into T
    put right of myBase() into R
@@ -450,6 +450,10 @@ end tmTabs
 
 
 -- TEXT
+on poo
+   answer "poo"
+end poo
+
 setProp tmText pValue
    if pValue is empty then exit tmText
    updateMyTabs pValue
@@ -460,13 +464,13 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of me
+   return the tmControlData["text"] of the target & cr & the tmControlData["text"] of the target
 end myText
 
 
 -- AUTOPOSITION
 setProp tmAutoPosition pValue
-   set the tmControlData["autoPosition"] of me to pValue
+   set the tmControlData["autoPosition"] of the target to pValue
    if pValue then autoPositionMe
 end tmAutoPosition
 
@@ -475,13 +479,13 @@ getProp tmAutoPosition
 end tmAutoPosition
 
 function myAutoPosition
-   return the tmControlData["autoPosition"] of me
+   return the tmControlData["autoPosition"] of the target
 end myAutoPosition
 
 
 -- STICKY POSITION
 setProp tmStickyLocation pValue
-   set the tmControlData["stickyLocation"] of me to pValue
+   set the tmControlData["stickyLocation"] of the target to pValue
 end tmStickyLocation
 
 getProp tmStickyLocation
@@ -489,13 +493,13 @@ getProp tmStickyLocation
 end tmStickyLocation
 
 function myStickyLocation
-   return the tmControlData["stickyLocation"] of me
+   return the tmControlData["stickyLocation"] of the target
 end myStickyLocation
 
 
 -- AUTOHILITE
 setProp tmAutoHilite pValue
-   set the tmControlData["autoHilite"] of me to pValue
+   set the tmControlData["autoHilite"] of the target to pValue
 end tmAutoHilite
 
 getProp tmAutoHilite
@@ -503,7 +507,7 @@ getProp tmAutoHilite
 end tmAutoHilite
 
 function myAutoHilite
-   return the tmControlData["autoHilite"] of me
+   return the tmControlData["autoHilite"] of the target
 end myAutoHilite
 
 
@@ -511,7 +515,7 @@ end myAutoHilite
 setProp tmIconType pValue
    -- glyph or image
    if pValue is not among the items of "glyph,image" then exit tmIconType
-   set the tmControlData["iconType"] of me to pValue
+   set the tmControlData["iconType"] of the target to pValue
    repeat for each line theTab in myTabs()
       updateMyTabIcon pValue, theTab
    end repeat
@@ -537,7 +541,7 @@ end myIconType
 
 -- ICON COLOR
 setProp tmIconColor pValue
-   set the tmControlData["iconColor"] of me to pValue
+   set the tmControlData["iconColor"] of the target to pValue
    updateMyIconColors
    updateMyLabelColors
    if myMenuHistory() > 0 then hiliteMyTab myMenuHistory()
@@ -548,13 +552,13 @@ getProp tmIconColor
 end tmIconColor
 
 function myIconColor
-   return the tmControlData["iconColor"] of me
+   return the tmControlData["iconColor"] of the target
 end myIconColor
 
 
 -- ICON HILITE COLOR
 setProp tmHiliteIconColor pValue
-   set the tmControlData["hiliteIconColor"] of me to pValue
+   set the tmControlData["hiliteIconColor"] of the target to pValue
    updateMyIconColors
    if myMenuHistory() > 0 then hiliteMyTab myMenuHistory()
 end tmHiliteIconColor
@@ -564,13 +568,13 @@ getProp tmHiliteIconColor
 end tmHiliteIconColor
 
 function myHiliteIconColor
-   return the tmControlData["hiliteIconColor"] of me
+   return the tmControlData["hiliteIconColor"] of the target
 end myHiliteIconColor
 
 
 -- LOCK ICON COLOR
 setProp tmLockImageIconColor pValue
-   set the tmControlData["lockImageIconColor"] of me to pValue
+   set the tmControlData["lockImageIconColor"] of the target to pValue
 end tmLockImageIconColor
 
 getProp tmLockImageIconColor
@@ -578,13 +582,13 @@ getProp tmLockImageIconColor
 end tmLockImageIconColor
 
 function myLockImageIconColor
-   return the tmControlData["lockImageIconColor"] of me
+   return the tmControlData["lockImageIconColor"] of the target
 end myLockImageIconColor
 
 
 ---- ICON HILITE EFFECTS
 --setProp tmHiliteEffects pValue
---   set the tmControlData["hiliteEffects"] of me to pValue
+--   set the tmControlData["hiliteEffects"] of the target to pValue
 
 --end tmHiliteEffects
 
@@ -593,7 +597,7 @@ end myLockImageIconColor
 --end tmHiliteEffects
 
 --function myHiliteEffects
---   return the tmControlData["hiliteEffects"] of me
+--   return the tmControlData["hiliteEffects"] of the target
 --end myHiliteEffects
 
 
@@ -624,7 +628,7 @@ setProp tmGlyphSize pValue
    repeat for each line theTab in myTabs()
       set textSize of btn 1 of theTab to pValue
    end repeat
-   set the tmControlData["glyphSize"] of me to pValue
+   set the tmControlData["glyphSize"] of the target to pValue
 end tmGlyphSize
 
 getProp tmGlyphSize
@@ -632,13 +636,13 @@ getProp tmGlyphSize
 end tmGlyphSize
 
 function myGlyphSize
-   return the tmControlData["glyphSize"] of me
+   return the tmControlData["glyphSize"] of the target
 end myGlyphSize
 
 
 -- ICON SHIFT
 setProp tmIconShift pValue
-   set the tmControlData["iconShift"] of me to pValue
+   set the tmControlData["iconShift"] of the target to pValue
    repeat for each line theTab in myTabs()
       put long id of btn 1 of theTab into theIcon
       put margins of theIcon into M
@@ -654,13 +658,13 @@ getProp tmIconShift
 end tmIconShift
 
 function myIconShift
-   return the tmControlData["iconShift"] of me
+   return the tmControlData["iconShift"] of the target
 end myIconShift
 
 
 -- BASE COLOR
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of me to pValue
+   set the tmControlData["baseColor"] of the target to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -676,7 +680,7 @@ end myBaseColor
 -- BASE OPACITY
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of me to pValue
+   set the tmControlData["baseOpacity"] of the target to pValue
    set blendLevel of myBase() to (100 - pValue)
 end tmBaseOpacity
 
@@ -693,7 +697,7 @@ end myBaseOpacity
 setProp tmHiliteOpacity pValue
    put min(255,max(pValue,0)) into pValue
    -- set colorOverlay["opacity"] of btn 1 of myHilitedTab() to pValue
-   set the tmControlData["hiliteOpacity"] of me to pValue
+   set the tmControlData["hiliteOpacity"] of the target to pValue
 end tmHiliteOpacity
 
 getProp tmHiliteOpacity
@@ -701,7 +705,7 @@ getProp tmHiliteOpacity
 end tmHiliteOpacity
 
 function myHiliteOpacity
-   return the tmControlData["hiliteOpacity"] of me
+   return the tmControlData["hiliteOpacity"] of the target
 end myHiliteOpacity
 
 
@@ -716,7 +720,7 @@ getProp tmMenuHistory
 end tmMenuHistory
 
 function myMenuHistory
-   return the tmControlData["menuHistory"] of me
+   return the tmControlData["menuHistory"] of the target
 end myMenuHistory
 
 
@@ -735,7 +739,7 @@ setProp tmTextSize pValue
       set width of theLabel to formattedWidth of theLabel
       set height of theLabel to formattedHeight of theLabel
    end repeat
-   set the tmControlData["textSize"] of me to pValue
+   set the tmControlData["textSize"] of the target to pValue
    resizeControl
 end tmTextSize
 
@@ -744,7 +748,7 @@ getProp tmTextSize
 end tmTextSize
 
 function myTextSize
-   return the tmControlData["textSize"] of me
+   return the tmControlData["textSize"] of the target
 end myTextSize
 
 
@@ -755,7 +759,7 @@ setProp tmTextFont pValue
       set width of theLabel to formattedWidth of theLabel
       set height of theLabel to formattedHeight of theLabel
    end repeat
-   set the tmControlData["textFont"] of me to pValue
+   set the tmControlData["textFont"] of the target to pValue
    resizeControl
 end tmTextFont
 
@@ -764,7 +768,7 @@ getProp tmTextFont
 end tmTextFont
 
 function myTextFont
-   return the tmControlData["textFont"] of me
+   return the tmControlData["textFont"] of the target
 end myTextFont
 
 
@@ -773,7 +777,7 @@ setProp tmTextStyle pValue
    repeat for each line theLabel in myLabels()
       set textStyle of theLabel to pValue
    end repeat
-   set the tmControlData["textStyle"] of me to pValue
+   set the tmControlData["textStyle"] of the target to pValue
 end tmTextStyle
 
 getProp tmTextStyle
@@ -781,15 +785,15 @@ getProp tmTextStyle
 end tmTextStyle
 
 function myTextStyle
-   return the tmControlData["textStyle"] of me
+   return the tmControlData["textStyle"] of the target
 end myTextStyle
 
 
 -- DISABLED
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of me to pValue
-   set disabled of me to pValue
-   set blendLevel of me to item wordOffset(pValue,"true false") of "50,0"
+   set the tmControlData["disabled"] of the target to pValue
+   set disabled of the target to pValue
+   set blendLevel of the target to item wordOffset(pValue,"true false") of "50,0"
 end tmDisabled
 
 getProp tmDisabled
@@ -797,14 +801,14 @@ getProp tmDisabled
 end tmDisabled
 
 function myDisabled
-   return the tmControlData["disabled"] of me
+   return the tmControlData["disabled"] of the target
 end myDisabled
 
 
 
 function myTabs
-   repeat with N = 1 to number of grps of me
-      put long id of grp N of me,left of grp N of me & return after temp
+   repeat with N = 1 to number of grps of the target
+      put long id of grp N of the target,left of grp N of the target & return after temp
    end repeat
    delete last char of temp
    sort lines of temp numeric by item 2 of each
@@ -817,8 +821,8 @@ end myTabs
 
 
 function myLabels
-   repeat with N = 1 to number of flds of me
-      put long id of fld N of me,left of fld N of me & return after temp
+   repeat with N = 1 to number of flds of the target
+      put long id of fld N of the target,left of fld N of the target & return after temp
    end repeat
    delete char -1 of temp
    sort lines of temp numeric by item 2 of each
@@ -850,10 +854,10 @@ end tabNumber
 
 
 function myTabCount
-   return number of grps of me
+   return number of grps of the target
 end myTabCount
 
 
 private function myBase
-   return long id of grc "tabbar_base" of me
+   return long id of grc "tabbar_base" of the target
 end myBase

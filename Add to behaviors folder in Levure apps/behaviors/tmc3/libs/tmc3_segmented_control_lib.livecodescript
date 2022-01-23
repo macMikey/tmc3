@@ -43,7 +43,7 @@ before mouseUp
    updateMyHilite
    hide mySemiHilite()
    unlock screen
-   dispatch "menuPick" to me with myHilitedTabLabel()
+   dispatch "menuPick" to the target with myHilitedTabLabel()
    dispatch "controlUp" -- SEND TO POSSIBLE OWNER CONTROL
 end mouseUp
 

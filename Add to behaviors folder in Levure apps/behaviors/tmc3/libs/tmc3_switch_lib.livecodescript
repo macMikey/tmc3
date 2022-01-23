@@ -632,7 +632,7 @@ end myShowIcons
 --------------
 setProp tmOrientation pValue
    set the tmControlData["orientation"] of the target to pValue
-   dispatch "resizeControl" to me
+   dispatch "resizeControl" to the target
 end tmOrientation
 
 getProp tmOrientation
@@ -649,7 +649,7 @@ end myOrientation
 ----------------
 setProp tmBkgndMargins pValue
    set the tmControlData["bkgndMargins"] of the target to pValue
-   dispatch "resizeControl" to me
+   dispatch "resizeControl" to the target
 end tmBkgndMargins
 
 getProp tmBkgndMargins
