@@ -32,10 +32,10 @@ before mouseMove X,Y
    if myOrientation() is "vertical" then put (1 - thePercent) into thePercent
    put round(abs(myEndValue() - myStartValue()) * thePercent) + myStartValue() into thePos
    -- EXIT IF THUMB REACHES EXTENTS OF SLIDER *AND* CURRENT THUMBPOS IS MINNED/MAXXED OUT
-   if thePos = the tmControlData["thumbPos"] of the target and (thePos = myStartValue() or thePos = myEndValue()) then exit mouseMove
-   set the tmControlData["thumbPos"] of the target to thePos
+   if thePos = the tmControlData["thumbPos"] of me and (thePos = myStartValue() or thePos = myEndValue()) then exit mouseMove
+   set the tmControlData["thumbPos"] of me to thePos
    --
-   dispatch "sliderDrag" to the target with thePos
+   dispatch "sliderDrag" to me with thePos
 end mouseMove
 
 
@@ -57,7 +57,7 @@ end disableDrag
 on resizeControl
    lock screen
    lock messages
-   set rect of myRegion() to rect of the target
+   set rect of myRegion() to rect of me
    put left of myRegion() into L
    put top of myRegion() into T
    put right of myRegion() into R
@@ -73,28 +73,28 @@ on resizeControl
    put height of myThumb() into thumbH
    put max(thumbW,thumbH) into thumbMax
    put min(thumbW,thumbH) into thumbMin
-   put the tmControlData["thumbPos"] of the target/abs(myEndValue() - myStartValue()) into thePercent
+   put the tmControlData["thumbPos"] of me/abs(myEndValue() - myStartValue()) into thePercent
    if myStartValue() > myEndValue() then put (1 - thePercent) into thePercent
    -- ASSUME RECTANGULAR THUMB IS ALWAYS ORIENTED PERPENDICULAR TO BASE
    put thumbMin div 2 into minW
    if H <= W then
       -- HORIZONTAL
       set rect of myBase() to L+minW+ML,T,R-minW-MR,T+myBaseSize()
-      set loc of myBase() to loc of the target
+      set loc of myBase() to loc of me
       set width of myThumb() to thumbMin
       set height of myThumb() to thumbMax
       set loc of myThumb() to left of myBase() + (width of myBase()*thePercent),item 2 of loc of myBase()
       if myFill() is not empty then set rect of myFill() to left of myBase(),top of myBase(),item 1 of loc of myThumb(),bottom of myBase()
-      set the tmControlData["orientation"] of the target to "horizontal"
+      set the tmControlData["orientation"] of me to "horizontal"
    else
       -- VERTICAL
       set rect of myBase() to L,T+minW+MT,L+myBaseSize(),B
-      set loc of myBase() to loc of the target
+      set loc of myBase() to loc of me
       set width of myThumb() to thumbMax
       set height of myThumb() to thumbMin
       set loc of myThumb() to item 1 of loc of myBase(),bottom of myBase() - (height of myBase()*thePercent)
       if myFill() is not empty then set rect of myFill() to left of myBase(),item 2 of loc of myThumb(),right of myBase(),bottom of myBase()
-      set the tmControlData["orientation"] of the target to "vertical"
+      set the tmControlData["orientation"] of me to "vertical"
    end if
    unlock messages
    unlock screen
@@ -116,10 +116,10 @@ command updateMyThumbPosition
    put item 4 of M into FMB
    --
    put abs(myEndValue() - myStartValue()) into maxDist
-   put the tmControlData["minimumBarLength"] of the target into minLength
-   put the tmControlData["thumbPos"] of the target/maxDist into thePercent
+   put the tmControlData["minimumBarLength"] of me into minLength
+   put the tmControlData["thumbPos"] of me/maxDist into thePercent
    put rect of myBase() into theRect
-   put the tmControlData["thumbPos"] of the target - myStartValue() into thePos
+   put the tmControlData["thumbPos"] of me - myStartValue() into thePos
    put loc of myBase() into theLoc
    --
    if myOrientation() is "horizontal" then
@@ -144,7 +144,7 @@ command updateMyThumbPosition
    set loc of myThumb() to theLoc
    set rect of myFill() to theRect
    --
-   dispatch "sliderDrag" to the target with myThumbPos()
+   dispatch "sliderDrag" to me with myThumbPos()
 end updateMyThumbPosition
 
 
@@ -171,7 +171,7 @@ end thumbSliderPercent
 
 -- START VALUE
 setProp tmStartValue pValue
-   set the tmControlData["startValue"] of the target to pValue
+   set the tmControlData["startValue"] of me to pValue
    updateMyThumbPosition
 end tmStartValue
 
@@ -180,13 +180,13 @@ getProp tmStartValue
 end tmStartValue
 
 function myStartValue
-   return the tmControlData["startValue"] of the target
+   return the tmControlData["startValue"] of me
 end myStartValue
 
 
 -- END VALUE
 setProp tmEndValue pValue
-   set the tmControlData["endValue"] of the target to pValue
+   set the tmControlData["endValue"] of me to pValue
    updateMyThumbPosition
 end tmEndValue
 
@@ -195,13 +195,13 @@ getProp tmEndValue
 end tmEndValue
 
 function myEndValue
-    return the tmControlData["endValue"] of the target
+    return the tmControlData["endValue"] of me
 end myEndValue
 
 
 -- THUMB POSITION
 setProp tmThumbPos pValue
-   set the tmControlData["thumbPos"] of the target to min(myEndValue(),max(myStartValue(),pValue))
+   set the tmControlData["thumbPos"] of me to min(myEndValue(),max(myStartValue(),pValue))
    updateMyThumbPosition
 end tmThumbPos
 
@@ -210,7 +210,7 @@ getProp tmThumbPos
 end tmThumbPos
 
 function myThumbPos
-   return the tmControlData["thumbPos"] of the target
+   return the tmControlData["thumbPos"] of me
 end myThumbPos
 
 
@@ -225,7 +225,7 @@ setProp tmBaseSize pValue
    end if
    set roundRadius of myBase() to pValue
    set roundRadius of myFill() to pValue
-   set the tmControlData["baseSize"] of the target to pValue
+   set the tmControlData["baseSize"] of me to pValue
    resizeControl
 end tmBaseSize
 
@@ -234,7 +234,7 @@ getProp tmBaseSize
 end tmBaseSize
 
 function myBaseSize
-  return the tmControlData["baseSize"] of the target
+  return the tmControlData["baseSize"] of me
 end myBaseSize
 
 
@@ -255,7 +255,7 @@ end myBaseColor
 -- BASE OPACITY
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of the target to pValue
+   set the tmControlData["baseOpacity"] of me to pValue
    set blendLevel of myBase() to (100 - pValue)
 end tmBaseOpacity
 
@@ -284,13 +284,13 @@ end myFillColor
 
 -- ORIENTATION
 setProp tmOrientation pValue
-   set the tmControlData["orientation"] of the target to pValue
+   set the tmControlData["orientation"] of me to pValue
    lock screen
-   put width of the target into W
-   put height of the target into H
+   put width of me into W
+   put height of me into H
    if (pValue is "horizontal" and H > W) or (pValue is "vertical" and W > H) then
-      set width of the target to H
-      set height of the target to W
+      set width of me to H
+      set height of me to W
    end if
    resizeControl
    unlock screen
@@ -301,22 +301,22 @@ getProp tmOrientation
 end tmOrientation
 
 function myOrientation
-   if width of the target >= height of the target then return "horizontal"
+   if width of me >= height of me then return "horizontal"
    return "vertical"
 end myOrientation
 
 
 -- THUMB MARGINS
 setProp tmThumbMargins pValue
-   set the tmControlData["thumbMargins"] of the target to pValue
+   set the tmControlData["thumbMargins"] of me to pValue
 end tmThumbMargins
 
 getProp tmThumbMargins
-   return the tmControlData["thumbMargins"] of the target
+   return the tmControlData["thumbMargins"] of me
 end tmThumbMargins
 
 function myThumbMargins
-   put the tmControlData["thumbMargins"] of the target into M
+   put the tmControlData["thumbMargins"] of me into M
    if M is empty then put 0 into M
    if number of items of M = 1 then put M,M,M,M into M
    return M 
@@ -325,15 +325,15 @@ end myThumbMargins
 
 -- FILL MARGINS
 setProp tmFillMargins pValue
-   set the tmControlData["fillMargins"] of the target to pValue
+   set the tmControlData["fillMargins"] of me to pValue
 end tmFillMargins
 
 getProp tmFillMargins
-   return the tmControlData["fillMargins"] of the target
+   return the tmControlData["fillMargins"] of me
 end tmFillMargins
 
 function myFillMargins
-   put the tmControlData["fillMargins"] of the target into M
+   put the tmControlData["fillMargins"] of me into M
    if M is empty then put 0 into M
    if number of items of M = 1 then put M,M,M,M into M
    return M
@@ -357,7 +357,7 @@ end myRoundRadius
 
 -- DEFAULT SIZE
 setProp tmDefaultSize pValue
-   set the tmControlData["defaultSize"] of the target to max(2,pValue)
+   set the tmControlData["defaultSize"] of me to max(2,pValue)
 end tmDefaultSize
 
 getProp tmDefaultSize
@@ -365,15 +365,15 @@ getProp tmDefaultSize
 end tmDefaultSize
 
 function myDefaultSize
-   return the tmControlData["defaultSize"] of the target
+   return the tmControlData["defaultSize"] of me
 end myDefaultSize
 
 
 -- DISABLED
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of the target to pValue
-   set disabled of the target to pValue
-   set blendLevel of the target to item wordOffset(pValue,"true false") of "50,0"
+   set the tmControlData["disabled"] of me to pValue
+   set disabled of me to pValue
+   set blendLevel of me to item wordOffset(pValue,"true false") of "50,0"
 end tmDisabled
 
 getProp tmDisabled
@@ -381,7 +381,7 @@ getProp tmDisabled
 end tmDisabled
 
 function myDisabled
-   return the tmControlData["disabled"] of the target
+   return the tmControlData["disabled"] of me
 end myDisabled
 
 
@@ -409,18 +409,18 @@ end baseB
 -- COMPONENT REFERENCES
 
 private function myRegion
-   return long id of grc "slider_region" of the target
+   return long id of grc "slider_region" of me
 end myRegion
 
 private function myBase
-   return long id of grc "slider_base" of the target
+   return long id of grc "slider_base" of me
 end myBase
 
 private function myFill
-   return long id of grc "slider_fill" of the target
+   return long id of grc "slider_fill" of me
 end myFill
 
 private function myThumb
-   if exists(grp "slider_thumb" of the target) then return long id of grp "slider_thumb" of the target
-   return long id of grc "slider_thumb" of the target
+   if exists(grp "slider_thumb" of me) then return long id of grp "slider_thumb" of me
+   return long id of grc "slider_thumb" of me
 end myThumb

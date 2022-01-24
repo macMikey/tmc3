@@ -4,11 +4,11 @@ on resizeControl
    lock screen
    lock messages
    put loc of myRegion() into theLoc
-   put min(width of the target,height of the target) div 2 into R
+   put min(width of me,height of me) div 2 into R
    put item 1 of theLoc - R,item 2 of theLoc - R,item 1 of theLoc + R,item 2 of theLoc + R into theRect
    set rect of myRegion() to theRect
    set loc of myRegion() to theLoc
-   set rect of the target to rect of myRegion()
+   set rect of me to rect of myRegion()
    put left of myRegion() into L
    put top of myRegion() into T
    put right of myRegion() into R
@@ -18,7 +18,7 @@ on resizeControl
    set rect of myBase() to rect of myRegion()
    set rect of myFill() to rect of myRegion()
    set rect of myDisplay() to rect of myRegion()
-   set textSize of myDisplay() to width of the target * myTextScale()
+   set textSize of myDisplay() to width of me * myTextScale()
    unlock messages
    unlock screen
 end resizeControl
@@ -54,7 +54,7 @@ end updateMyColors
 -- START VALUE
 -------------
 setProp tmStartValue pValue
-   set the tmControlData["startValue"] of the target to pValue
+   set the tmControlData["startValue"] of me to pValue
    updateMyValue
 end tmStartValue
 
@@ -63,14 +63,14 @@ getProp tmStartValue
 end tmStartValue
 
 function myStartValue
-   return the tmControlData["startValue"] of the target
+   return the tmControlData["startValue"] of me
 end myStartValue
 
 
 -- END VALUE
 ------------
 setProp tmEndValue pValue
-   set the tmControlData["endValue"] of the target to pValue
+   set the tmControlData["endValue"] of me to pValue
    updateMyValue
 end tmEndValue
 
@@ -79,13 +79,13 @@ getProp tmEndValue
 end tmEndValue
 
 function myEndValue
-    return the tmControlData["endValue"] of the target
+    return the tmControlData["endValue"] of me
 end myEndValue
 
 
 -- GAUGE VALUE
 setProp tmGaugeValue pValue
-   set the tmControlData["gaugeValue"] of the target to pValue
+   set the tmControlData["gaugeValue"] of me to pValue
    updateMyValue
 end tmGaugeValue
 
@@ -94,14 +94,14 @@ getProp tmGaugeValue
 end tmGaugeValue
 
 function myGaugeValue
-   return the tmControlData["gaugeValue"] of the target
+   return the tmControlData["gaugeValue"] of me
 end myGaugeValue
 
 
 -- BASE COLOR
 -------------
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of the target to pValue
+   set the tmControlData["baseColor"] of me to pValue
    updateMyColors
 end tmBaseColor
 
@@ -110,14 +110,14 @@ getProp tmBaseColor
 end tmBaseColor
 
 function myBaseColor
-   return the tmControlData["baseColor"] of the target
+   return the tmControlData["baseColor"] of me
 end myBaseColor
 
 
 -- FILL COLOR
 ------------
 setProp tmFillColor pValue
-   set the tmControlData["fillColor"] of the target to pValue
+   set the tmControlData["fillColor"] of me to pValue
    updateMyColors
 end tmFillColor
 
@@ -126,14 +126,14 @@ getProp tmFillColor
 end tmFillColor
 
 function myFillColor
-   return the tmControlData["fillColor"] of the target
+   return the tmControlData["fillColor"] of me
 end myFillColor
 
 
 -- FILL DIRECTION
 ---------------
 setProp tmFillDirection pValue
-   set the tmControlData["fillDirection"] of the target to pValue
+   set the tmControlData["fillDirection"] of me to pValue
    updateMyValue
 end tmFillDirection
 
@@ -142,14 +142,14 @@ getProp tmFillDirection
 end tmFillDirection
 
 function myFillDirection
-   return the tmControlData["fillDirection"] of the target
+   return the tmControlData["fillDirection"] of me
 end myFillDirection
 
 
 -- BAR SIZE
 ------------
 setProp tmBarSize pValue
-   set the tmControlData["barSize"] of the target to pValue
+   set the tmControlData["barSize"] of me to pValue
    set lineSize of myBase() to pValue
    set lineSize of myFill() to pValue
 end tmBarSize
@@ -159,14 +159,14 @@ getProp tmBarSize
 end tmBarSize
 
 function myBarSize
-   return the tmControlData["barSize"] of the target
+   return the tmControlData["barSize"] of me
 end myBarSize
 
 
 -- TEXT COLOR
 -------------
 setProp tmTextColor pValue
-   set the tmControlData["textColor"] of the target to pValue
+   set the tmControlData["textColor"] of me to pValue
    updateMyColors
 end tmTextColor
 
@@ -175,7 +175,7 @@ getProp tmTextColor
 end tmTextColor
 
 function myTextColor
-   return the tmControlData["textColor"] of the target
+   return the tmControlData["textColor"] of me
 end myTextColor
 
 
@@ -212,7 +212,7 @@ end myTextSize
 -- TEXT SCALE
 -------------
 setProp tmTextScale pValue
-   set the tmControlData["textScale"] of the target to pValue
+   set the tmControlData["textScale"] of me to pValue
    resizeControl
 end tmTextScale
 
@@ -221,7 +221,7 @@ getProp tmTextScale
 end tmTextScale
 
 function myTextScale
-   return the tmControlData["textScale"] of the target
+   return the tmControlData["textScale"] of me
 end myTextScale
 
 
@@ -244,17 +244,17 @@ end myBaseOpacity
 
 
 private function myRegion
-   return long id of grc "gauge_region" of the target
+   return long id of grc "gauge_region" of me
 end myRegion
 
 private function myBase
-   return long id of grc "gauge_base" of the target
+   return long id of grc "gauge_base" of me
 end myBase
 
 private function myFill
-   return long id of grc "gauge_fill" of the target
+   return long id of grc "gauge_fill" of me
 end myFill
 
 private function myDisplay
-   return long id of btn "gauge_display" of the target
+   return long id of btn "gauge_display" of me
 end myDisplay

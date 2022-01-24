@@ -8,14 +8,14 @@ end preOpenControl
 
 
 command autoPositionMe
-   put height of the target into H
+   put height of me into H
    put rect of this cd into theRect
    put item 4 of theRect - H into item 2 of theRect
    if myStickyLocation() then
-      put top of the target into item 2 of theRect
-      put bottom of the target into item 4 of theRect
+      put top of me into item 2 of theRect
+      put bottom of me into item 4 of theRect
    end if
-   set rect of the target to theRect
+   set rect of me to theRect
 end autoPositionMe
 
 
@@ -23,8 +23,8 @@ before mouseEnter
    if the tool is not "browse tool" then exit mouseEnter
    put empty into myHoveredButton
    if not myAutoHilite() then exit mouseEnter
-   if word 1 of name of the target is not "button" then exit mouseEnter
-   put long id of owner of the target into theGroup
+   if word 1 of name of me is not "button" then exit mouseEnter
+   put long id of owner of me into theGroup
    put hoveredButtonNumber(theGroup) into myHoveredButton
    hoverMyButtonIcon myHoveredButton
 end mouseEnter
@@ -33,8 +33,8 @@ end mouseEnter
 before mouseLeave
    if the tool is not "browse tool" then exit mouseLeave
    if not myAutoHilite() then exit mouseLeave
-   if word 1 of name of the target is not "button" then exit mouseLeave
-   dispatch "resetMyButtonIcon" to the target with myHoveredButton
+   if word 1 of name of me is not "button" then exit mouseLeave
+   dispatch "resetMyButtonIcon" to me with myHoveredButton
 end mouseLeave
 
 
@@ -53,9 +53,9 @@ end mouseDown
 before mouseUp
    put false into allowTracking
    if myPressedButton is empty then exit mouseUp
-   dispatch "menuPick" to the target with short name of (line myPressedButton of myButtons())
+   dispatch "menuPick" to me with short name of (line myPressedButton of myButtons())
    if not myAutoHilite() then exit mouseUp
-   send "resetMyButtonIcon" to the target in 0 millisecs
+   send "resetMyButtonIcon" to me in 0 millisecs
 end mouseUp
 
 
@@ -63,7 +63,7 @@ before mouseRelease
    put false into allowTracking
    if not myAutoHilite() then exit mouseRelease
    if myPressedButton is empty then exit mouseRelease
-   send "resetMyButtonIcon" to the target in 0 millisecs
+   send "resetMyButtonIcon" to me in 0 millisecs
 end mouseRelease
 
 
@@ -102,7 +102,7 @@ command hiliteMyButtonIcon pNum
          if theHiliteID is not empty and theHiliteID <> 0 then set icon of theButton to theHiliteID
          -- set colorOverlay["opacity"] of theButton to 0
    end switch
-   set the tmControlData["menuHistory"] of the target to N
+   set the tmControlData["menuHistory"] of me to N
    put true into allowTracking
 end hiliteMyButtonIcon
 
@@ -146,7 +146,7 @@ command updateMyButtons pNewButtonList
          set name of theButton to line N of pNewButtonList
          add 1 to N
       end repeat
-      set the tmControlData["text"] of the target to pNewButtonList
+      set the tmControlData["text"] of me to pNewButtonList
       exit updateMyButtons
    end if
    --
@@ -158,7 +158,7 @@ command updateMyButtons pNewButtonList
          if theButtonName is not among the lines of currButtonList then
             set name of theButton to line 1 of pNewButtonList
          end if
-         set left of theButton to left of the target
+         set left of theButton to left of me
          exit repeat -- DON'T DELETE LAST BUTTON GROUP
       end if
       if theButtonName is among the lines of theUsedNames or \
@@ -195,7 +195,7 @@ command updateMyButtons pNewButtonList
       end repeat
    end if
    --
-   set the tmControlData["text"] of the target to pNewButtonList
+   set the tmControlData["text"] of me to pNewButtonList
    resizeControl
 end updateMyButtons
 
@@ -225,8 +225,8 @@ end updateMyButtonIcon
 
 command updateMyIconColors
    lock screen
-   repeat with N = 1 to number of grps of the target
-      put long id of grp N of the target into theButtonGroup
+   repeat with N = 1 to number of grps of me
+      put long id of grp N of me into theButtonGroup
       if the tmControlData["iconType"] of theButtonGroup is "glyph" then
          -- GLYPH
          set the tmControlData["iconColor"] of theButtonGroup to myIconColor()
@@ -235,7 +235,7 @@ command updateMyIconColors
          set textColor of theButton to myIconColor()
       else
          -- IMAGE
-         put long id of img N of the target into theSourceImage
+         put long id of img N of me into theSourceImage
          repeat for each item theRes in "ultralow,extralow,low,medium,high,extrahigh,ultrahigh"
             repeat for each item theState in "Icon,HiliteIcon"
                put theRes & theState into prop
@@ -290,9 +290,9 @@ end updateMyIconColors
 
 on resizeControl
    lock screen
-   set rect of myBase() to rect of the target
-   set boundingRect of the target to rect of myBase()
-   set rect of the target to rect of myBase()
+   set rect of myBase() to rect of me
+   set boundingRect of me to rect of myBase()
+   set rect of me to rect of myBase()
    put left of myBase() into L
    put top of myBase() into T
    put right of myBase() into R
@@ -304,7 +304,7 @@ on resizeControl
    put myButtons() into theButtonList
    switch myButtonCount()
       case 1
-         set loc of grp 1 of the target to X,Y
+         set loc of grp 1 of me to X,Y
          break
       case 2
          set loc of (line 1 of theButtonList) to L+(W div 3),Y
@@ -347,7 +347,7 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of the target
+   return the tmControlData["text"] of me
 end myText
 
 
@@ -363,13 +363,13 @@ getProp tmButtons
 end tmButtons
 
 function myButtonNames
-   return the tmControlData["text"] of the target
+   return the tmControlData["text"] of me
 end myButtonNames
 
 
 -- AUTOPOSITION
 setProp tmAutoPosition pValue
-   set the tmControlData["autoPosition"] of the target to pValue
+   set the tmControlData["autoPosition"] of me to pValue
    if pValue then autoPositionMe
 end tmAutoPosition
 
@@ -378,13 +378,13 @@ getProp tmAutoPosition
 end tmAutoPosition
 
 function myAutoPosition
-   return the tmControlData["autoPosition"] of the target
+   return the tmControlData["autoPosition"] of me
 end myAutoPosition
 
 
 -- STICKY POSITION
 setProp tmStickyLocation pValue
-   set the tmControlData["stickyLocation"] of the target to pValue
+   set the tmControlData["stickyLocation"] of me to pValue
 end tmStickyLocation
 
 getProp tmStickyLocation
@@ -392,13 +392,13 @@ getProp tmStickyLocation
 end tmStickyLocation
 
 function myStickyLocation
-   return the tmControlData["stickyLocation"] of the target
+   return the tmControlData["stickyLocation"] of me
 end myStickyLocation
 
 
 -- AUTOHILITE
 setProp tmAutoHilite pValue
-   set the tmControlData["autoHilite"] of the target to pValue
+   set the tmControlData["autoHilite"] of me to pValue
 end tmAutoHilite
 
 getProp tmAutoHilite
@@ -406,7 +406,7 @@ getProp tmAutoHilite
 end tmAutoHilite
 
 function myAutoHilite
-   return the tmControlData["autoHilite"] of the target
+   return the tmControlData["autoHilite"] of me
 end myAutoHilite
 
 
@@ -414,7 +414,7 @@ end myAutoHilite
 setProp tmIconType pValue
    -- glyph or icon
    if pValue is not among the items of "glyph,icon" then exit tmIconType
-   set the tmControlData["iconType"] of the target to pValue
+   set the tmControlData["iconType"] of me to pValue
    repeat for each line theButtonGroup in myButtons()
       updateMyButtonIcon pValue, theButtonGroup
    end repeat
@@ -425,13 +425,13 @@ getProp tmIconType
 end tmIconType
 
 function myIconType
-   return the tmControlData["iconType"] of the target
+   return the tmControlData["iconType"] of me
 end myIconType
 
 
 -- ICON COLOR
 setProp tmIconColor pValue
-   set the tmControlData["iconColor"] of the target to pValue
+   set the tmControlData["iconColor"] of me to pValue
    updateMyIconColors
 end tmIconColor
 
@@ -440,13 +440,13 @@ getProp tmIconColor
 end tmIconColor
 
 function myIconColor
-   return the tmControlData["iconColor"] of the target
+   return the tmControlData["iconColor"] of me
 end myIconColor
 
 
 -- ICON HILITE COLOR
 setProp tmHiliteIconColor pValue
-   set the tmControlData["hiliteIconColor"] of the target to pValue
+   set the tmControlData["hiliteIconColor"] of me to pValue
    updateMyIconColors
 end tmHiliteIconColor
 
@@ -455,13 +455,13 @@ getProp tmHiliteIconColor
 end tmHiliteIconColor
 
 function myHiliteIconColor
-   return the tmControlData["hiliteIconColor"] of the target
+   return the tmControlData["hiliteIconColor"] of me
 end myHiliteIconColor
 
 
 -- LOCK ICON COLOR
 setProp tmLockImageIconColor pValue
-   set the tmControlData["lockImageIconColor"] of the target to pValue
+   set the tmControlData["lockImageIconColor"] of me to pValue
 end tmLockImageIconColor
 
 getProp tmLockImageIconColor
@@ -469,13 +469,13 @@ getProp tmLockImageIconColor
 end tmLockImageIconColor
 
 function myLockImageIconColor
-   return the tmControlData["lockImageIconColor"] of the target
+   return the tmControlData["lockImageIconColor"] of me
 end myLockImageIconColor
 
 
 ---- ICON HILITE EFFECTS
 --setProp tmHiliteEffects pValue
---   set the tmControlData["hiliteEffects"] of the target to pValue
+--   set the tmControlData["hiliteEffects"] of me to pValue
 
 --end tmHiliteEffects
 
@@ -484,7 +484,7 @@ end myLockImageIconColor
 --end tmHiliteEffects
 
 --function myHiliteEffects
---   return the tmControlData["hiliteEffects"] of the target
+--   return the tmControlData["hiliteEffects"] of me
 --end myHiliteEffects
 
 
@@ -493,7 +493,7 @@ setProp tmGlyphFont pValue
    repeat for each line theButtonGroup in myButtons()
       set textFont of btn 1 of theButtonGroup to pValue
    end repeat
-   set the tmControlData["glyphFont"] of the target to pValue
+   set the tmControlData["glyphFont"] of me to pValue
 end tmGlyphFont
 
 getProp tmGlyphFont
@@ -501,7 +501,7 @@ getProp tmGlyphFont
 end tmGlyphFont
 
 function myGlyphFont
-   return the tmControlData["glyphFont"] of the target
+   return the tmControlData["glyphFont"] of me
 end myGlyphFont
 
 
@@ -510,7 +510,7 @@ setProp tmGlyphSize pValue
    repeat for each line theButtonGroup in myButtons()
       set textSize of btn 1 of theButtonGroup to pValue
    end repeat
-   set the tmControlData["glyphSize"] of the target to pValue
+   set the tmControlData["glyphSize"] of me to pValue
 end tmGlyphSize
 
 getProp tmGlyphSize
@@ -518,13 +518,13 @@ getProp tmGlyphSize
 end tmGlyphSize
 
 function myGlyphSize
-   return the tmControlData["glyphSize"] of the target
+   return the tmControlData["glyphSize"] of me
 end myGlyphSize
 
 
 -- ICON SHIFT
 setProp tmIconShift pValue
-   set the tmControlData["iconShift"] of the target to pValue
+   set the tmControlData["iconShift"] of me to pValue
    repeat for each line theButton in myButtons()
       put long id of btn 1 of theButton into theIcon
       put margins of theIcon into M
@@ -540,13 +540,13 @@ getProp tmIconShift
 end tmIconShift
 
 function myIconShift
-   return the tmControlData["iconShift"] of the target
+   return the tmControlData["iconShift"] of me
 end myIconShift
 
 
 -- BASE COLOR
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of the target to pValue
+   set the tmControlData["baseColor"] of me to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -562,7 +562,7 @@ end myBaseColor
 -- BASE OPACITY
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of the target to pValue
+   set the tmControlData["baseOpacity"] of me to pValue
    set blendLevel of myBase() to (100 - pValue)
 end tmBaseOpacity
 
@@ -578,7 +578,7 @@ end myBaseOpacity
 -- HILITE OPACITY
 setProp tmHiliteOpacity pValue
    put min(255,max(pValue,0)) into pValue
-   set the tmControlData["hiliteOpacity"] of the target to pValue
+   set the tmControlData["hiliteOpacity"] of me to pValue
 end tmHiliteOpacity
 
 getProp tmHiliteOpacity
@@ -586,7 +586,7 @@ getProp tmHiliteOpacity
 end tmHiliteOpacity
 
 function myHiliteOpacity
-   return the tmControlData["hiliteOpacity"] of the target
+   return the tmControlData["hiliteOpacity"] of me
 end myHiliteOpacity
 
 
@@ -601,15 +601,15 @@ getProp tmMenuHistory
 end tmMenuHistory
 
 function myMenuHistory
-   return the tmControlData["menuHistory"] of the target
+   return the tmControlData["menuHistory"] of me
 end myMenuHistory
 
 
 -- DISABLED
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of the target to pValue
-   set disabled of the target to pValue
-   set blendLevel of the target to item wordOffset(pValue,"true false") of "50,0"
+   set the tmControlData["disabled"] of me to pValue
+   set disabled of me to pValue
+   set blendLevel of me to item wordOffset(pValue,"true false") of "50,0"
 end tmDisabled
 
 getProp tmDisabled
@@ -617,7 +617,7 @@ getProp tmDisabled
 end tmDisabled
 
 function myDisabled
-   return the tmControlData["disabled"] of the target
+   return the tmControlData["disabled"] of me
 end myDisabled
 
 
@@ -627,8 +627,8 @@ end myDisabled
 
 
 function myButtons
-   repeat with N = 1 to number of grps of the target
-      put long id of grp N of the target,left of grp N of the target & return after temp
+   repeat with N = 1 to number of grps of me
+      put long id of grp N of me,left of grp N of me & return after temp
    end repeat
    delete char -1 of temp
    sort lines of temp numeric by item 2 of each
@@ -651,7 +651,7 @@ end pressedButtonNumber
 
 
 function myButtonCount
-   return number of grps of the target
+   return number of grps of me
 end myButtonCount
 
 
@@ -661,6 +661,6 @@ end myIconResources
 
 
 private function myBase
-   return long id of grc "toolbar_base" of the target
+   return long id of grc "toolbar_base" of me
 end myBase
 

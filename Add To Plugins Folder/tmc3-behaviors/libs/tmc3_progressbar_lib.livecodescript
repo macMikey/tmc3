@@ -2,17 +2,17 @@ script "tmc3_progressbar_lib" with behavior "tmc3_MasterBehavior"
  
 on resizeControl
    lock screen
-   set rect of myRegion() to rect of the target
+   set rect of myRegion() to rect of me
    put rect of myRegion() into theRect
-   put the tmControlData["padding"] of the target into P
+   put the tmControlData["padding"] of me into P
    if number of items of P = 1 then put P,P,P,P into P
    add item 1 of P to item 1 of theRect
    add item 2 of P to item 2 of theRect
    subtract item 3 of P from item 3 of theRect
    subtract item 4 of P from item 4 of theRect
    set rect of myBase() to theRect
-   set the tmControlData["orientation"] of the target to "horizontal" -- DEFAULT
-   if width of the target < height of the target then set the tmControlData["orientation"] of the target to "vertical"
+   set the tmControlData["orientation"] of me to "horizontal" -- DEFAULT
+   if width of me < height of me then set the tmControlData["orientation"] of me to "vertical"
    updateMyThumbPosition
    unlock screen
 end resizeControl
@@ -20,8 +20,8 @@ end resizeControl
 
 command updateMyThumbPosition
    put abs(myEndValue() - myStartValue()) into maxDist
-   put the tmControlData["minimumFillLength"] of the target into minLength
-   put the tmControlData["thumbPos"] of the target/maxDist into thePercent
+   put the tmControlData["minimumFillLength"] of me into minLength
+   put the tmControlData["thumbPos"] of me/maxDist into thePercent
    put rect of myBase() into theRect
    put myFillMargins() into M
    put item 1 of M into ML
@@ -49,7 +49,7 @@ end updateMyThumbPosition
 -- START VALUE
 setProp tmStartValue pValue
    put max(0,pValue) into pValue -- DON'T ALLOW PROGRESS VALUES LESS THAN 0
-   set the tmControlData["startValue"] of the target to pValue
+   set the tmControlData["startValue"] of me to pValue
    updateMyThumbPosition
 end tmStartValue
 
@@ -58,14 +58,14 @@ getProp tmStartValue
 end tmStartValue
 
 function myStartValue
-   return the tmControlData["startValue"] of the target
+   return the tmControlData["startValue"] of me
 end myStartValue
 
 
 -- END VALUE
 setProp tmEndValue pValue
    put max(0,pValue) into pValue -- DON'T ALLOW PROGRESS VALUES LESS THAN 0
-   set the tmControlData["endValue"] of the target to pValue
+   set the tmControlData["endValue"] of me to pValue
    updateMyThumbPosition
 end tmEndValue
 
@@ -74,14 +74,14 @@ getProp tmEndValue
 end tmEndValue
 
 function myEndValue
-    return the tmControlData["endValue"] of the target
+    return the tmControlData["endValue"] of me
 end myEndValue
 
 
 -- THUMB POSITION
 setProp tmThumbPos pValue
    put max(0,pValue) into pValue
-   set the tmControlData["thumbPos"] of the target to min(the tmControlData["endValue"] of the target,max(the tmControlData["startValue"] of the target,pValue))
+   set the tmControlData["thumbPos"] of me to min(the tmControlData["endValue"] of me,max(the tmControlData["startValue"] of me,pValue))
    updateMyThumbPosition
 end tmThumbPos
 
@@ -90,7 +90,7 @@ getProp tmThumbPos
 end tmThumbPos
 
 function myThumbPos
-   return the tmControlData["thumbPos"] of the target
+   return the tmControlData["thumbPos"] of me
 end myThumbPos
 
 
@@ -107,7 +107,7 @@ setProp tmBaseSize pValue
    end if
    set roundRadius of myBase() to pValue
    set roundRadius of myFill() to pValue
-   set the tmControlData["baseSize"] of the target to pValue
+   set the tmControlData["baseSize"] of me to pValue
    resizeControl
 end tmBaseSize
 
@@ -116,7 +116,7 @@ getProp tmBaseSize
 end tmBaseSize
 
 function myBaseSize
-  return the tmControlData["baseSize"] of the target
+  return the tmControlData["baseSize"] of me
 end myBaseSize
 
 
@@ -137,7 +137,7 @@ end myBaseColor
 -- BASE OPACITY
 setProp tmBaseOpacity pValue
    put min(100,max(pValue,0)) into pValue
-   set the tmControlData["baseOpacity"] of the target to pValue
+   set the tmControlData["baseOpacity"] of me to pValue
    set blendLevel of myBase() to (100 - pValue)
 end tmBaseOpacity
 
@@ -166,7 +166,7 @@ end myFillColor
 
 -- FILL MARGINS
 setProp fillMargins pValue
-   set the tmControlData["fillMargins"] of the target to pValue
+   set the tmControlData["fillMargins"] of me to pValue
 end fillMargins
 
 getProp fillMargins
@@ -174,19 +174,19 @@ getProp fillMargins
 end fillMargins
 
 function myFillMargins
-   return the tmControlData["fillMargins"] of the target
+   return the tmControlData["fillMargins"] of me
 end myFillMargins
 
 
 -- ORIENTATION
 setProp tmOrientation pValue
-   set the tmControlData["orientation"] of the target to pValue
+   set the tmControlData["orientation"] of me to pValue
    lock screen
-   put width of the target into W
-   put height of the target into H
+   put width of me into W
+   put height of me into H
    if (pValue is "horizontal" and H > W) or (pValue is "vertical" and W > H) then
-      set width of the target to H
-      set height of the target to W
+      set width of me to H
+      set height of me to W
    end if
    updateMyThumbPosition
    unlock screen
@@ -197,22 +197,22 @@ getProp tmOrientation
 end tmOrientation
 
 function myOrientation
-   if width of the target >= height of the target then return "horizontal"
+   if width of me >= height of me then return "horizontal"
    return "vertical"
 end myOrientation
 
 
 -- FILL MARGINS
 setProp tmFillMargins pValue
-   set the tmControlData["fillMargins"] of the target to pValue
+   set the tmControlData["fillMargins"] of me to pValue
 end tmFillMargins
 
 getProp tmFillMargins
-   return the tmControlData["fillMargins"] of the target
+   return the tmControlData["fillMargins"] of me
 end tmFillMargins
 
 function myFillMargins
-   put the tmControlData["fillMargins"] of the target into M
+   put the tmControlData["fillMargins"] of me into M
    if M is empty then put 0 into M
    if number of items of M = 1 then put M,M,M,M into M
    return M
@@ -236,7 +236,7 @@ end myRoundRadius
 
 -- DEFAULT SIZE
 setProp tmDefaultSize pValue
-   set the tmControlData["defaultSize"] of the target to max(2,pValue)
+   set the tmControlData["defaultSize"] of me to max(2,pValue)
 end tmDefaultSize
 
 getProp tmDefaultSize
@@ -244,19 +244,19 @@ getProp tmDefaultSize
 end tmDefaultSize
 
 function myDefaultSize
-   return the tmControlData["defaultSize"] of the target
+   return the tmControlData["defaultSize"] of me
 end myDefaultSize
 
 
 
 private function myBase
-   return long id of grc "progress_base" of the target
+   return long id of grc "progress_base" of me
 end myBase
 
 private function myFill
-   return long id of grc "progress_fill" of the target
+   return long id of grc "progress_fill" of me
 end myFill
 
 private function myRegion
-   return long id of grc "progress_region" of the target
+   return long id of grc "progress_region" of me
 end myRegion

@@ -36,7 +36,7 @@ on touchmove theID, X, Y
 end touchmove
 
 on touchEnd theID
-   dispatch "swipe" to the target with theSwipeData
+   dispatch "swipe" to me with theSwipeData
 end touchEnd
 
 function locToAngle pX,pY,pXorigin,pYorigin

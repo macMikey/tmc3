@@ -5,15 +5,15 @@ local allowTracking
 
 on preOpenControl
    if myIconType() is "glyph" then exit preOpenControl
-   if the tmControlData["type"] of owner of the target is "navbar" then exit preOpenControl -- ICON UPDATE OCCURS IN NAV BAR BEHAVIOR
-   if myIconType() is "icon" then set icon of btn 1 of the target to the tmControlData["icon"] of the target
+   if the tmControlData["type"] of owner of me is "navbar" then exit preOpenControl -- ICON UPDATE OCCURS IN NAV BAR BEHAVIOR
+   if myIconType() is "icon" then set icon of btn 1 of me to the tmControlData["icon"] of me
    --   else
    --      -- OLD ICON METHOD
-   --      put long id of img 1 of the target into theSourceImage
+   --      put long id of img 1 of me into theSourceImage
    --      put pixelDensity() & "Icon" into iconProp
    --      put the tmControlData[iconProp] of theSourceImage into theText
    --      set text of theSourceImage to theText
-   --      set icon of btn 1 of the target to id of theSourceImage
+   --      set icon of btn 1 of me to id of theSourceImage
    --   end if
 end preOpenControl
 
@@ -47,7 +47,7 @@ before mouseDown
    put true into allowTracking
    -- NAV BUTTON
    if myClass() is among the items of "iosNav,nav,inNavBar" then \
-         dispatch "buttonDown" to myTMControlGroupOwner() with char 5 to -1 of short name of the target
+         dispatch "buttonDown" to myTMControlGroupOwner() with char 5 to -1 of short name of me
    if myAutoHilite() then hiliteMe
    dispatch "controlDown" -- SEND TO POSSIBLE OWNER CONTROL
 end mouseDown
@@ -56,7 +56,7 @@ end mouseDown
 # MOUSESTILLDOWN
 -----------------
 --before mouseStillDown
---   dispatch "mouseStillDown" to the target
+--   dispatch "mouseStillDown" to me
 --end mouseStillDown
 
 
@@ -71,9 +71,9 @@ end mouseDown
 -------------
 before mouseMove X,Y,pID
    if not allowTracking then exit mouseMove
-   if not the tmControlData["autoHilite"] of the target then exit mouseMove
+   if not the tmControlData["autoHilite"] of me then exit mouseMove
    if within(me,mouseLoc()) then hiliteMe
-   if not within(me,mouseLoc()) and the tmControlData["hilite"] of the target then unhiliteMe
+   if not within(me,mouseLoc()) and the tmControlData["hilite"] of me then unhiliteMe
 end mouseMove
 
 
@@ -82,8 +82,8 @@ end mouseMove
 before mouseUp pID
    put false into allowTracking
    if myClass() is among the items of "iosNav,nav,inNavBar" then \
-         dispatch "buttonUp" to myTMControlGroupOwner() with char 5 to -1 of short name of the target
-   if myAutoHilite() then send "unhiliteMe" to the target in 0 millisecs
+         dispatch "buttonUp" to myTMControlGroupOwner() with char 5 to -1 of short name of me
+   if myAutoHilite() then send "unhiliteMe" to me in 0 millisecs
    dispatch "controlUp" -- SEND TO POSSIBLE OWNER CONTROL
 end mouseUp
 
@@ -101,9 +101,9 @@ end mouseUp
 before mouseRelease pID
    put false into allowTracking
    if myClass() is among the items of "iosNav,nav,inNavBar" then \
-         dispatch "buttonRelease" to myTMControlGroupOwner() with char 5 to -1 of short name of the target
-   if the tmControlData["autoHilite"] of the target then
-      if the tmControlData["hilite"] of the target then unhiliteMe
+         dispatch "buttonRelease" to myTMControlGroupOwner() with char 5 to -1 of short name of me
+   if the tmControlData["autoHilite"] of me then
+      if the tmControlData["hilite"] of me then unhiliteMe
    end if
    dispatch "controlRelease" -- SEND TO POSSIBLE OWNER CONTROL
 end mouseRelease
@@ -137,7 +137,7 @@ command unhoverMe
    end if
    if myIconType() is in "icon,embedded" and myShowIcon() then
       get myIconValue()
-      if it is empty then get id of img 1 of the target
+      if it is empty then get id of img 1 of me
       set icon of myIcon() to it
    end if
 end unhoverMe
@@ -156,8 +156,8 @@ command hiliteMe pManualPropUpdate
          break
       case "iosNav"
       case "inNavBar"
-         set colorOverlay["color"] of the target to myHiliteColor()
-         set colorOverlay["opacity"] of the target to 255
+         set colorOverlay["color"] of me to myHiliteColor()
+         set colorOverlay["opacity"] of me to 255
          break
       default -- iosSystem
          set colorOverlay["opacity"] of myLabel() to myTextHiliteOpacity()
@@ -169,21 +169,21 @@ command hiliteMe pManualPropUpdate
    end if
    if myHiliteIconColor() is not empty then set textColor of myIcon() to myHiliteIconColor()
    put true into isHilited
-   set the tmControlData["hilite"] of the target to true
+   set the tmControlData["hilite"] of me to true
 end hiliteMe
 
 
 # UNHILITE
 ----------
 command unhiliteMe pManualPropUpdate
-   if not the tmControlData["hilite"] of the target then exit unhiliteMe
+   if not the tmControlData["hilite"] of me then exit unhiliteMe
    if myShowIcon() and myClass() is not "iosNav" then
       if within(me,mouseLoc()) and myHoverIconValue() is not empty and myHoverIconValue() is not 0 then
          put myHoverIconValue() into theID
          put myHoverIconColor() into theColor
       else
          put myIconValue() into theID
-         if theID is empty then put id of img 1 of the target into theID
+         if theID is empty then put id of img 1 of me into theID
          put myIconColor() into theColor
       end if
       if myIconType() is "glyph" then
@@ -213,7 +213,7 @@ command unhiliteMe pManualPropUpdate
       case "iosNav"
       case "inNavBar"
          repeat with N = 9 down to 0
-            set colorOverlay["opacity"] of the target to round(N * 255/10)
+            set colorOverlay["opacity"] of me to round(N * 255/10)
             wait 5 millisecs
          end repeat
          break
@@ -224,7 +224,7 @@ command unhiliteMe pManualPropUpdate
          end repeat
    end switch
    put false into isHilited
-   set the tmControlData["hilite"] of the target to false
+   set the tmControlData["hilite"] of me to false
 end unhiliteMe
 
 
@@ -233,24 +233,24 @@ command deHiliteMe
    put false into allowTracking
    set colorOverlay["opacity"] of myBase() to 0
    set textColor of myLabel() to myTextColor()
-   set the tmControlData["hilite"] of the target to false
+   set the tmControlData["hilite"] of me to false
 end deHiliteMe
 
 
 # UPDATE LABEL
 -------------
 command updateMyLabel
-   set label of myLabel() to the tmControlData["label"] of the target
-   set textAlign of myLabel() to the tmControlData["textAlign"] of the target
-   set margins of myLabel() to the tmControlData["margins"] of the target
+   set label of myLabel() to the tmControlData["label"] of me
+   set textAlign of myLabel() to the tmControlData["textAlign"] of me
+   set margins of myLabel() to the tmControlData["margins"] of me
    if myClass() contains "nav" then
       -- AUTO-RESIZE NAV BUTTONS
       put "left" into prop -- DEFAULT
-      if short name of the target contains "right" then put "right" into prop
+      if short name of me contains "right" then put "right" into prop
       put the prop of myLabel() into thePosition
       set width of myLabel() to formattedWidth of myLabel()
       set the prop of myLabel() to thePosition
-      set rect of the target to rect of myLabel()
+      set rect of me to rect of myLabel()
       resizeControl
    end if
 end updateMyLabel
@@ -331,15 +331,15 @@ end updateMyIconColor
 ---------------
 command positionMyLabel
    lock screen
-   if not the lockUpdates of the target then set the lockUpdates of the target to true
-   get the tmControlData["maxIconHeight"] of owner of the target -- CURRENTLY ONLY PROVIDED BY NAV BAR CONTROL
+   if not the lockUpdates of me then set the lockUpdates of me to true
+   get the tmControlData["maxIconHeight"] of owner of me -- CURRENTLY ONLY PROVIDED BY NAV BAR CONTROL
    if it is not empty then put it into theHeightLimit
    if myIconType() is "glyph" then
       -- GLYPH
       put measureText(label of myIcon(),myIcon(),"size") into theSize
       add 2 to item 1 of theSize -- ADD EXTRA SPACE HERE TO MINIMIZE CLIPPING OF ICON CHARACTER
-      set width of myIcon() to min(width of the target,item 1 of theSize)
-      set height of myIcon() to min(height of the target,item 2 of theSize)
+      set width of myIcon() to min(width of me,item 1 of theSize)
+      set height of myIcon() to min(height of me,item 2 of theSize)
    end if
    if myIconType() is "icon" then
       -- ICON
@@ -347,14 +347,14 @@ command positionMyLabel
          set width of myIcon() to formattedWidth of img id (icon of myIcon())
          set height of myIcon() to formattedHeight of img id (icon of myIcon())
       else
-         set width of myIcon() to formattedWidth of img 1 of the target
-         set height of myIcon() to formattedHeight of img 1 of the target
+         set width of myIcon() to formattedWidth of img 1 of me
+         set height of myIcon() to formattedHeight of img 1 of me
       end if
    end if
    if myIconType() is "embedded" or myIconType() is empty then
       -- OLD ICON METHOD
       set width of myIcon() to (formattedWidth of myIconSource() div screenPixelScale)
-      set height of myIcon() to min((formattedHeight of myIconSource() div screenPixelScale),height of the target)
+      set height of myIcon() to min((formattedHeight of myIconSource() div screenPixelScale),height of me)
    end if
    --
    put width of myIcon() into iconW
@@ -374,17 +374,17 @@ command positionMyLabel
       put 0 into labelW
       put 0 into labelH
    end if
-   put loc of the target into theIconLoc
+   put loc of me into theIconLoc
    set loc of myIcon() to theIconLoc -- RESET HERE, WILL BE UPDATED BELOW
    switch myTextAlign()
       case "left"
          switch
             case myIconAlign() contains "left"
                add iconW to item 1 of theLabelMargins
-               put left of the target + round(iconW/2) into item 1 of theIconLoc
+               put left of me + round(iconW/2) into item 1 of theIconLoc
                break
             case myIconAlign() contains "right"
-               put left of the target + labelW + round(iconW/2) into item 1 of theIconLoc
+               put left of me + labelW + round(iconW/2) into item 1 of theIconLoc
                break
          end switch
          break
@@ -414,7 +414,7 @@ command positionMyLabel
                add (hOffset - round(iconW/2)) to item 1 of theIconLoc
                break
             case myIconAlign() is "midcenter"
-               set loc of myIcon() to loc of the target
+               set loc of myIcon() to loc of me
                break
          end switch
          break
@@ -422,11 +422,11 @@ command positionMyLabel
       case "right"
          switch
             case myIconAlign() contains "left"
-               put right of the target - labelW - round(iconW/2) into item 1 of theIconLoc
+               put right of me - labelW - round(iconW/2) into item 1 of theIconLoc
                break
             case myIconAlign() contains "right"
                add iconW to item 3 of theLabelMargins
-               put right of the target - round(iconW/2) into item 1 of theIconLoc
+               put right of me - round(iconW/2) into item 1 of theIconLoc
                break
          end switch
          break
@@ -439,19 +439,19 @@ command positionMyLabel
    --
    -- NAV REQUIRES 10 PIX MARGIN
    if myClass() contains "nav" then
-      if short name of the target contains "left" then add 10 to item 1 of theIconLoc
-      if short name of the target contains "right" then subtract 10 from item 1 of theIconLoc
+      if short name of me contains "left" then add 10 to item 1 of theIconLoc
+      if short name of me contains "right" then subtract 10 from item 1 of theIconLoc
    end if
    --
    set loc of myIcon() to theIconLoc
    -- TRIM ICON RECT IF NEEDED
    put rect of myIcon() into theRect
-   put max(left of the target,left of myIcon()) into item 1 of theRect
-   put max(top of the target,top of myIcon()) into item 2 of theRect
-   put min(right of the target,right of myIcon()) into item 3 of theRect
-   put min(bottom of the target,bottom of myIcon()) into item 4 of theRect
+   put max(left of me,left of myIcon()) into item 1 of theRect
+   put max(top of me,top of myIcon()) into item 2 of theRect
+   put min(right of me,right of myIcon()) into item 3 of theRect
+   put min(bottom of me,bottom of myIcon()) into item 4 of theRect
    set rect of myIcon() to theRect
-   set the lockUpdates of the target to false
+   set the lockUpdates of me to false
    unlock screen
 end positionMyLabel
 
@@ -461,20 +461,20 @@ end positionMyLabel
 --command importIconData pSourceData, pDestinationObj, pGlyphFont, pGlyphHiliteCode, pGlyphColor
 --   switch myIconType()
 --      case "glyph"
---         set the tmControlData["iconType"] of the target to "glyph"
---         set the tmControlData["icon"] of the target to pSourceData
---         set the tmControlData["hiliteIcon"] of the target to pGlyphHiliteCode
---         set the tmControlData["glyphFont"] of the target to pGlyphFont
+--         set the tmControlData["iconType"] of me to "glyph"
+--         set the tmControlData["icon"] of me to pSourceData
+--         set the tmControlData["hiliteIcon"] of me to pGlyphHiliteCode
+--         set the tmControlData["glyphFont"] of me to pGlyphFont
 --         get the textColor of myIcon()
 --         if it is not empty then
---            set the tmControlData["iconColor"] of the target to it
---         else set the tmControlData["iconColor"] of the target to pGlyphColor
+--            set the tmControlData["iconColor"] of me to it
+--         else set the tmControlData["iconColor"] of me to pGlyphColor
 --         break
 --      case "icon"
 
 --         break
 --      case "embedded"
---         set the tmControlData["iconType"] of the target to "image"
+--         set the tmControlData["iconType"] of me to "image"
 --         put pSourceData into theSourceObj
 --         put the customKeys["tmControlData"] of theSourceObj into theIconProps
 --         -- COPY ICON RESOURCES
@@ -486,23 +486,23 @@ end positionMyLabel
 --         set height of myIconSource() to formattedHeight of myIconSource()
 --         set width of myIcon() to formattedWidth of myIconSource()
 --         set height of myIcon() to formattedHeight of myIconSource()
---         if short name of the target contains "nav_" and the tmControlData["type"] of owner of the target is "navbar" then
---            put "tm" & char 5 to -1 of short name of the target & "ButtonStyle" into prop
---            set the prop of the target to "icon"
+--         if short name of me contains "nav_" and the tmControlData["type"] of owner of me is "navbar" then
+--            put "tm" & char 5 to -1 of short name of me & "ButtonStyle" into prop
+--            set the prop of me to "icon"
 --         end if
 --         break
 --   end switch
 --   updateMyIcon
 --   if myLockImageIconColor() then updateMyIconColor
---   set the tmShowIcon of the target to true
+--   set the tmShowIcon of me to true
 --   -- POSITION
 --   positionMyLabel
 --   -- POSITION/UPDATE NAV BUTTON WITHIN NAV BAR
---   if the tmControlData["type"] of owner of the target is "navbar" and short name of the target contains "nav_" then
---      put char 5 to -1 of short name of the target into theSide
+--   if the tmControlData["type"] of owner of me is "navbar" and short name of me contains "nav_" then
+--      put char 5 to -1 of short name of me into theSide
 --      put (theSide & "NavStyle") into prop
---      set the tmControlData[prop] of owner of the target to false
---      dispatch "updateMyButton" to owner of the target with theSide -- LEFT OR RIGHT
+--      set the tmControlData[prop] of owner of me to false
+--      dispatch "updateMyButton" to owner of me with theSide -- LEFT OR RIGHT
 --   end if
 --end importIconData
 
@@ -512,8 +512,8 @@ end positionMyLabel
 command resizeControl
    lock screen
    lock messages
-   set lockUpdates of the target to true
-   set rect of myRegion() to rect of the target
+   set lockUpdates of me to true
+   set rect of myRegion() to rect of me
    put left of myRegion() into myL
    put top of myRegion() into myT
    put right of myRegion() into myR
@@ -522,7 +522,7 @@ command resizeControl
    put height of myRegion() into myH
    put item 1 of loc of myRegion() into myX
    put item 2 of loc of myRegion() into myY
-   put margins of the target into M
+   put margins of me into M
    if number of items of M = 1 then put M,M,M,M into M
    put item 1 of M into myLmargin
    put item 2 of M into myTmargin
@@ -541,7 +541,7 @@ command resizeControl
    end if
    set rect of myLabel() to rect of myRegion()
    positionMyLabel
-   set lockUpdates of the target to false
+   set lockUpdates of me to false
    unlock messages
    unlock screen
 end resizeControl
@@ -559,14 +559,14 @@ getProp tmControlType
 end tmControlType
 
 function myControlType
-   return the tmControlData["type"] of the target
+   return the tmControlData["type"] of me
 end myControlType
    
 
 # ID (READ ONLY)
 ---------------
 getProp tmControlID
-   return the short id of the target
+   return the short id of me
 end tmControlID
 
 
@@ -577,7 +577,7 @@ getProp tmClass
 end tmClass
 
 function myClass
-   return the tmControlData["class"] of the target
+   return the tmControlData["class"] of me
 end myClass
 
 
@@ -588,7 +588,7 @@ getProp tmNavStyle
 end tmNavStyle
 
 function myNavStyle
-   return the tmControlData["navStyle"] of the target
+   return the tmControlData["navStyle"] of me
 end myNavStyle
 
 
@@ -596,10 +596,10 @@ end myNavStyle
 ------------------------
 setProp tmDefaultSize pValue
    if pValue is not "true" then exit tmDefaultSize
-   put the tmControlData["defaultSize"] of the target into theDimensions
+   put the tmControlData["defaultSize"] of me into theDimensions
    if theDimensions is empty then exit tmDefaultSize
-   if item 1 of theDimensions is not empty then set width of the target to item 1 of theDimensions
-   if item 2 of theDimensions is not empty then set height of the target to item 2 of theDimensions
+   if item 1 of theDimensions is not empty then set width of me to item 1 of theDimensions
+   if item 2 of theDimensions is not empty then set height of me to item 2 of theDimensions
 end tmDefaultSize
 
 getProp tmDefaultSize
@@ -607,16 +607,16 @@ getProp tmDefaultSize
 end tmDefaultSize
 
 function myDefaultSize
-   return the tmControlData["defaultSize"] of the target
+   return the tmControlData["defaultSize"] of me
 end myDefaultSize
 
 
 # COLOR ORIENTATION
 --------------------
 setProp tmColorOrientation pValue
-   set the tmControlData["colorOrientation"] of the target to pValue
+   set the tmControlData["colorOrientation"] of me to pValue
    repeat for each item tState in "normal,hover,hilite"
-      put the tmControlData[tState&"color"] of the target into theArray
+      put the tmControlData[tState&"color"] of me into theArray
       get theArray["type"]
       if it is empty then next repeat
       if it is "linear" then
@@ -625,20 +625,20 @@ setProp tmColorOrientation pValue
       put line 1 of thePoints into theArray["from"]
       put line 2 of thePoints into theArray["via"]
       put line 3 of thePoints into theArray["to"]
-      set the tmControlData[tState&"color"] of the target to theArray
+      set the tmControlData[tState&"color"] of me to theArray
       if tState = "normal" then updateMyColors "normal"
    end repeat
 end tmColorOrientation
 
 getProp tmColorOrientation
-   return the tmControlData["colorOrientation"] of the target
+   return the tmControlData["colorOrientation"] of me
 end tmColorOrientation
 
 
 # LOCK COLOR ORIENTATION
 -------------------------
 setProp tmLockColorOrientation pValue
-   set the tmControlData["lockColorOrientation"] of the target to pValue
+   set the tmControlData["lockColorOrientation"] of me to pValue
 end tmLockColorOrientation
 
 getProp tmLockColorOrientation
@@ -646,14 +646,14 @@ getProp tmLockColorOrientation
 end tmLockColorOrientation
 
 function myLockColorOrientation
-   return the tmControlData["lockColorOrientation"] of the target
+   return the tmControlData["lockColorOrientation"] of me
 end myLockColorOrientation
 
 
 # LOCK ICON COLOR
 -----------------
 setProp tmLockImageIconColor pValue
-   set the tmControlData["lockImageIconColor"] of the target to pValue
+   set the tmControlData["lockImageIconColor"] of me to pValue
    updateMyIconColor
 end tmLockImageIconColor
 
@@ -662,14 +662,14 @@ getProp tmLockImageIconColor
 end tmLockImageIconColor
 
 function myLockImageIconColor
-   return the tmControlData["lockImageIconColor"] of the target
+   return the tmControlData["lockImageIconColor"] of me
 end myLockImageIconColor
 
 
 # STROKE WIDTH
 --------------
 setProp tmStrokeWidth pValue
-   set the tmControlData["strokeWidth"] of the target to pValue
+   set the tmControlData["strokeWidth"] of me to pValue
    if myFace() is not empty then
       set lineSize of myFace() to pValue
    else set lineSize of myBase() to pValue
@@ -680,7 +680,7 @@ getProp tmStrokeWidth
 end tmStrokeWidth
 
 function myStrokeWidth
-   get the tmControlData["strokeWidth"] of the target
+   get the tmControlData["strokeWidth"] of me
    if it is empty then get "0"
    return it
 end myStrokeWidth
@@ -689,7 +689,7 @@ end myStrokeWidth
 # STROKE COLOR
 ---------------------
 setProp tmStrokeColor pValue
-   set the tmControlData["strokeColor"] of the target to pValue
+   set the tmControlData["strokeColor"] of me to pValue
    if myFace() is not empty then
       set foreColor of myFace() to pValue
    else set foreColor of myBase() to pValue
@@ -700,14 +700,14 @@ getProp tmStrokeColor
 end tmStrokeColor
 
 function myStrokeColor
-   return the tmControlData["strokeColor"] of the target
+   return the tmControlData["strokeColor"] of me
 end myStrokeColor
 
 
 # BASE COLOR
 ---------------------
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of the target to pValue
+   set the tmControlData["baseColor"] of me to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -716,14 +716,14 @@ getProp tmBaseColor
 end tmBaseColor
 
 function myBaseColor
-   return the tmControlData["baseColor"] of the target
+   return the tmControlData["baseColor"] of me
 end myBaseColor
 
 
 # HILITE COLOR
 -------------
 setProp tmHiliteColor pValue
-   set the tmControlData["hiliteColor"] of the target to pValue
+   set the tmControlData["hiliteColor"] of me to pValue
 end tmHiliteColor
 
 getProp tmHiliteColor
@@ -731,14 +731,14 @@ getProp tmHiliteColor
 end tmHiliteColor
 
 function myHiliteColor
-   return the tmControlData["hiliteColor"] of the target
+   return the tmControlData["hiliteColor"] of me
 end myHiliteColor
 
 
 # HILITE
 --------
 setProp tmHilite pValue
-   set the tmControlData["hilite"] of the target to pValue
+   set the tmControlData["hilite"] of me to pValue
    if pValue then
       hiliteMe
    else unhiliteMe
@@ -749,14 +749,14 @@ getProp tmHilite
 end tmHilite
 
 function myHilite
-   return the tmControlData["hilite"] of the target
+   return the tmControlData["hilite"] of me
 end myHilite
 
 
 # AUTOHILITE
 -------------
 setProp tmAutoHilite pValue
-   set the tmControlData["autoHilite"] of the target to pValue
+   set the tmControlData["autoHilite"] of me to pValue
 end tmAutoHilite
 
 getProp tmAutoHilite
@@ -764,14 +764,14 @@ getProp tmAutoHilite
 end tmAutoHilite
 
 function myAutoHilite
-   return the tmControlData["autoHilite"] of the target
+   return the tmControlData["autoHilite"] of me
 end myAutoHilite
 
 
 # LABEL
 -------
 setProp tmLabel pValue
-   set the tmControlData["label"] of the target to pValue
+   set the tmControlData["label"] of me to pValue
    updateMyLabel
 end tmLabel
 
@@ -780,14 +780,14 @@ getProp tmLabel
 end tmLabel
 
 function myLabelText
-   return the tmControlData["label"] of the target
+   return the tmControlData["label"] of me
 end myLabelText
 
 
 # TEXT
 -------
 setProp tmText pValue
-   set the tmControlData["text"] of the target to pValue
+   set the tmControlData["text"] of me to pValue
 end tmText
 
 getProp tmText
@@ -795,14 +795,14 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of the target
+   return the tmControlData["text"] of me
 end myText
 
 
 # TEXT SIZE
 -----------
 setProp tmTextSize pValue
-   set the tmControlData["textSize"] of the target to pValue
+   set the tmControlData["textSize"] of me to pValue
    set textSize of myLabel() to pValue
 end tmTextSize
 
@@ -818,7 +818,7 @@ end myTextSize
 # TEXT HEIGHT
 -------------
 setProp tmTextHeight pValue
-   set the tmControlData["textHeight"] of the target to pValue
+   set the tmControlData["textHeight"] of me to pValue
    set textHeight of myLabel() to pValue
 end tmTextHeight
 
@@ -834,7 +834,7 @@ end myTextHeight
 # TEXT COLOR
 -------------
 setProp tmTextColor pValue
-   set the tmControlData["textColor"] of the target to pValue
+   set the tmControlData["textColor"] of me to pValue
    set textColor of myLabel() to pValue
 end tmTextColor
 
@@ -843,7 +843,7 @@ getProp tmTextColor
 end tmTextColor
 
 function myTextColor
-   return the tmControlData["textColor"] of the target
+   return the tmControlData["textColor"] of me
 end myTextColor
 
 
@@ -851,7 +851,7 @@ end myTextColor
 -------------------
 setProp tmTextHiliteColor pValue
    -- set colorOverlay["color"] of myLabel() to pValue
-   set the tmControlData["textHiliteColor"] of the target to pValue
+   set the tmControlData["textHiliteColor"] of me to pValue
 end tmTextHiliteColor
 
 getProp tmTextHiliteColor 
@@ -859,14 +859,14 @@ getProp tmTextHiliteColor
 end tmTextHiliteColor
 
 function myTextHiliteColor 
-   return the tmControlData["textHiliteColor"] of the target
+   return the tmControlData["textHiliteColor"] of me
 end myTextHiliteColor
 
 
 # TEXT HILITE OPACITY
 -------------------
 setProp tmTextHiliteOpacity pValue
-   set the tmControlData["textHiliteOpacity"] of the target to pValue
+   set the tmControlData["textHiliteOpacity"] of me to pValue
 end tmTextHiliteOpacity
 
 getProp tmTextHiliteOpacity 
@@ -874,7 +874,7 @@ getProp tmTextHiliteOpacity
 end tmTextHiliteOpacity
 
 function myTextHiliteOpacity 
-   return the tmControlData["textHiliteOpacity"] of the target
+   return the tmControlData["textHiliteOpacity"] of me
 end myTextHiliteOpacity
 
 
@@ -941,7 +941,7 @@ end myTextGlow
 # TEXT ALIGNMENT
 ------------------
 setProp tmTextAlign pValue
-   set the tmControlData["textAlign"] of the target to pValue
+   set the tmControlData["textAlign"] of me to pValue
    set textAlign of myLabel() to pValue
    positionMyLabel
 end tmTextAlign
@@ -951,7 +951,7 @@ getProp tmTextAlign
 end tmTextAlign
 
 function myTextAlign
-   get the tmControlData["textAlign"] of the target
+   get the tmControlData["textAlign"] of me
    if it is empty then get effective textAlign of myLabel()
    return it
 end myTextAlign
@@ -962,7 +962,7 @@ end myTextAlign
 setProp tmMargins pValue
    put pValue into M
    if number of items of M = 1 then put M,M,M,M into M
-   set the tmControlData["margins"] of the target to M
+   set the tmControlData["margins"] of me to M
    set margins of myLabel() to M
    positionMyLabel
 end tmMargins
@@ -972,7 +972,7 @@ getProp tmMargins
 end tmMargins
 
 function myMargins
-   return the tmControlData["margins"] of the target
+   return the tmControlData["margins"] of me
 end myMargins
 
 
@@ -990,7 +990,7 @@ end myMargins
 # ICON TYPE
 ----------
 setProp tmIconType pValue
-   set the tmControlData["iconType"] of the target to pValue
+   set the tmControlData["iconType"] of me to pValue
    updateMyIcon
 end tmIconType
 
@@ -999,7 +999,7 @@ getProp tmIconType
 end tmIconType
 
 function myIconType
-   get the tmControlData["iconType"] of the target
+   get the tmControlData["iconType"] of me
    if it is empty then get "embedded"
    return it
 end myIconType
@@ -1008,7 +1008,7 @@ end myIconType
 # ICON (USE ICONVALUE TO PREVENT CONFLICT WITH ICON OBJECT OF CONTROL)
 --------------
 setProp tmIcon pValue
-   set the tmControlData["icon"] of the target to pValue
+   set the tmControlData["icon"] of me to pValue
    updateMyIcon "default"
 end tmIcon
 
@@ -1017,14 +1017,14 @@ getProp tmIcon
 end tmIcon
 
 function myIconValue
-  return the tmControlData["icon"] of the target
+  return the tmControlData["icon"] of me
 end myIconValue
 
 
 # HOVER ICON
 ------------
 setProp tmHoverIcon pValue
-   set the tmControlData["hoverIcon"] of the target to pValue
+   set the tmControlData["hoverIcon"] of me to pValue
 end tmHoverIcon
 
 getProp tmHoverIcon
@@ -1032,14 +1032,14 @@ getProp tmHoverIcon
 end tmHoverIcon
 
 function myHoverIconValue
-   return the tmControlData["hoverIcon"] of the target
+   return the tmControlData["hoverIcon"] of me
 end myHoverIconValue
 
 
 # HILITE ICON
 ------------
 setProp tmHiliteIcon pValue
-   set the tmControlData["hiliteIcon"] of the target to pValue
+   set the tmControlData["hiliteIcon"] of me to pValue
 end tmHiliteIcon
 
 getProp tmHiliteIcon
@@ -1047,14 +1047,14 @@ getProp tmHiliteIcon
 end tmHiliteIcon
 
 function myHiliteIconValue
-   return the tmControlData["hiliteIcon"] of the target
+   return the tmControlData["hiliteIcon"] of me
 end myHiliteIconValue
 
 
 # ICON COLOR
 ------------
 setProp tmIconColor pValue
-   set the tmControlData["iconColor"] of the target to pValue
+   set the tmControlData["iconColor"] of me to pValue
    updateMyIconColor
 end tmIconColor
 
@@ -1063,14 +1063,14 @@ getProp tmIconColor
 end tmIconColor
 
 function myIconColor
-   return the tmControlData["iconColor"] of the target
+   return the tmControlData["iconColor"] of me
 end myIconColor
 
 
 # ICON HOVER COLOR
 ------------------
 setProp tmHoverIconColor pValue
-   set the tmControlData["hoverIconColor"] of the target to pValue
+   set the tmControlData["hoverIconColor"] of me to pValue
 end tmHoverIconColor
 
 getProp tmHoverIconColor
@@ -1078,14 +1078,14 @@ getProp tmHoverIconColor
 end tmHoverIconColor
 
 function myHoverIconColor
-   return the tmControlData["hoverIconColor"] of the target
+   return the tmControlData["hoverIconColor"] of me
 end myHoverIconColor
 
 
 # ICON HILITE COLOR
 ------------------
 setProp tmHiliteIconColor pValue
-   set the tmControlData["hiliteIconColor"] of the target to pValue
+   set the tmControlData["hiliteIconColor"] of me to pValue
 end tmHiliteIconColor
 
 getProp tmHiliteIconColor
@@ -1093,14 +1093,14 @@ getProp tmHiliteIconColor
 end tmHiliteIconColor
 
 function myHiliteIconColor
-   return the tmControlData["hiliteIconColor"] of the target
+   return the tmControlData["hiliteIconColor"] of me
 end myHiliteIconColor
 
 
 # ICON ALIGNMENT
 -----------------
 setProp tmIconAlign pValue
-   set the tmControlData["iconAlign"] of the target to pValue
+   set the tmControlData["iconAlign"] of me to pValue
    positionMyLabel
 end tmIconAlign
 
@@ -1109,14 +1109,14 @@ getProp tmIconAlign
 end tmIconAlign
 
 function myIconAlign
-   return the tmControlData["iconAlign"] of the target
+   return the tmControlData["iconAlign"] of me
 end myIconAlign
 
 
 # ICON SIZE
 ---------------
 setProp tmIconSize pValue
-   set the tmControlData["iconSize"] of the target to pValue
+   set the tmControlData["iconSize"] of me to pValue
    if myIconType() is "glyph" then set textSize of myIcon() to pValue
    if myIconType() is "image" then
       set width of myIcon() to pValue
@@ -1131,14 +1131,14 @@ setProp tmIconSize
 end tmIconSize
 
 function myIconSize
-   return the tmControlData["iconSize"] of the target
+   return the tmControlData["iconSize"] of me
 end myIconSize
 
 
 # ICON MARGINS
 ---------------
 setProp tmIconMargins pValue
-   set the tmControlData["iconMargins"] of the target to pValue
+   set the tmControlData["iconMargins"] of me to pValue
    positionMyLabel
 end tmIconMargins
 
@@ -1147,14 +1147,14 @@ getProp tmIconMargins
 end tmIconMargins
 
 function myIconMargins
-   return the tmControlData["iconMargins"] of the target
+   return the tmControlData["iconMargins"] of me
 end myIconMargins
 
 
 # ICON SHIFT
 -----------
 setProp tmIconShift pValue
-   set the tmControlData["iconShift"] of the target to pValue
+   set the tmControlData["iconShift"] of me to pValue
    positionMyLabel
 end tmIconShift
 
@@ -1163,14 +1163,14 @@ getProp tmIconShift
 end tmIconShift
 
 function myIconShift
-   return the tmControlData["iconShift"] of the target
+   return the tmControlData["iconShift"] of me
 end myIconShift
 
 
 # GLYPH FONTS
 -------------
 setProp tmGlyphFont pValue
-   set the tmControlData["glyphFont"] of the target to pValue
+   set the tmControlData["glyphFont"] of me to pValue
 end tmGlyphFont
 
 getProp tmGlyphFont
@@ -1178,14 +1178,14 @@ getProp tmGlyphFont
 end tmGlyphFont
 
 function myGlyphFont
-   return the tmControlData["glyphFont"] of the target
+   return the tmControlData["glyphFont"] of me
 end myGlyphFont
 
 
 # GLYPH SIZE
 ------------
 setProp tmGlyphSize pValue
-   set lockUpdates of the target to true
+   set lockUpdates of me to true
    set textSize of myIcon() to pValue
    positionMyLabel
 end tmGlyphSize
@@ -1202,7 +1202,7 @@ end myGlyphSize
 # SHOW ICON
 ------------
 setProp tmShowIcon pValue
-   set the tmControlData["showIcon"] of the target to pValue
+   set the tmControlData["showIcon"] of me to pValue
    lock screen
    set vis of myIcon() to pValue
    positionMyLabel
@@ -1214,7 +1214,7 @@ getProp tmShowIcon
 end tmShowIcon
 
 function myShowIcon
-   return the tmControlData["showIcon"] of the target
+   return the tmControlData["showIcon"] of me
 end myShowIcon
 
 
@@ -1237,11 +1237,11 @@ end myRoundRadius
 # BEVEL WIDTH
 ----------------
 setProp tmBevelWidth pValue
-   set the tmControlData["bevelWidth"] of the target to pValue
+   set the tmControlData["bevelWidth"] of me to pValue
 end tmBevelWidth
 
 getProp tmBevelWidth
-   return the tmControlData["bevelWidth"] of the target
+   return the tmControlData["bevelWidth"] of me
 end tmBevelWidth
 
 
@@ -1279,9 +1279,9 @@ end myBaseOpacity
 # DISABLED
 ----------
 setProp tmDisabled pValue
-   set the tmControlData["disabled"] of the target to pValue
-   set disabled of the target to pValue
-   set blendLevel of the target to item wordOffset(pValue,"true false") of "50,0"
+   set the tmControlData["disabled"] of me to pValue
+   set disabled of me to pValue
+   set blendLevel of me to item wordOffset(pValue,"true false") of "50,0"
 end tmDisabled
 
 getProp tmDisabled
@@ -1289,14 +1289,14 @@ getProp tmDisabled
 end tmDisabled
 
 function myDisabled
-   return the tmControlData["disabled"] of the target
+   return the tmControlData["disabled"] of me
 end myDisabled
 
 
 # ENABLED
 ----------
 setProp tmEnabled pValue
-   set the enabled of the target to pValue
+   set the enabled of me to pValue
 end tmEnabled
 
 getProp tmEnabled
@@ -1304,41 +1304,41 @@ getProp tmEnabled
 end tmEnabled
 
 function myEnabled
-   return the enabled of the target
+   return the enabled of me
 end myEnabled
 
 
 
 private function myRegion
-   return long id of grc "button_region" of the target
+   return long id of grc "button_region" of me
 end myRegion
 
 private function myBase
-   return long id of grc "button_base" of the target
+   return long id of grc "button_base" of me
 end myBase
 
 private function myFace
-   if exists(grc "button_face" of the target) then return long id of grc "button_face" of the target
+   if exists(grc "button_face" of me) then return long id of grc "button_face" of me
    return empty
 end myFace
 
 private function myIcon
-   return long id of btn "button_icon" of the target
+   return long id of btn "button_icon" of me
 end myIcon
 
 function myIconSource
-   return long id of img 1 of the target
+   return long id of img 1 of me
 end myIconSource
 
 private function myLabel
-   return long id of btn "button_label" of the target
+   return long id of btn "button_label" of me
 end myLabel
 
 private function myIcon
-   return long id of btn "button_icon" of the target
+   return long id of btn "button_icon" of me
 end myIcon
 
 private function myPointer
-   if there is a grc "button_pointer" of the target then return long id of grc "button_pointer" of the target
+   if there is a grc "button_pointer" of me then return long id of grc "button_pointer" of me
    return empty
 end myPointer

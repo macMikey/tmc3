@@ -18,7 +18,7 @@ command createPlayer
    -- CREATE MOVIEPLAYER/STORE ID
    mobileControlCreate "player"
    put the result into myMobileID
-   set the tmControlData["mobileID"] of the target to myMobileID
+   set the tmControlData["mobileID"] of me to myMobileID
    -- SET MOVIEPLAYER PROPS
    tmUpdatePlayer
 end createPlayer
@@ -58,7 +58,7 @@ end deletePlayer
 
 
 on resizeControl
-   set rect of control 1 of the target to rect of the target
+   set rect of control 1 of me to rect of me
    if onMobile() then tmUpdatePlayer
 end resizeControl
 
@@ -93,7 +93,7 @@ getProp tmControlType
 end tmControlType
 
 function myControlType
-   return the tmControlData["type"] of the target
+   return the tmControlData["type"] of me
 end myControlType
 
 
@@ -104,7 +104,7 @@ getProp tmControlID
 end tmControlID
 
 function myControlID
-   return the short id of the target
+   return the short id of me
 end myControlID
 
 
@@ -166,7 +166,7 @@ getProp tmNaturalSize
 end tmNaturalSize
 
 function myNaturalSize
-   return the tmControlData["naturalSize"] of the target
+   return the tmControlData["naturalSize"] of me
 end myNaturalSize
 
 
@@ -194,14 +194,14 @@ getProp tmName
 end tmName
 
 function myName
-   return short name of the target
+   return short name of me
 end myName
 
 
 # FILENAME
 ----------
 setProp tmRect pValue
-   set rect of the target to pValue
+   set rect of me to pValue
    tmUpdatePlayer "rect",pValue
 end tmRect
 
@@ -210,14 +210,14 @@ getProp tmRect
 end tmRect
 
 function myRect
-   return rect of the target
+   return rect of me
 end myRect
 
 
 # FILENAME
 ----------
 setProp tmFilename pValue
-   set the tmControlData["filename"] of the target to pValue
+   set the tmControlData["filename"] of me to pValue
    tmUpdatePlayer "filename",pValue
 end tmFilename
 
@@ -226,14 +226,14 @@ getProp tmFilename
 end tmFilename
 
 function myFilename
-   return the tmControlData["filename"] of the target
+   return the tmControlData["filename"] of me
 end myFilename
 
 
 # FULL SCREEN
 ------------
 setProp tmFullscreen pValue
-   set the tmControlData["fullscreen"] of the target to pValue
+   set the tmControlData["fullscreen"] of me to pValue
    tmUpdatePlayer "fullscreen",pValue
 end tmFullscreen
 
@@ -242,14 +242,14 @@ getProp tmFullscreen pValue
 end tmFullscreen
 
 function myFullscreen
-   return the tmControlData["fullscreen"] of the target
+   return the tmControlData["fullscreen"] of me
 end myFullscreen
 
 
 # PRESERVE ASPECT
 ----------------
 setProp tmPreserveAspect pValue
-   set the tmControlData["preserveAspect"] of the target to pValue
+   set the tmControlData["preserveAspect"] of me to pValue
    tmUpdatePlayer "preserveAspect",pValue
 end tmPreserveAspect
 
@@ -258,14 +258,14 @@ getProp tmPreserveAspect
 end tmPreserveAspect
    
 function myPreserveAspect
-   return the tmControlData["preserveAspect"] of the target
+   return the tmControlData["preserveAspect"] of me
 end myPreserveAspect
 
 
 # SHOW CONTROLLER
 -----------------
 setProp tmShowController pValue
-   set the tmControlData["showController"] of the target to pValue
+   set the tmControlData["showController"] of me to pValue
    tmUpdatePlayer "showController",pValue
 end tmShowController
 
@@ -274,14 +274,14 @@ getProp tmShowController
 end tmShowController
 
 function myShowController
-   return the tmControlData["showController"] of the target
+   return the tmControlData["showController"] of me
 end myShowController
 
 
 # USE APPLICATION AUDIO SESSION
 ----------------------------
 setProp tmUseApplicationAudioSession pValue
-   set the tmControlData["useApplicationAudioSession"] of the target to pValue
+   set the tmControlData["useApplicationAudioSession"] of me to pValue
    tmUpdatePlayer "useApplicationAudioSession",pValue
 end tmUseApplicationAudioSession
 
@@ -290,14 +290,14 @@ getProp tmUseApplicationAudioSession
 end tmUseApplicationAudioSession
 
 function myUseApplicationAudioSession
-   return the tmControlData["useApplicationAudioSession"] of the target
+   return the tmControlData["useApplicationAudioSession"] of me
 end myUseApplicationAudioSession
 
 
 # SHOULD AUTOPLAY
 -----------------
 setProp tmShouldAutoplay pValue
-   set the tmControlData["shouldAutoplay"] of the target to pValue
+   set the tmControlData["shouldAutoplay"] of me to pValue
    tmUpdatePlayer "shouldAutoplay",pValue
 end tmShouldAutoplay
 
@@ -306,14 +306,14 @@ getProp tmShouldAutoplay
 end tmShouldAutoplay
 
 function myShouldAutoplay
-   return the tmControlData["shouldAutoplay"] of the target
+   return the tmControlData["shouldAutoplay"] of me
 end myShouldAutoplay
 
 
 # LOOPING
 ---------
 setProp tmLooping pValue
-   set the tmControlData["looping"] of the target to pValue
+   set the tmControlData["looping"] of me to pValue
    tmUpdatePlayer "looping",pValue
 end tmLooping
 
@@ -322,14 +322,14 @@ getProp tmLooping
 end tmLooping
 
 function myLooping
-   return the tmControlData["looping"] of the target
+   return the tmControlData["looping"] of me
 end myLooping
 
 
 # ALLOWS AIRPLAY
 ---------------
 setProp tmAllowsAirPlay pValue
-   set the tmControlData["allowsAirPlay"] of the target to pValue
+   set the tmControlData["allowsAirPlay"] of me to pValue
    tmUpdatePlayer "allowsAirPlay",pValue
 end tmAllowsAirPlay
 
@@ -338,14 +338,14 @@ getProp tmAllowsAirPlay
 end tmAllowsAirPlay
 
 function myAllowsAirPlay
-   return the tmControlData["allowsAirPlay"] of the target
+   return the tmControlData["allowsAirPlay"] of me
 end myAllowsAirPlay
 
 
 # CURRENT TIME
 -------------
 setProp tmCurrentTime pValue
-   set the tmControlData["currentTime"] of the target to pValue
+   set the tmControlData["currentTime"] of me to pValue
    tmUpdatePlayer "currentTime",pValue
 end tmCurrentTime
 
@@ -361,7 +361,7 @@ end myCurrentTime
 # START TIME
 -----------
 setProp tmStartTime pValue
-   set the tmControlData["startTime"] of the target to pValue
+   set the tmControlData["startTime"] of me to pValue
    tmUpdatePlayer "startTime",pValue
 end tmStartTime
 
@@ -370,7 +370,7 @@ getProp tmStartTime
 end tmStartTime
 
 function myStartTime
-   return the tmControlData["startTime"] of the target
+   return the tmControlData["startTime"] of me
    --   return mobileControlGet(myMobileID,"startTime")
 end myStartTime
 
@@ -378,7 +378,7 @@ end myStartTime
 # END TIME
 ---------
 setProp tmEndTime pValue
-   set the tmControlData["endTime"] of the target to pValue
+   set the tmControlData["endTime"] of me to pValue
    tmUpdatePlayer "endTime",pValue
 end tmEndTime
 
@@ -387,7 +387,7 @@ getProp tmEndTime
 end tmEndTime
 
 function myEndTime
-   return the tmControlData["endTime"] of the target
+   return the tmControlData["endTime"] of me
    --  return mobileControlGet(myMobileID,"endTime")
 end myEndTime
 
@@ -395,7 +395,7 @@ end myEndTime
 # VISIBLE
 --------
 setProp tmVisible pValue
-   set the tmControlData["visible"] of the target to pValue
+   set the tmControlData["visible"] of me to pValue
    tmUpdatePlayer "visible",pValue
 end tmVisible
 
@@ -404,14 +404,14 @@ getProp tmVisible
 end tmVisible
 
 function myVisible
-   return the tmControlData["visible"] of the target
+   return the tmControlData["visible"] of me
 end myVisible
 
 
 # AUTO-CREATE PLAYER UPON OPENING
 ----------------------------------
 setProp tmAutoCreate pValue
-   set the tmControlData["autoCreate"] of the target to pValue
+   set the tmControlData["autoCreate"] of me to pValue
 end tmAutoCreate
 
 getProp tmAutoCreate
@@ -419,14 +419,14 @@ getProp tmAutoCreate
 end tmAutoCreate
 
 function autoCreateMe
-   return the tmControlData["autoCreate"] of the target
+   return the tmControlData["autoCreate"] of me
 end autoCreateMe
 
 
 # AUTO-REMOVE PLAYER WHEN CLOSING CONTROL
 ------------------------------------------
 setProp tmAutoRemove pValue
-   set the tmControlData["autoRemove"] of the target to pValue
+   set the tmControlData["autoRemove"] of me to pValue
 end tmAutoRemove
 
 getProp tmAutoRemove
@@ -434,7 +434,7 @@ getProp tmAutoRemove
 end tmAutoRemove
 
 function autoRemoveMe
-   return the tmControlData["autoRemove"] of the target
+   return the tmControlData["autoRemove"] of me
 end autoRemoveMe
 
 
@@ -449,5 +449,5 @@ end formattedTime
 
 
 private function myRegion
-   return long ID of control 1 of the target
+   return long ID of control 1 of me
 end myRegion
