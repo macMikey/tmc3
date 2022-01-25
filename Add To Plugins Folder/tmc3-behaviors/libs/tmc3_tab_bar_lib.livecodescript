@@ -450,10 +450,6 @@ end tmTabs
 
 
 -- TEXT
-on poo
-   answer "poo"
-end poo
-
 setProp tmText pValue
    if pValue is empty then exit tmText
    updateMyTabs pValue
@@ -464,7 +460,7 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of me & cr & the tmControlData["text"] of me
+   return the tmControlData["text"] of me
 end myText
 
 
