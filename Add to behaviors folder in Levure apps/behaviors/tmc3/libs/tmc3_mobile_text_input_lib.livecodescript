@@ -19,7 +19,7 @@ command createInput
    if myClass() is "multiline" then put "multiline" into theInputType
    mobileControlCreate theInputType -- CREATE INPUT & STORE ID
    put the result into myMobileID
-   set the tmControlData["mobileID"] of the target to myMobileID
+   set the tmControlData["mobileID"] of me to myMobileID
    tmUpdateInput -- SET INPUT PROPS
 end createInput
 
@@ -32,7 +32,7 @@ command tmUpdateInput pProp,pValue
       mobileControlSet myMobileID, pProp, pValue
       exit tmUpdateInput
    end if
-   set the tmControlData["inputRect"] of the target to rect of myField()
+   set the tmControlData["inputRect"] of me to rect of myField()
    -- DEFAULT = CREATE INPUT & SET ALL PROPS
    mobileControlSet myMobileID, "rect", myInputRect()
    mobileControlSet myMobileID, "name", myName()
@@ -74,14 +74,14 @@ end tmUpdateInput
 
 
 on inputEndEditing
-   set the tmControlData["text"] of the target to mobileControlGet(myMobileID,"text")
+   set the tmControlData["text"] of me to mobileControlGet(myMobileID,"text")
    pass inputEndEditing
 end inputEndEditing
 
 
 on resizeControl
    lock screen
-   set rect of myRegion() to rect of the target
+   set rect of myRegion() to rect of me
    put rect of myRegion() into theRect
    set rect of myBase() to theRect
    -- NEED TO REPLACE HARD-WIRED DIMENSIONS HERE WITH GEOMETRY
@@ -96,7 +96,7 @@ on resizeControl
    subtract 8 from item 3 of theRect
    set rect of myField() to theRect
    --
-   set the tmControlData["inputRect"] of the target to theRect
+   set the tmControlData["inputRect"] of me to theRect
    if onMobile() then tmUpdateInput
    unlock screen
 end resizeControl
@@ -129,7 +129,7 @@ getProp tmControlType
 end tmControlType
 
 function myControlType
-   return the tmControlData["type"] of the target
+   return the tmControlData["type"] of me
 end myControlType
 
 
@@ -140,7 +140,7 @@ getProp tmControlID
 end tmControlID
 
 function myControlID
-   return the short id of the target
+   return the short id of me
 end myControlID
 
 
@@ -151,7 +151,7 @@ getProp tmClass
 end tmClass
 
 function myClass
-   return the tmControlData["class"] of the target
+   return the tmControlData["class"] of me
 end myClass
 
 
@@ -213,7 +213,7 @@ getProp tmName
 end tmName
 
 function myName
-   return short name of the target
+   return short name of me
 end myName
 
 
@@ -221,7 +221,7 @@ end myName
 ----------
 setProp tmEditable pValue
    checkForMultiline "tmEditable"
-   set the tmControlData["editable"] of the target to pValue
+   set the tmControlData["editable"] of me to pValue
    tmUpdateInput "editable",pValue
 end tmEditable
 
@@ -230,7 +230,7 @@ getProp tmEditable
 end tmEditable
 
 function myEditable
-   return the tmControlData["editable"] of the target
+   return the tmControlData["editable"] of me
 end myEditable
 
 
@@ -238,7 +238,7 @@ end myEditable
 ----------
 setProp tmText pValue
    -- string
-   set the tmControlData["text"] of the target to pValue
+   set the tmControlData["text"] of me to pValue
    tmUpdateInput "text",pValue
 end tmText
 
@@ -247,7 +247,9 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of the target
+   put mobileControlGet(myMobileID,"text") into theText
+   set the tmControlData["text"] of me to theText
+   return theText
 end myText
 
 
@@ -255,7 +257,7 @@ end myText
 --------------
 setProp tmUnicodeText pValue
    -- binary
-   set the tmControlData["unicodeText"] of the target to pValue
+   set the tmControlData["unicodeText"] of me to pValue
    tmUpdateInput "unicodeText",pValue
 end tmUnicodeText
 
@@ -264,7 +266,7 @@ getProp tmUnicodeText
 end tmUnicodeText
 
 function myUnicodeText
-   return the tmControlData["unicodeText"] of the target
+   return the tmControlData["unicodeText"] of me
 end myUnicodeText
 
 
@@ -272,7 +274,7 @@ end myUnicodeText
 ---------------
 setProp tmContentType pValue
    -- plain, password
-   set the tmControlData["contentType"] of the target to pValue
+   set the tmControlData["contentType"] of me to pValue
    tmUpdateInput "contentType",pValue
 end tmContentType
 
@@ -281,7 +283,7 @@ getProp tmContentType
 end tmContentType
 
 function myContentType
-   return the tmControlData["contentType"] of the target
+   return the tmControlData["contentType"] of me
 end myContentType
 
 
@@ -289,7 +291,7 @@ end myContentType
 ----------
 setProp tmInputRect pValue
    -- comma separated list of 4 integers
-   set the tmControlData["inputRect"] of the target to pValue
+   set the tmControlData["inputRect"] of me to pValue
    tmUpdateInput "rect",pValue
 end tmInputRect
 
@@ -298,7 +300,7 @@ getProp tmInputRect
 end tmInputRect
 
 function myInputRect
-   return the tmControlData["inputRect"] of the target
+   return the tmControlData["inputRect"] of me
 end myInputRect
 
 
@@ -306,7 +308,7 @@ end myInputRect
 ----------
 setProp tmOpaque pValue
    -- true, false
-   set the tmControlData["opaque"] of the target to pValue
+   set the tmControlData["opaque"] of me to pValue
    set opaque of myField() to pValue
    tmUpdateInput "opaque",pValue
 end tmOpaque
@@ -316,14 +318,14 @@ getProp tmOpaque
 end tmOpaque
 
 function myOpaque
-   return the tmControlData["opaque"] of the target
+   return the tmControlData["opaque"] of me
 end myOpaque
 
 
 -- BASE COLOR
 -------------
 setProp tmBaseColor pValue
-   set the tmControlData["baseColor"] of the target to pValue
+   set the tmControlData["baseColor"] of me to pValue
    set backColor of myBase() to pValue
 end tmBaseColor
 
@@ -332,14 +334,14 @@ getProp tmBaseColor
 end tmBaseColor
 
 function myBaseColor
-   return the tmControlData["baseColor"] of the target
+   return the tmControlData["baseColor"] of me
 end myBaseColor
 
 
 -- FACE COLOR
 -------------
 setProp tmFaceColor pValue
-   set the tmControlData["faceColor"] of the target to pValue
+   set the tmControlData["faceColor"] of me to pValue
    set backColor of myFace() to pValue
 end tmFaceColor
 
@@ -348,7 +350,7 @@ getProp tmFaceColor
 end tmFaceColor
 
 function myFaceColor
-   return the tmControlData["faceColor"] of the target
+   return the tmControlData["faceColor"] of me
 end myFaceColor
 
 
@@ -356,7 +358,7 @@ end myFaceColor
 ---------------------
 setProp tmBackgroundColor pValue
    -- name, RGB, RGBA (0 - 255)
-   set the tmControlData["backgroundColor"] of the target to pValue
+   set the tmControlData["backgroundColor"] of me to pValue
    set backColor of myField() to pValue
    tmUpdateInput "backgroundColor",pValue
 end tmBackgroundColor
@@ -366,7 +368,7 @@ getProp tmBackgroundColor
 end tmBackgroundColor
 
 function myBackgroundColor
-   return the tmControlData["backgroundColor"] of the target
+   return the tmControlData["backgroundColor"] of me
 end myBackgroundColor
 
 
@@ -374,7 +376,7 @@ end myBackgroundColor
 -------------
 setProp tmTextColor pValue
    -- name, RGB, RGBA (0 - 255)
-   set the tmControlData["textColor"] of the target to pValue
+   set the tmControlData["textColor"] of me to pValue
    set textColor of myField() to pValue
    tmUpdateInput "textColor",pValue
 end tmTextColor
@@ -384,7 +386,7 @@ getProp tmTextColor
 end tmTextColor
 
 function myTextColor
-   return the tmControlData["textColor"] of the target
+   return the tmControlData["textColor"] of me
 end myTextColor
 
 
@@ -392,7 +394,7 @@ end myTextColor
 ------------
 setProp tmFontName pValue
    -- string
-   set the tmControlData["fontName"] of the target to pValue
+   set the tmControlData["fontName"] of me to pValue
    set textFont of myField() to pValue
    tmUpdateInput "fontName",pValue
 end tmFontName
@@ -402,14 +404,14 @@ getProp tmFontName
 end tmFontName
 
 function myFontName
-   return the tmControlData["fontName"] of the target
+   return the tmControlData["fontName"] of me
 end myFontName
 
 
 -- TEXT FONT (SYNONYM FOR tmFontName)
 ------------
 setProp tmTextFont pValue
-   set the tmFontName of the target to pValue
+   set the tmFontName of me to pValue
 end tmTextFont
 
 getProp tmTextFont
@@ -421,7 +423,7 @@ end tmTextFont
 -----------
 setProp tmFontSize pValue
    -- integer
-   set the tmControlData["fontSize"] of the target to pValue
+   set the tmControlData["fontSize"] of me to pValue
    set textSize of myField() to pValue
    tmUpdateInput "fontSize",pValue
 end tmFontSize
@@ -431,14 +433,14 @@ getProp tmFontSize
 end tmFontSize
 
 function myFontSize
-   return the tmControlData["fontSize"] of the target
+   return the tmControlData["fontSize"] of me
 end myFontSize
 
 
 -- TEXT SIZE (SYNONYM FOR tmFontSize)
 ------------
 setProp tmTextSize pValue
-   set the tmFontSize of the target to pValue
+   set the tmFontSize of me to pValue
 end tmTextSize
 
 getProp tmTextSize
@@ -450,7 +452,7 @@ end tmTextSize
 --------------------
 setProp tmMinimumFontSize pValue
    -- integer
-   set the tmControlData["minimumFontSize"] of the target to pValue
+   set the tmControlData["minimumFontSize"] of me to pValue
    tmUpdateInput "minimumFontSize",pValue
 end tmMinimumFontSize
 
@@ -459,7 +461,7 @@ getProp tmMinimumFontSize
 end tmMinimumFontSize
 
 function myMinimumFontSize
-   return the tmControlData["minimumFontSize"] of the target
+   return the tmControlData["minimumFontSize"] of me
 end myMinimumFontSize
 
 
@@ -467,7 +469,7 @@ end myMinimumFontSize
 ------------
 setProp tmTextAlign pValue
    -- left, center, right
-   set the tmControlData["textAlign"] of the target to pValue
+   set the tmControlData["textAlign"] of me to pValue
    set textAlign of myField() to pValue
    tmUpdateInput "textAlign",pValue
 end tmTextAlign
@@ -477,7 +479,7 @@ getProp tmTextAlign
 end tmTextAlign
 
 function myTextAlign
-   return the tmControlData["textAlign"] of the target
+   return the tmControlData["textAlign"] of me
 end myTextAlign
 
 
@@ -485,7 +487,7 @@ end myTextAlign
 ----------
 setProp tmAutoFit pValue
    -- true, false
-   set the tmControlData["autoFit"] of the target to pValue
+   set the tmControlData["autoFit"] of me to pValue
    tmUpdateInput "autoFit",pValue
 end tmAutoFit
 
@@ -494,7 +496,7 @@ getProp tmAutoFit
 end tmAutoFit
 
 function myAutoFit
-   return the tmControlData["autoFit"] of the target
+   return the tmControlData["autoFit"] of me
 end myAutoFit
 
 
@@ -502,7 +504,7 @@ end myAutoFit
 -------------------
 setProp tmAutoClear pValue
    -- true, false
-   set the tmControlData["autoClear"] of the target to pValue
+   set the tmControlData["autoClear"] of me to pValue
    tmUpdateInput "autoClear",pValue
 end tmAutoClear
 
@@ -511,7 +513,7 @@ getProp tmAutoClear
 end tmAutoClear
 
 function myAutoClear
-   return the tmControlData["autoClear"] of the target
+   return the tmControlData["autoClear"] of me
 end myAutoClear
 
 
@@ -519,7 +521,7 @@ end myAutoClear
 ---------------------
 setProp tmClearButtonMode pValue
    -- never, while editing, unless editing, always
-   set the tmControlData["clearButtonMode"] of the target to pValue
+   set the tmControlData["clearButtonMode"] of me to pValue
    tmUpdateInput "clearButtonMode",pValue
 end tmClearButtonMode
 
@@ -528,7 +530,7 @@ getProp tmClearButtonMode
 end tmClearButtonMode
 
 function myClearButtonMode
-   return the tmControlData["clearButtonMode"] of the target
+   return the tmControlData["clearButtonMode"] of me
 end myClearButtonMode
 
 
@@ -536,7 +538,7 @@ end myClearButtonMode
 ---------------
 setProp tmBorderStyle pValue
    -- none, line, bezel, rounded
-   set the tmControlData["borderStyle"] of the target to pValue
+   set the tmControlData["borderStyle"] of me to pValue
    tmUpdateInput "borderStyle",pValue
 end tmBorderStyle
 
@@ -545,7 +547,7 @@ getProp tmBorderStyle
 end tmBorderStyle
 
 function myBorderStyle
-   return the tmControlData["borderStyle"] of the target
+   return the tmControlData["borderStyle"] of me
 end myBorderStyle
 
 
@@ -553,7 +555,7 @@ end myBorderStyle
 ---------------------
 setProp tmAutoCapitalizationType pValue
    -- none, words, sentences, all characters
-   set the tmControlData["autoCapitalizationType"] of the target to pValue
+   set the tmControlData["autoCapitalizationType"] of me to pValue
    tmUpdateInput "autoCapitalizationType",pValue
 end tmAutoCapitalizationType
 
@@ -562,7 +564,7 @@ getProp tmAutoCapitalizationType
 end tmAutoCapitalizationType
 
 function myAutoCapitalizationType
-   return the tmControlData["autoCapitalizationType"] of the target
+   return the tmControlData["autoCapitalizationType"] of me
 end myAutoCapitalizationType
 
 
@@ -570,7 +572,7 @@ end myAutoCapitalizationType
 -------------------
 setProp tmAutoCorrectionType pValue
    -- default, no, yes
-   set the tmControlData["autoCorrectionType"] of the target to pValue
+   set the tmControlData["autoCorrectionType"] of me to pValue
    tmUpdateInput "autoCorrectionType",pValue
 end tmAutoCorrectionType
 
@@ -579,7 +581,7 @@ getProp tmAutoCorrectionType
 end tmAutoCorrectionType
 
 function myAutoCorrectionType
-   return the tmControlData["autoCorrectionType"] of the target
+   return the tmControlData["autoCorrectionType"] of me
 end myAutoCorrectionType
 
 
@@ -587,7 +589,7 @@ end myAutoCorrectionType
 --------------------
 setProp tmManageReturnKey pValue
    -- true, false
-   set the tmControlData["manageReturnKey"] of the target to pValue
+   set the tmControlData["manageReturnKey"] of me to pValue
    tmUpdateInput "manageReturnKey",pValue
 end tmManageReturnKey
 
@@ -596,7 +598,7 @@ getProp tmManageReturnKey
 end tmManageReturnKey
 
 function myManageReturnKey
-   return the tmControlData["manageReturnKey"] of the target
+   return the tmControlData["manageReturnKey"] of me
 end myManageReturnKey
 
 
@@ -604,7 +606,7 @@ end myManageReturnKey
 -----------------
 setProp tmKeyboardStyle pValue
    -- default, alert (iPhone, iPod only)
-   set the tmControlData["keyboardStyle"] of the target to pValue
+   set the tmControlData["keyboardStyle"] of me to pValue
    tmUpdateInput "keyboardStyle",pValue
 end tmKeyboardStyle
 
@@ -613,7 +615,7 @@ getProp tmKeyboardStyle
 end tmKeyboardStyle
 
 function myKeyboardStyle
-   return the tmControlData["keyboardStyle"] of the target
+   return the tmControlData["keyboardStyle"] of me
 end myKeyboardStyle
 
 
@@ -621,7 +623,7 @@ end myKeyboardStyle
 -----------------
 setProp tmKeyboardType pValue
    -- default, alphabet, numeric, url, number, phone, contact, email, decimal
-   set the tmControlData["keyboardType"] of the target to pValue
+   set the tmControlData["keyboardType"] of me to pValue
    tmUpdateInput "keyboardType",pValue
 end tmKeyboardType
 
@@ -630,7 +632,7 @@ getProp tmKeyboardType
 end tmKeyboardType
 
 function myKeyboardType
-   return the tmControlData["keyboardType"] of the target
+   return the tmControlData["keyboardType"] of me
 end myKeyboardType
 
 
@@ -638,7 +640,7 @@ end myKeyboardType
 -----------------
 setProp tmReturnKeyType pValue
    -- default, go, google, join, next, route, search, send, yahoo, done, emergency call
-   set the tmControlData["returnKeyType"] of the target to pValue
+   set the tmControlData["returnKeyType"] of me to pValue
    tmUpdateInput "returnKeyType",pValue
 end tmReturnKeyType
 
@@ -647,7 +649,7 @@ getProp tmReturnKeyType
 end tmReturnKeyType
 
 function myReturnKeyType
-   return the tmControlData["returnKeyType"] of the target
+   return the tmControlData["returnKeyType"] of me
 end myReturnKeyType
 
 
@@ -656,7 +658,7 @@ end myReturnKeyType
 setProp tmSelectedRange pValue
    -- start index and length of text
    checkForMultiline "tmSelectedRange"
-   set the tmControlData["selectedRange"] of the target to pValue
+   set the tmControlData["selectedRange"] of me to pValue
    tmUpdateInput "selectedRange",pValue
 end tmSelectedRange
 
@@ -665,7 +667,7 @@ getProp tmSelectedRange
 end tmSelectedRange
 
 function mySelectedRange
-   return the tmControlData["selectedRange"] of the target
+   return the tmControlData["selectedRange"] of me
 end mySelectedRange
 
 
@@ -674,7 +676,7 @@ end mySelectedRange
 setProp tmDataDetectorTypes pValue
    -- phone number, calendar event, link, address 
    checkForMultiline "tmDataDetectorTypes"
-   set the tmControlData["dataDetectorTypes"] of the target to pValue
+   set the tmControlData["dataDetectorTypes"] of me to pValue
    tmUpdateInput "dataDetectorTypes",pValue
 end tmDataDetectorTypes
 
@@ -683,7 +685,7 @@ getProp tmDataDetectorTypes
 end tmDataDetectorTypes
 
 function myDataDetectorTypes
-   return the tmControlData["dataDetectorTypes"] of the target
+   return the tmControlData["dataDetectorTypes"] of me
 end myDataDetectorTypes
 
 
@@ -726,7 +728,7 @@ end myHScroll
 setProp tmCanBounce pValue
    -- true, false
    checkForMultiline "tmCanBounce"
-   set the tmControlData["canBounce"] of the target to pValue
+   set the tmControlData["canBounce"] of me to pValue
    tmUpdateInput "canBounce",pValue
 end tmCanBounce
 
@@ -735,7 +737,7 @@ getProp tmCanBounce
 end tmCanBounce
 
 function myCanBounce
-   return the tmControlData["canBounce"] of the target
+   return the tmControlData["canBounce"] of me
 end myCanBounce
 
 
@@ -744,7 +746,7 @@ end myCanBounce
 setProp tmCanScrollToTop pValue
    -- true, false
    checkForMultiline "tmCanScrollToTop"
-   set the tmControlData["canScrollToTop"] of the target to pValue
+   set the tmControlData["canScrollToTop"] of me to pValue
    tmUpdateInput "canScrollToTop",pValue
 end tmCanScrollToTop
 
@@ -753,7 +755,7 @@ getProp tmCanScrollToTop
 end tmCanScrollToTop
 
 function myCanScrollToTop
-   return the tmControlData["canScrollToTop"] of the target
+   return the tmControlData["canScrollToTop"] of me
 end myCanScrollToTop
 
 
@@ -762,7 +764,7 @@ end myCanScrollToTop
 setProp tmCanCancelTouches pValue
    -- true, false
    checkForMultiline "tmCanCancelTouches"
-   set the tmControlData["canCancelTouches"] of the target to pValue
+   set the tmControlData["canCancelTouches"] of me to pValue
    tmUpdateInput "canCancelTouches",pValue
 end tmCanCancelTouches
 
@@ -771,7 +773,7 @@ getProp tmCanCancelTouches
 end tmCanCancelTouches
 
 function myCanCancelTouches
-   return the tmControlData["canCancelTouches"] of the target
+   return the tmControlData["canCancelTouches"] of me
 end myCanCancelTouches
 
 
@@ -780,7 +782,7 @@ end myCanCancelTouches
 setProp tmDelayTouches pValue
    -- true, false
    checkForMultiline "tmDelayTouches"
-   set the tmControlData["delayTouches"] of the target to pValue
+   set the tmControlData["delayTouches"] of me to pValue
    tmUpdateInput "delayTouches",pValue
 end tmDelayTouches
 
@@ -789,7 +791,7 @@ getProp tmDelayTouches
 end tmDelayTouches
 
 function myDelayTouches
-   return the tmControlData["delayTouches"] of the target
+   return the tmControlData["delayTouches"] of me
 end myDelayTouches
 
 
@@ -798,7 +800,7 @@ end myDelayTouches
 setProp tmPagingEnabled pValue
    -- true, false
    checkForMultiline "tmPagingEnabled"
-   set the tmControlData["pagingEnabled"] of the target to pValue
+   set the tmControlData["pagingEnabled"] of me to pValue
    tmUpdateInput "pagingEnabled",pValue
 end tmPagingEnabled
 
@@ -807,7 +809,7 @@ getProp tmPagingEnabled
 end tmPagingEnabled
 
 function myPagingEnabled
-   return the tmControlData["pagingEnabled"] of the target
+   return the tmControlData["pagingEnabled"] of me
 end myPagingEnabled
 
 
@@ -816,7 +818,7 @@ end myPagingEnabled
 setProp tmIndicatorStyle pValue
    -- default, white, black
    checkForMultiline "tmIndicatorStyle"
-   set the tmControlData["indicatorStyle"] of the target to pValue
+   set the tmControlData["indicatorStyle"] of me to pValue
    tmUpdateInput "indicatorStyle",pValue
 end tmIndicatorStyle
 
@@ -825,7 +827,7 @@ getProp tmIndicatorStyle
 end tmIndicatorStyle
 
 function myIndicatorStyle
-   return the tmControlData["indicatorStyle"] of the target
+   return the tmControlData["indicatorStyle"] of me
 end myIndicatorStyle
 
 
@@ -834,7 +836,7 @@ end myIndicatorStyle
 setProp tmIndicatorInsets pValue
    -- comma separated list of 4 integers
    checkForMultiline "tmIndicatorInsets"
-   set the tmControlData["indicatorInsets"] of the target to pValue
+   set the tmControlData["indicatorInsets"] of me to pValue
    tmUpdateInput "indicatorInsets",pValue
 end tmIndicatorInsets
 
@@ -843,7 +845,7 @@ getProp tmIndicatorInsets
 end tmIndicatorInsets
 
 function myIndicatorInsets
-   return the tmControlData["indicatorInsets"] of the target
+   return the tmControlData["indicatorInsets"] of me
 end myIndicatorInsets
 
 
@@ -852,7 +854,7 @@ end myIndicatorInsets
 setProp tmHIndicator pValue
    -- true, false
    checkForMultiline "tmHIndicator"
-   set the tmControlData["hIndicator"] of the target to pValue
+   set the tmControlData["hIndicator"] of me to pValue
    tmUpdateInput "hIndicator",pValue
 end tmHIndicator
 
@@ -861,7 +863,7 @@ getProp tmHIndicator
 end tmHIndicator
 
 function myHIndicator
-   return the tmControlData["hIndicator"] of the target
+   return the tmControlData["hIndicator"] of me
 end myHIndicator
 
 
@@ -870,7 +872,7 @@ end myHIndicator
 setProp tmVIndicator pValue
    -- true, false
    checkForMultiline "tmVIndicator"
-   set the tmControlData["vIndicator"] of the target to pValue
+   set the tmControlData["vIndicator"] of me to pValue
    tmUpdateInput "vIndicator",pValue
 end tmVIndicator
 
@@ -879,7 +881,7 @@ getProp tmVIndicator
 end tmVIndicator
 
 function myVIndicator
-   return the tmControlData["vIndicator"] of the target
+   return the tmControlData["vIndicator"] of me
 end myVIndicator
 
 
@@ -888,7 +890,7 @@ end myVIndicator
 setProp tmScrollingEnabled pValue
    -- true, false
    checkForMultiline "tmScrollingEnabled"
-   set the tmControlData["scrollingEnabled"] of the target to pValue
+   set the tmControlData["scrollingEnabled"] of me to pValue
    tmUpdateInput "scrollingEnabled",pValue
 end tmScrollingEnabled
 
@@ -897,7 +899,7 @@ getProp tmScrollingEnabled
 end tmScrollingEnabled
 
 function myScrollingEnabled
-   return the tmControlData["scrollingEnabled"] of the target
+   return the tmControlData["scrollingEnabled"] of me
 end myScrollingEnabled
 
 
@@ -906,7 +908,7 @@ end myScrollingEnabled
 setProp tmDecelerationRate pValue
    -- normal, fast, real number
    checkForMultiline "tmDecelerationRate"
-   set the tmControlData["decelerationRate"] of the target to pValue
+   set the tmControlData["decelerationRate"] of me to pValue
    tmUpdateInput "decelerationRate",pValue
 end tmDecelerationRate
 
@@ -915,7 +917,7 @@ getProp tmDecelerationRate
 end tmDecelerationRate
 
 function myDecelerationRate
-   return the tmControlData["decelerationRate"] of the target
+   return the tmControlData["decelerationRate"] of me
 end myDecelerationRate
 
 
@@ -924,7 +926,7 @@ end myDecelerationRate
 setProp tmLockDirection pValue
    -- true, false
    checkForMultiline "tmLockDirection"
-   set the tmControlData["lockDirection"] of the target to pValue
+   set the tmControlData["lockDirection"] of me to pValue
    tmUpdateInput "lockDirection",pValue
 end tmLockDirection
 
@@ -933,7 +935,7 @@ getProp tmLockDirection
 end tmLockDirection
 
 function myLockDirection
-   return the tmControlData["lockDirection"] of the target
+   return the tmControlData["lockDirection"] of me
 end myLockDirection
 
 
@@ -941,7 +943,7 @@ end myLockDirection
 ----------
 setProp tmVisible pValue
    -- true, false
-   set the tmControlData["visible"] of the target to pValue
+   set the tmControlData["visible"] of me to pValue
    tmUpdateInput "visible",pValue
 end tmVisible
 
@@ -950,7 +952,7 @@ getProp tmVisible
 end tmVisible
 
 function myVisible
-   return the tmControlData["visible"] of the target
+   return the tmControlData["visible"] of me
 end myVisible
 
 
@@ -958,7 +960,7 @@ end myVisible
 ----------
 setProp tmEnabled pValue
    -- true, false
-   set the tmControlData["enabled"] of the target to pValue
+   set the tmControlData["enabled"] of me to pValue
    tmUpdateInput "enabled",pValue
 end tmEnabled
 
@@ -967,7 +969,7 @@ getProp tmEnabled
 end tmEnabled
 
 function myEnabled
-   return the tmControlData["enabled"] of the target
+   return the tmControlData["enabled"] of me
 end myEnabled
 
 
@@ -976,7 +978,7 @@ end myEnabled
 setProp tmDisabled pValue
    -- true, false
    put not pValue into pValue
-   set the tmControlData["enabled"] of the target to pValue
+   set the tmControlData["enabled"] of me to pValue
    tmUpdateInput "enabled",pValue
 end tmDisabled
 
@@ -985,14 +987,14 @@ getProp tmDisabled
 end tmDisabled
 
 function tmDisabled
-   return not the tmControlData["enabled"] of the target
+   return not the tmControlData["enabled"] of me
 end tmDisabled
 
 
 # AUTO-CREATE INPUT UPON OPENING
 --------------------------------
 setProp tmAutoCreate pValue
-   set the tmControlData["autoCreate"] of the target to pValue
+   set the tmControlData["autoCreate"] of me to pValue
 end tmAutoCreate
 
 getProp tmAutoCreate
@@ -1000,14 +1002,14 @@ getProp tmAutoCreate
 end tmAutoCreate
 
 function autoCreateMe
-   return the tmControlData["autoCreate"] of the target
+   return the tmControlData["autoCreate"] of me
 end autoCreateMe
 
 
 # AUTO-REMOVE INPUT WHEN CLOSING CONTROL
 -----------------------------------------
 setProp tmAutoRemove pValue
-   set the tmControlData["autoRemove"] of the target to pValue
+   set the tmControlData["autoRemove"] of me to pValue
 end tmAutoRemove
 
 getProp tmAutoRemove
@@ -1015,7 +1017,7 @@ getProp tmAutoRemove
 end tmAutoRemove
 
 function autoRemoveMe
-   return the tmControlData["autoRemove"] of the target
+   return the tmControlData["autoRemove"] of me
 end autoRemoveMe
 
 
@@ -1023,20 +1025,20 @@ end autoRemoveMe
 
 
 private function myRegion
-   return long id of control 1 of the target
+   return long id of control 1 of me
 end myRegion
 
 
 private function myBase
-   return long id of grc "input_base" of the target
+   return long id of grc "input_base" of me
 end myBase
 
 
 private function myFace
-   return long id of grc "input_face" of the target
+   return long id of grc "input_face" of me
 end myFace
 
 
 private function myField
-   return long id of fld "input_field" of the target
+   return long id of fld "input_field" of me
 end myField

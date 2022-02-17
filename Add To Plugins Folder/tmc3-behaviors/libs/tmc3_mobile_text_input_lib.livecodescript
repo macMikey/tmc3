@@ -247,7 +247,9 @@ getProp tmText
 end tmText
 
 function myText
-   return the tmControlData["text"] of me
+   put mobileControlGet(myMobileID,"text") into theText
+   set the tmControlData["text"] of me to theText
+   return theText
 end myText
 
 

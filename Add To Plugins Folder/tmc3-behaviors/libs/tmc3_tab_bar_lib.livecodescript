@@ -1,4 +1,4 @@
-﻿script "tmc3_tab_bar_lib" with behavior "tmc3_MasterBehavior"
+script "tmc3_tab_bar_lib" with behavior "tmc3_MasterBehavior"
 local allowTracking, myHoveredTab, theSourceImage
 
 
@@ -188,14 +188,14 @@ end resetMyHilitedTab
 command positionTabComponents pTab, pX
    put top of myBase() into T
    put long id of btn 1 of pTab into theIcon
-   set top of theIcon to T
+   set top of theIcon to T + 3
    put loc of theIcon into theLoc
    put pX into item 1 of theLoc
    set loc of theIcon to theLoc
    --
    put bottom of myBase() into B
    put long id of fld 1 of pTab into theLabel
-   set bottom of theLabel to B
+   set bottom of theLabel to B - 13
    put loc of theLabel into theLoc
    put pX into item 1 of theLoc
    set loc of theLabel to theLoc
