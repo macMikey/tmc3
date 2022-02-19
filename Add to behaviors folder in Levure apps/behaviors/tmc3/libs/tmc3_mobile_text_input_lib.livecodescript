@@ -247,9 +247,13 @@ getProp tmText
 end tmText
 
 function myText
-   put mobileControlGet(myMobileID,"text") into theText
-   set the tmControlData["text"] of me to theText
-   return theText
+   if onMobile() then #overcome the timing issue with the mobile control losing the focus
+      put mobileControlGet(myMobileID,"text") into theText
+      set the tmControlData["text"] of me to theText
+      return theText
+   else
+      return the tmControlData["text"] of me
+   end if
 end myText
 
 
